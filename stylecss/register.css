@@ -1,0 +1,14 @@
+/*****************************************
+			REGISTER CSS 				
+*****************************************/
+.ui.top.container {
+	padding-top: 10em;
+	background-color: rgb(64, 112, 144) !important;
+	border: 4px;
+	border-color: #dba867 !important;
+	border-radius: 5px;
+}
+.ui.top.header {
+	margin-left: 3em;
+	font-size: 3em;
+}

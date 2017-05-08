@@ -1,0 +1,14 @@
+/********************************************/
+/*				FOR THE MENU 				*/
+/********************************************/
+		
+.menu h4.ui.header {
+	padding: 25px 4px 5px 4px;
+	margin-bottom: 0;
+	font-weight: normal;
+	background-color: #FFC57B;
+	font-size: 1.2em;
+}
+.menu h4.ui.header .Eenmaal {
+	font-weight: bold;
+}

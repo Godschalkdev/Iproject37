@@ -1,0 +1,50 @@
+h1 {
+	font-size: 70px;
+	color: #39434A;
+}
+.hidden {
+	display: none;
+}
+.banner.segment {
+	min-height: 600px;
+	padding: 1em 0em;
+}
+.banner .logo.item img {
+	margin-right: 1em;
+}
+.banner .ui.menu .ui.button {
+	margin-left: 0.5em;
+}
+.banner h1.ui.header {
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+	font-size: 5em;
+	font-weight: bold;
+}
+.banner h3.ui.header {
+	font-size: 1.2em;
+	font-weight: normal;
+	font-style: italic;
+	display: inline;
+}
+.banner {
+	background-color: rgb(64, 112, 144) !important;
+}
+.banner.button {
+	margin: 10px;
+}
+
+.banner .ui.text.container {
+	margin-bottom: 1.5em;
+}
+.banner .ui.button {
+	margin: 1.5em 0.75em 0 0.75em;
+}
+.mainContent h2.ui.header {
+	margin: 1em;
+	font-size: 2em;
+}
+.mainContent .ui.card.image {
+	width: 357px;
+	height: 357px; 
+}

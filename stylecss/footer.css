@@ -1,0 +1,44 @@
+/********************************************/
+/*				FOR THE footer				*/
+/********************************************/
+
+.footer.segment {
+	min-height: 400px;
+	padding: 1em 0em;
+}
+.footer .logo.item img {
+	margin-right: 1em;
+}
+.footer .ui.menu .ui.button {
+	margin-left: 0.5em;
+}
+.footer h1.ui.header {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	font-size: 2em;
+	font-weight: bold;
+}
+.footer h2 {
+	font-size: 1em;
+	font-weight: normal;
+	font-style: italic;
+	display: inline;
+}
+.footer {
+	background-color: rgb(64, 112, 144) !important;
+}
+.footer.button {
+	margin: 10px;
+}
+.footer .ui.text.container {
+	margin-bottom: 1.5em;
+}
+.footer .ui.button {
+	margin: 1.5em 0.75em 0 0.75em;
+}
+.footer a {
+	display: block;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-top: 0.5em;
+}

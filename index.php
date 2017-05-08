@@ -4,13 +4,13 @@
 	<meta charset="utf-8">
 	<title>Home</title>
 
-	<link rel="stylesheet" type="text/css" href="../semantic/semantic.css">
-	<link rel="stylesheet" type="text/css" href="../stylecss/home.css">
-  <link rel="stylesheet" type="text/css" href="../stylecss/menu.css">
-  <link rel="stylesheet" type="text/css" href="../stylecss/footer.css">
+	<link rel="stylesheet" type="text/css" href="semantic/semantic.css">
+	<link rel="stylesheet" type="text/css" href="stylecss/home.css">
+  <link rel="stylesheet" type="text/css" href="stylecss/menu.css">
+  <link rel="stylesheet" type="text/css" href="stylecss/footer.css">
 	
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="../semantic/semantic.min.js"></script>
+	<script src="semantic/semantic.min.js"></script>
 </head>
 
 
@@ -18,9 +18,9 @@
 <body>
 
   <?php 
-    include 'html/menu.html';
-    include 'html/banner.html';
-    include 'html/sidebar.html';
+    include 'pages/html/menu.html';
+    include 'pages/html/banner.html';
+    include 'pages/html/sidebar.html';
   ?>
 
 
@@ -55,7 +55,7 @@
     </div>
   </div>
 
-  <?php include 'html/footer.html' ?>
+  <?php include 'pages/html/footer.html' ?>
 
 
 

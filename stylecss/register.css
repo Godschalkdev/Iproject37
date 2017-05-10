@@ -7,8 +7,17 @@
 	border: 4px;
 	border-color: #dba867 !important;
 	border-radius: 5px;
+	margin-bottom: 20px
 }
 .ui.top.header {
 	margin-left: 3em;
 	font-size: 3em;
 }
+.ui.input {
+	display: block;
+	margin: 4px 5px 10px 5px
+}
+select {
+	border-radius: 2px;
+}
+

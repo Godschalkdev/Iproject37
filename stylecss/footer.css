@@ -5,6 +5,7 @@
 .footer.segment {
 	min-height: 350px;
 	padding: 1em 0em;
+	margin-bottom: 0px;
 }
 .footer .logo.item img {
 	margin-right: 1em;

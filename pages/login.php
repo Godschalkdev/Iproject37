@@ -49,19 +49,10 @@
     </div>
   </div>
 
-  <?php include 'html/footer.html' ?>
-
-
-
-	<script>
-		$('.ui.dropdown').dropdown();
-		$('#nextside').click(function(){
-			$('.shape').shape('flip.right');
-		});
-		$('.shape').shape('set stage size', 200, 200);
-		$('#toggle').click(function(){
-			$('.ui.sidebar').sidebar('toggle');
-		});
-	</script>
+  <?php 
+    include 'html/footer.html';
+    include '../scripts/menuscript.html';
+  ?>
+  
 </body>
 </html>

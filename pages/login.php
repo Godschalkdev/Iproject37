@@ -29,30 +29,42 @@
 
   <div class="mainContent">
   	<div class='ui vertical stripe segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui header'>Login</h2>
-        <form class ='ui form'>
-            <div class="field">
-              <label>Username</label>
+      <div class='ui text container'>
+        <h2 class='ui center aligned header'>Login</h2>
+        <div class="ui padded segment">
+          <form class ='ui form'>
+            <div class="eight wide field">
+              <label>Gebruikersnaam</label>
               </label>
               <input name="username" placeholder="voorbeeld@mail.com" type="text">
             </div>
-            <div class="field">
-              <label>Password</label>
+            <div class="eight wide field">
+              <label>Wachtwoord</label>
               </label>
               <input name="password" placeholder="Wachtwoord" type="password">
             </div>
-          </div>
-        </form>
-      
+          </form> 
+          <p> Nog geen account?
+          <a href="">Registeer hier!</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
 
-  <?php 
-    include 'html/footer.html';
-    include '../scripts/menuscript.html';
-  ?>
-  
+  <?php include 'html/footer.html' ?>
+
+
+
+	<script>
+		$('.ui.dropdown').dropdown();
+		$('#nextside').click(function(){
+			$('.shape').shape('flip.right');
+		});
+		$('.shape').shape('set stage size', 200, 200);
+		$('#toggle').click(function(){
+			$('.ui.sidebar').sidebar('toggle');
+		});
+	</script>
 </body>
 </html>

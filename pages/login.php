@@ -35,17 +35,17 @@
           <form class ='ui form'>
             <div class="eight wide field">
               <label>Gebruikersnaam</label>
-              </label>
               <input name="username" placeholder="voorbeeld@mail.com" type="text">
-            </div>
+              </div>
             <div class="eight wide field">
-              <label>Wachtwoord</label>
-              </label>
-              <input name="password" placeholder="Wachtwoord" type="password">
+                <label>Wachtwoord</label>
+                
+                <input name="password" placeholder="Wachtwoord" type="password">
             </div>
+            <button class="ui primary button" type="submit" value="submit">Inloggen</button>
           </form> 
           <p> Nog geen account?
-          <a href="">Registeer hier!</a>
+          <a href="register.php">Registeer hier!</a>
           </p>
         </div>
       </div>

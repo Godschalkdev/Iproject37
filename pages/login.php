@@ -21,6 +21,7 @@
     include 'html/menu.html';
     include 'html/banner.html';
     include 'html/sidebar.html';
+    require '../Controllers/loginController.php';
   ?>
 
 
@@ -32,7 +33,7 @@
       <div class='ui text container'>
         <h2 class='ui center aligned header'>Login</h2>
         <div class="ui padded segment">
-          <form class ='ui form'>
+          <form class ='ui form' method="post">
             <div class="eight wide field">
               <label>Gebruikersnaam</label>
               <input name="username" placeholder="voorbeeld@mail.com" type="text">

@@ -1,10 +1,9 @@
 <?php
 
-
 function connectToDatabase()
 {
 	global $pdo; 
-	$server = "127.0.0.1";
+	$server = "localhost";
 	$databaseName = "EENMAALANDERMAAL";
 	$username = "sa";
 	$password = "";
@@ -12,36 +11,15 @@ function connectToDatabase()
 
 	try{ 
 		$pdo = new PDO("sqlsrv:server=" .$server.";Database =". $databaseName.";ConnectionPooling=0", $username, $password);
-	echo "Connected to database"; 
 }
 catch(PDOexeption $e){
 	echo $e->getMessage();
 }
 }
 
+function getPopulaireVeilingen(){
+global $pdo;
+  $data = $pdo->query("SELECT TOP 3 title, description, max(offer_amount) as hoogsteBod,count(offer_amount) as totaleOffers FROM Object b inner join Offer f ON b.object_nr = f.object_nr GROUP BY title, description ORDER BY TotaleOffers desc");
+  return $data->fetchAll();;
+}
 ?>
-
-
-<VirtualHost *:80>
-DocumentRoot "C:/xampp/htdocs"
-ServerName localhost
-</VirtualHost>
-
-<VirtualHost *:80>
-DocumentRoot "D:/Tg/Documents/Gitmap/Iproject37"
-ServerName eenmaalandermaal.dev
-ServerAlias www.eenmaalandermaal.dev
-<Directory "D:/Tg/Documents/Gitmap/Iproject37">
-AllowOverride All
-Require all Granted
-</Directory>
-</VirtualHost>
-
-
-
-extension=php_sqlsrv.dll
-extension=php_pdo_sqlsrv.dll
-extension=php_pdo_sqlsrv_7_ts_x86.dll
-extension=php_pdo_sqlsrv_7_ts_x64.dll
-extension=php_sqlsrv_7_ts_x86.dll
-extension=php_sqlsrv_7_ts_x64.dll

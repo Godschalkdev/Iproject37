@@ -1,5 +1,7 @@
 <?php
-require('Controllers\indexController.php');
+
+require('Controllers/indexController.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -26,27 +28,8 @@ require('Controllers\indexController.php');
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Populaire producten</h2>
       </div>
-      <div class='ui three doubling stackable cards grid container'>
-        <div class='ui card'>
-          <div class='image'>
-            <img src='../images/Vazen.jpg'>
-          </div>
-          <div class='content'>
-            <div class='header'>Chineze Vazen</div>
-            <div class='meta'>
-              <a>vraagprijs: €500.000</a>
-            </div>
-            <div class='description'>Vazen uit het oude china</div>
-          </div>
-          <div class='extra content'>
-            <a href='#'>
-              <i class='large legal icon'></i>
-              Ga naar veiling
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+      <?php printPopulaireVeilingen(); ?>
+
 
     <div class='ui vertical segment' id='member'>
       <div class='ui center aligned text container'>

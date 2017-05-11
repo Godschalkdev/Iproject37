@@ -29,22 +29,25 @@
 
   <div class="mainContent">
   	<div class='ui vertical stripe segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui header'>Login</h2>
-        <form class ='ui form'>
-            <div class="field">
-              <label>Username</label>
-              </label>
+      <div class='ui text container'>
+        <h2 class='ui center aligned header'>Login</h2>
+        <div class="ui padded segment">
+          <form class ='ui form'>
+            <div class="eight wide field">
+              <label>Gebruikersnaam</label>
               <input name="username" placeholder="voorbeeld@mail.com" type="text">
+              </div>
+            <div class="eight wide field">
+                <label>Wachtwoord</label>
+                
+                <input name="password" placeholder="Wachtwoord" type="password">
             </div>
-            <div class="field">
-              <label>Password</label>
-              </label>
-              <input name="password" placeholder="Wachtwoord" type="password">
-            </div>
-          </div>
-        </form>
-      
+            <button class="ui primary button" type="submit" value="submit">Inloggen</button>
+          </form> 
+          <p> Nog geen account?
+          <a href="register.php">Registeer hier!</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>

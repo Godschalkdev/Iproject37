@@ -1,5 +1,5 @@
 <?php
-require('Controllers\indexController.php');
+require 'controllers/indexController.php';
 ?>
 
 <!DOCTYPE html>

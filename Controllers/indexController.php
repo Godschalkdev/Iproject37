@@ -1,3 +1,3 @@
 <?php 
-require_once '..\db-util.php';
+require './db-util.php';
 ?>

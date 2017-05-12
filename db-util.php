@@ -47,4 +47,7 @@ GROUP BY title, description ORDER BY min(duration_start_date)");
 return $data -> fetchAll();;
 }
 
+
+
+
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-require('Controllers/indexController.php');
+//require('Controllers/indexController.php');
 
 ?>
 
@@ -28,7 +28,7 @@ require('Controllers/indexController.php');
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Populaire producten</h2>
       </div>
-      <?php printPopulaireVeilingen(); ?>
+      <?php //printPopulaireVeilingen(); ?>
 
 
     <div class='ui vertical segment' id='member'>

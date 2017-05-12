@@ -1,6 +1,6 @@
 <?php 
 
-require_once './db-util.php';
+require_once 'Iproject37/db-util.php';
 
 connectToDatabase();
 

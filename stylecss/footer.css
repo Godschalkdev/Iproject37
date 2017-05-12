@@ -2,10 +2,11 @@
 /*				FOR THE footer				*/
 /********************************************/
 
-.footer.segment {
+.ui.vertical.footer.segment{
 	min-height: 350px;
-	padding: 1em 0em;
+	padding: 10px 0px 0px 0px;
 	margin-bottom: 0px;
+	margin-top: 20px
 }
 .footer .logo.item img {
 	margin-right: 1em;

@@ -11,7 +11,7 @@ require('Controllers/indexController.php');
   <meta charset="utf-8">
 	<?php 
     include 'pages/html/homehead.html'
-  ?>
+  	?>
 </head>
 
 <body>
@@ -53,6 +53,7 @@ require('Controllers/indexController.php');
       <?php printKoopjesVeilingen(); ?>
       </div>
 
+
       
 
 </div>
@@ -61,11 +62,12 @@ require('Controllers/indexController.php');
 </div>
 </div>
 
+  <?php include 'pages/html/footer.html' ?>
 
 
 
-
-
+    </div>
+</div>
   <?php include 'pages/html/footer.html' ?>
 
 

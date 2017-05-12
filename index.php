@@ -29,12 +29,14 @@ require('Controllers/indexController.php');
         <h2 class='ui niagara header'>Populaire producten</h2>
       </div>
       <?php printPopulaireVeilingen(); ?>
+      </div>
 
       <div class='ui vertical segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Nieuwe Veilingen</h2>
       </div>
       <?php printNieuweVeilingen(); ?>
+      </div>
 
 
     <div class='ui vertical segment' id='member'>
@@ -42,19 +44,29 @@ require('Controllers/indexController.php');
         <h2 class='ui niagara header'>Bijzondere Producten</h2>
       </div>
       <?php printBijzondereVeilingen(); ?>
+      </div>
 
   <div class='ui vertical segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Koopjes</h2>
       </div>
       <?php printKoopjesVeilingen(); ?>
+      </div>
 
       
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
 
 
 
   <?php include 'pages/html/footer.html' ?>
-
 
 
 	<script>

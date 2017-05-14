@@ -64,17 +64,18 @@
 
 						<h3 class="ui dividing header">Afbeeldingen</h3>	
 
-								    <div class="required field">
-								     
-								        <div class="ui fluid file input action">
-								            <input type="text">
-								            <input type="file" name="afbeelding" multiple>
-								            <div class="ui button">
-								                Bestanden
-								            </div>
-								        </div>
-								           <label for="file2">Kies 1 of meerdere afbeelding. (maximaal 4)</label>
-								    </div>
+							<div class="required field">
+								<label>Kies 1 of meerdere afbeelding. (maximaal 4)</label>
+								<div class="ui fluid file input action">
+						       
+						          	<input type="text" readonly>
+           							 <input type="file" id="afbeelding" name="afbeelding[]" autocomplete="off" multiple  style="display:none">
+						            <div class="ui button">
+						                Bestanden
+						            </div>
+								</div>
+								
+							</div>
 
 								<script>
 									$('.ui.file.input').find('input:text, .ui.button')
@@ -96,7 +97,7 @@
 									  })
 									;
 								</script>
-							
+							  
 
 						<h3 class="ui dividing header">Bezorggegevens</h3>
 						<div class="two fields">
@@ -366,7 +367,7 @@
 							</div>
 						</div>
 
-						<input type="submit" value="Submit" class="ui huge sand button">
+						<input type="submit" value="Doorsturen" class="ui huge sand button">
 
 					</form>
 				</div>

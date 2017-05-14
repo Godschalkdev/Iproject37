@@ -4,74 +4,113 @@
 	<head>
 		<meta charset="utf-8">
 		<?php 
-			include '../../Iproject37/pages/html/mijnveilingenhead.html';
+			include 'html/mijnveilingenhead.html';
 		?>
 	</head>
 	
 	<body>
 	
 		<?php 
-			include '../../Iproject37/pages/html/menu.html';
-			include '../../Iproject37/pages/html/bannermijnveilingen.html';
-			include '../../Iproject37/pages/html/sidebar.html';
+			include 'html/menu.html';
+			include 'html/sidebar.html';
 		?>
 
-	
-		<div class="mainContent">
-		<div class="ui container">
-			<div class="ui middle aligned selection list">
-				<h2>
-					<div class="item">
-					   <img class="ui avatar image" src="../images/Kast.jpg">
-					    <div class="content">
-					     	<a href="#" class="header">Kast</a>
-					    	<div class="description">Laatste bieding: 20 minuten geleden</div>
+		<div class="maincontent">
+			<div class="ui container">
+				<div class = "ui raised segment">
+					<h1 class="ui niagara header">Mijn Veilingen</h1>
+
+					<h3 class="ui dividing header"></h3>
+
+						<div class="ui container">
+        					<a href="../pages/nieuwproduct.php" class="ui sand huge button">
+            					Nieuw product aanbieden
+        					</a>
+        				</div>
+
+        				<h3 class="ui dividing header"></h3>
+
+        				<div class='ui vertical segment' id='member'>
+     			
+					      <div class='ui three doubling stackable cards grid container'>
+					        <div class='ui card'>
+					          <div class='ui large image' name="afbeelding">
+					            <img src='../images/Kast.jpg'>
+					          </div>
+					          <div class='content'>
+					            <div class='header' name="naamproduct">Kast</div>
+					            <div class='meta' name="hoogstebod">
+					              Hoogste bod: €10.00
+					            </div>
+					          </div>
+					          <div class='extra content'>
+					            <a href='#'>Toon product</a>
+					          </div>
+					        </div>
+			
+					        <div class='ui card'>
+					          <div class='ui large image' name="afbeelding">
+					            <img src='../images/Xbox.jpg'>
+					          </div>
+					          <div class='content'>
+					            <div class='header' name="naamproduct">Xbox</div>
+					            <div class='meta' name="hoogstebod">
+					              Hoogste bod: €300.00
+					            </div>
+					          </div>
+					          <div class='extra content'>
+					            <a href='#'>Toon product</a>
+					          </div>
+							</div>
+
+					      </div>
 					    </div>
-					</div>
-			 	</h2>
-			  	<h2>
-				  	<div class="item">
-				   		<img class="ui avatar image" src="../images/Tafel.jpg">
-				    	<div class="content">
-				      		<a href="#" class="header">Tafel</a>
-				      		<div class="description">Laatste bieding: 46 minuten geleden</div>
-				    	</div>
-				  	</div>
-			  	</h2>
-			  	<h2>
-			  		<div class="item">
-			    		<img class="ui avatar image" src="../images/Vazen.jpg">
-			    		<div class="content">
-			      			<a href="#" class="header">Vazen</a>
-			      			<div class="description">Laatste bieding: --</div>
-			    		</div>
-			  		</div>
-			  	</h2>
-			 	<h2>
-			  		<div class="item">
-			    		<img class="ui avatar image" src="../images/Xbox.jpg">
-			    		<div class="content">
-			      			<a href="#" class="header">Xbox</a>
-			      			<div class="description">Laatste bieding: 1 dag geleden</div>
-			    		</div>
-			  		</div>
-			  	</h2>
-			</div>
+
+					    <div class='ui vertical segment' id='member'>
+     			
+					      <div class='ui three doubling stackable cards grid container'>
+					        <div class='ui card'>
+					          <div class='ui large image' name="afbeelding">
+					            <img src='../images/Tafel.jpg'>
+					          </div>
+					          <div class='content'>
+					            <div class='header' name="naamproduct">Tafel</div>
+					            <div class='meta' name="hoogstebod">
+					              Hoogste bod: €45.00
+					            </div>
+					          </div>
+					          <div class='extra content'>
+					            <a href='#'>Toon product</a>
+					          </div>
+					        </div>
+			
+					        <div class='ui card'>
+					          <div class='ui large image' name="afbeelding">
+					            <img src='../images/Vazen.jpg'>
+					          </div>
+					          <div class='content'>
+					            <div class='header' name="naamproduct">Vazen</div>
+					            <div class='meta' name="hoogstebod">
+					              Hoogste bod: €300.00
+					            </div>
+					          </div>
+					          <div class='extra content'>
+					            <a href='#'>Toon product</a>
+					          </div>
+							</div>
+							
+					      </div>
+					    </div>
+
+				</div>
 			</div>
 		</div>
+	
 		
-		<?php include '../../Iproject37/pages/html/footer.html' ?>
-
-		<script>
-			$('.ui.dropdown').dropdown();
-			$('#nextside').click(function(){
-				$('.shape').shape('flip.right');
-			});
-			$('.shape').shape('set stage size', 200, 200);
-			$('#toggle').click(function(){
-				$('.ui.sidebar').sidebar('toggle');
-			});
-		</script>
+		<?php
+		include 'html/footer.html';
+		include '../scripts/menuscript.html';
+		?>
 		
 	</body>
 </html>

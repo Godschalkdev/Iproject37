@@ -2,46 +2,23 @@
 			NIEUWPRODUCT CSS 				
 *****************************************/
 
-h1 {
-	font-size: 15px;
-	color: #39434A;
+.maincontent {
+	margin-top: 80px;
+	margin-bottom: 20px;
 }
 
-.hidden {
-	display: none;
+.maincontent .segment {
+	background-color: rgba(150, 150, 150, 0.1);
 }
 
-.inputaanbieden h1.ui.header {
-	margin-top: 1em;
-	margin-bottom: 0.5em;
-	font-size: 1em;
-	font-weight: bold;
-}
-
-.banner {
-	background-color: rgb(64, 112, 144) !important;
-}
-
-.ui.text.container {
-	margin-bottom: 1em;
-}
-
-.mainContent .ui.container{
-	margin: 8em;
+.maincontent h1.ui.header {
 	font-size: 3em;
 }
-.mainContent.ui.form{
-	margin: 3em;
-	font-size: 3em;
-}
-.mainContent..ui.input {
-	display: block;
-	margin: 4px 5px 10px 5px
-	margin: 4em;
-	font-size: 1em;
+
+.maincontent h3.ui.dividing.header {
+	color: rgb(80, 80, 80);
 }
 
-a:hover {
-	color: #c49860 !important;
+.maincontent label {
+	color: rgb(150,150,150) !important;
 }
-

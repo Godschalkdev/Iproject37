@@ -4,8 +4,9 @@
 	<meta charset="utf-8">
 	
   <?php
-	include 'html/loginhead.html'; 
+	include 'html/mainhead.html'; 
   ?>
+  <link rel="stylesheet" type="text/css" href="../../stylecss/login.css">
 
 </head>
 

@@ -4,9 +4,10 @@
 <head>
 	<meta charset="utf-8">
 	<?php 
-    include 'html/activate_seller_head.html';
+    include 'html/mainhead.html';
     include '../Controllers/activate_sellerController.php';
   	?>
+  	<link rel="stylesheet" type="text/css" href="../stylecss/register.css">
 </head>
 
 <body>

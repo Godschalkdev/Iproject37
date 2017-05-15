@@ -23,7 +23,6 @@ global $pdo;
   return $data->fetchAll();;
 }
 
-
 function getBijzondereVeilingen(){
 	global $pdo;
 	$data = $pdo->query("SELECT TOP 10 title, description, starting_price, MAX(offer_amount) as hoogsteBod, CAST(((100 / b.starting_price) * (max(f.offer_amount) - b.starting_price)) as NUMERIC(7,2)) as percentageVerschil FROM Object b Inner JOIN Offer f On b.object_nr = f.object_nr Group by title, description, starting_price ORDER BY percentageVerschil desc");
@@ -46,7 +45,6 @@ $data = $pdo ->query("SELECT TOP 10 title, description, MAX(offer_amount) as hoo
 GROUP BY title, description ORDER BY min(duration_start_date)"); 
 return $data -> fetchAll();;
 }
-
 
 
 

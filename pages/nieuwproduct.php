@@ -4,13 +4,14 @@
 	<head>
 		<meta charset="utf-8">
 		<?php 
-			include 'html/nieuwproducthead.html';
+			include 'html/nieuwproducthead.html';	
 		?>
 	</head>
 	
 	<body>
 	
 		<?php 
+			require ('../Controllers/nieuwproductController.php');
 			include 'html/menu.html';
 			include 'html/sidebar.html';
 		?>
@@ -61,6 +62,20 @@
 											<input type="text" name="betaalinstructies" placeholder="Betaal instructies">
 									</div>
 							</div>
+
+								<div class="required field">
+										<label>Categorieën</label>
+										<select class="ui fluid search dropdown" name="categorieen" placeholder="Categorieën" multiple="">
+
+											<?php foreach ($data as $row): ?>
+												<option value="<?= $row['heading_name'];?>"> 
+												<?= $row['heading_name'];?>
+												</option>
+											<?php endforeach; ?>
+
+										</select>
+								</div>
+					
 
 						<h3 class="ui dividing header">Afbeeldingen</h3>	
 
@@ -367,7 +382,7 @@
 							</div>
 						</div>
 
-						<input type="submit" value="Doorsturen" class="ui huge sand button">
+						<input type="submit" name="doorsturen" value="Doorsturen" class="ui huge sand button">
 
 					</form>
 				</div>
@@ -376,6 +391,7 @@
 			
 		
 	<?php
+
 		include 'html/footer.html';
 		include '../scripts/menuscript.html';
 	?>

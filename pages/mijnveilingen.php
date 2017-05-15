@@ -106,7 +106,6 @@
 			</div>
 		</div>
 	
-		
 		<?php
 		include 'html/footer.html';
 		include '../scripts/menuscript.html';

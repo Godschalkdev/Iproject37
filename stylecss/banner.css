@@ -40,14 +40,6 @@ h1 {
 .banner .ui.button {
 	margin: 1.5em 0.75em 0 0.75em;
 }
-.mainContent h2.ui.header {
-	margin: 1em;
-	font-size: 2em;
-}
-.mainContent .ui.card.image {
-	width: 357px;
-	height: 357px; 
-}
 
 a:hover {
 	color: #c49860 !important;

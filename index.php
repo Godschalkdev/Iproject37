@@ -1,6 +1,6 @@
 <?php
 
-require('Controllers/indexController.php');
+//require('Controllers/indexController.php');
 
 ?>
 
@@ -11,7 +11,7 @@ require('Controllers/indexController.php');
   <meta charset="utf-8">
 	<?php 
     include 'pages/html/homehead.html'
-  	?>
+  ?>
 </head>
 
 <body>
@@ -28,7 +28,7 @@ require('Controllers/indexController.php');
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Populaire producten</h2>
       </div>
-      <?php printPopulaireVeilingen(); ?>
+      <?php //printPopulaireVeilingen(); ?>
 
 
     <div class='ui vertical segment' id='member'>
@@ -82,8 +82,9 @@ require('Controllers/indexController.php');
         </div>
       </div>
     </div>
-</div>
+
   <?php include 'pages/html/footer.html' ?>
+
 
 
 	<script>

@@ -21,6 +21,7 @@ h1 {
 	font-size: 5em;
 	font-weight: bold;
 }
+
 .banner h3.ui.header {
 	font-size: 1.2em;
 	font-weight: normal;
@@ -52,3 +53,4 @@ h1 {
 a:hover {
 	color: #c49860 !important;
 }
+

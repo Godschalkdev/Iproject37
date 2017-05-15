@@ -3,10 +3,10 @@
 function connectToDatabase()
 {
 	global $pdo; 
-	$server = "mssql.iproject.icasites.nl";
-	$databaseName = "iproject37";
-	$username = "iproject37";
-	$password = "6JYc6Lj4";
+	$server = "localhost";
+	$databaseName = "EENMAALANDERMAAL";
+	$username = "sa";
+	$password = "";
 
 
 	try{ 

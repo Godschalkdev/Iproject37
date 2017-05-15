@@ -10,7 +10,7 @@ require('controllers/indexController.php');
 <head>
   <meta charset="utf-8">
 	<?php 
-    include 'pages/html/homehead.html'
+    include 'pages/html/homehead.html';
   ?>
 </head>
 
@@ -29,25 +29,18 @@ require('controllers/indexController.php');
         <h2 class='ui niagara header'>Populaire producten</h2>
       </div>
       <?php printPopulaireVeilingen(); ?>
-    </div>
-    <div class = 'ui divider'> </div>
-
-
-    <div class='ui vertical segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara header'>Nieuwe producten</h2>
       </div>
-       <?php printNieuweVeilingen(); ?>
-    </div>
-    
+      <div class = 'ui divider'> </div>
+
 
     <div class='ui vertical segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Bijzondere Producten</h2>
       </div>
       <?php printBijzondereVeilingen(); ?>
-    </div>
-  
+      </div>
+
+      <div class = 'ui divider'> </div>
 
 
   <div class='ui vertical segment' id='member'>
@@ -56,25 +49,22 @@ require('controllers/indexController.php');
       </div>
       <?php printKoopjesVeilingen(); ?>
       </div>
-    </div>
+
+      <div class = 'ui divider'> </div>
 
 
-
+      <div class='ui vertical segment' id='member'>
+      <div class='ui center aligned text container'>
+        <h2 class='ui niagara header'>Nieuwste producten</h2>
+      </div>
+      <?php printNieuweVeilingen(); ?>
+      </div>
+      </div>
       
 
-  <?php include 'pages/html/footer.html' ?>
+  <?php include 'pages/html/footer.html' ;
+  include 'scripts/menuscript.html';
+  ?>
 
-
-
-	<script>
-		$('.ui.dropdown').dropdown();
-		$('#nextside').click(function(){
-			$('.shape').shape('flip.right');
-		});
-		$('.shape').shape('set stage size', 200, 200);
-		$('#toggle').click(function(){
-			$('.ui.sidebar').sidebar('toggle');
-		});
-	</script>
 </body>
 </html>

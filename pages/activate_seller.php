@@ -4,8 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<?php 
-    include 'html/activate_seller_head.html'
-    include 'activate_sellerController'
+    include 'html/activate_seller_head.html';
+    include '../Controllers/activate_sellerController.php';
   	?>
 </head>
 
@@ -14,24 +14,29 @@
  	<?php 
     	include 'html/menu.html';
     	include 'html/sidebar.html';
+
+    	//test for $_SESSION
+    	$_SESSION['username'] = "Gebruikersnaam";
+    	$_SESSION['emailaddress'] = "email@address.com";
+
   	?>
 
   	<div class="maincontent">
  	 	<div class="ui container">
  	 		<div class="ui raised segment">
  	 		<h1 class="ui niagara header">Registreren als verkoper</h1>
-
-  			<div method="POST" action="../index.php" class="ui big form">
+ 	 		<form>
+  			<div method="POST" action="../pages/activate_seller.php" class="ui big form">
   			<h4 class="ui dividing header">Verkopersinformatie</h4>
 		  
   				<div class="two fields">
 			   		<div class="field">
 			      	<label>Gebruikersnaam</label>
-			      			<h3 class="ui grey header">Mahoda</h3>
+			      			<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
 			    	</div>
 			   		<div class="field">
 			      	<label>Email</label>
-			      		<h3 class="ui grey header">mahoda@email.com</h3>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['emailaddress'] ?></h3>
 			    	</div>
 			    </div>
 			<h4 class="ui dividing header">Betalingsinformatie</h4>
@@ -55,7 +60,7 @@
 				<div class="inline fields">
 			    <label for="controleoptie">Selecteer controleoptie:</label>
 			    <div class="field">
-			     	<div class="ui radio checkbox">
+			     	<div class="ui radio required checkbox">
 			        <input type="radio" name="controleoptie" checked="" tabindex="0">
 			        <label>Creditcard</label>
 			      	</div>
@@ -78,6 +83,7 @@
 		      	<input type="text" placeholder="05XBSO0">
 		    </div>
 		    <input type="submit" value="Verkoopaccount Activeren" class="ui huge sand button">
+		    </form>
 		</div>
 
   	</div>
@@ -85,7 +91,8 @@
   	</div>
 
   	<?php include 'html/footer.html'; 
-  		  include '../scripts/menuscript.html' ; 
+  		  include '../scripts/menuscript.html'; 
+
   		?>
 
 	<script>

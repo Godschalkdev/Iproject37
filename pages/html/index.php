@@ -10,16 +10,16 @@ require('controllers/indexController.php');
 <head>
   <meta charset="utf-8">
 	<?php 
-    include 'pages/html/homehead.html'
+    include '../pages/html/homehead.html'
   ?>
 </head>
 
 <body>
 
   <?php 
-    include 'pages/html/menu.html';
-    include 'pages/html/banner.html';
-    include 'pages/html/sidebar.html';
+    include '../pages/html/menu.html';
+    include '../pages/html/banner.html';
+    include '../pages/html/sidebar.html';
   ?>
 
   <div class="mainContent">
@@ -29,40 +29,33 @@ require('controllers/indexController.php');
         <h2 class='ui niagara header'>Populaire producten</h2>
       </div>
       <?php printPopulaireVeilingen(); ?>
-    </div>
-    <div class = 'ui divider'> </div>
-
-
-    <div class='ui vertical segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara header'>Nieuwe producten</h2>
       </div>
-       <?php printNieuweVeilingen(); ?>
-    </div>
-    
+
 
     <div class='ui vertical segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Bijzondere Producten</h2>
       </div>
       <?php printBijzondereVeilingen(); ?>
-    </div>
-  
-
+      </div>
 
   <div class='ui vertical segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara header'>Koopjes</h2>
       </div>
-      <?php printKoopjesVeilingen(); ?>
+      <?php printKoopjes(); ?>
       </div>
-    </div>
 
-
-
+      <div class='ui vertical segment' id='member'>
+      <div class='ui center aligned text container'>
+        <h2 class='ui niagara header'>Nieuwste producten</h2>
+      </div>
+      <?php printNieuweVeilingen(); ?>
+      </div>
+      </div>
       
 
-  <?php include 'pages/html/footer.html' ?>
+  <?php include '../pages/html/footer.html' ?>
 
 
 

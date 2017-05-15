@@ -34,10 +34,8 @@
      			
 					      <div class='ui three doubling stackable cards grid container'>
 					        <div class='ui card'>
-					          <div class='ui large image' name="afbeelding">
-					            <img src='../images/Kast.jpg'>
-					          </div>
-					          <div class='content'>
+					            <img class='ui large image' src='../images/Kast.jpg'>
+					           <div class='content'>
 					            <div class='header' name="naamproduct">Kast</div>
 					            <div class='meta' name="hoogstebod">
 					              Hoogste bod: €10.00

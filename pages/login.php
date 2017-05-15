@@ -1,28 +1,21 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Login</title>
-
-	<link rel="stylesheet" type="text/css" href="../semantic/semantic.css">
-	<link rel="stylesheet" type="text/css" href="../stylecss/home.css">
-  <link rel="stylesheet" type="text/css" href="../stylecss/menu.css">
-  <link rel="stylesheet" type="text/css" href="../stylecss/footer.css">
-  <link rel="stylesheet" type="text/css" href="../stylecss/login.css">
 	
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="../semantic.min.js"></script>
+  <?php
+	include 'html/loginhead.html'; 
+  ?>
+
 </head>
-
-
 
 <body>
 
   <?php 
     include 'html/menu.html';
-    // include 'html/banner.html';
     include 'html/sidebar.html';
-    require '../Controllers/loginController.php';
   ?>
 
 
@@ -57,17 +50,5 @@
     include '../scripts/menuscript.html';
    ?>
 
-
-
-	<script>
-		$('.ui.dropdown').dropdown();
-		$('#nextside').click(function(){
-			$('.shape').shape('flip.right');
-		});
-		$('.shape').shape('set stage size', 200, 200);
-		$('#toggle').click(function(){
-			$('.ui.sidebar').sidebar('toggle');
-		});
-	</script>
 </body>
 </html>

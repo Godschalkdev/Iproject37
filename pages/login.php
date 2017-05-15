@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +14,7 @@
   <?php 
     include 'html/menu.html';
     include 'html/sidebar.html';
+    include ('../Controllers/loginController.php');
   ?>
 
 
@@ -35,7 +34,7 @@
                 
                 <input name="password" placeholder="Wachtwoord" type="password">
             </div>
-            <button class="ui huge sand button" type="submit" value="submit">Inloggen</button>
+            <button class="ui huge sand button" name="submit" type="submit" value="submit">Inloggen</button>
           </form> 
           <p> Nog geen account?
           <a href="register.php">Registeer hier!</a>

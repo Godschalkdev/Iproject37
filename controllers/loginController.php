@@ -16,6 +16,7 @@ if(isset($_POST['submit']))
 
 function checkCredentials()
 {
+	global $pdo;
 	if(!isset($_POST['username']) || !isset($_POST['password']))
 	{
 		echo "Gebruikers of wachtwoord is niet ingevuld!";
@@ -23,11 +24,12 @@ function checkCredentials()
 
 	else
 	{
-		$username = clean($_POST['login']);
-		$Password = clean($_POST['password']);
+		$username = $_POST['username'];
+		$password = $_POST['password'];
 
 		$query = $pdo -> prepare("SELECT username, password, firstname, lastname, seller_yes_or_no FROM users where username=? AND password=?");
-		$query ->bind_param('ss', $username, $password);
+		$query ->bindParam('ss', $username, PDO::PARAM_STR);
+		$query ->bindParam('ss', $password, PDO::PARAM_STR);
 
 		if($query ->execute() == true)
 		{
@@ -40,7 +42,16 @@ function checkCredentials()
 	            $_SESSION['SESSION_LAST_NAME']			= $query['lastname'];
 	            $_SESSION['SESSION_SELLER_YES_OR_NO'] 	= $query['seller_yes_or_no'];
             session_write_close();
-            exit();
+
+            if(session_status() == PHP_SESSION_NONE)
+        	{
+        		echo "failed";
+        	}
+        	else if(session_status() == PHP_SESSION_ACTIVE)
+        	{
+        		echo "succes";
+        	}
+        	header("./index.php");
 		}
 
 		else

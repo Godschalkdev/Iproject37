@@ -20,21 +20,18 @@
   	<div class="maincontent">
  	 	<div class="ui text container">
  	 		<div class="ui raised segment">
- 	 		<h1 class="ui niagara header">Admin login</h1>
- 	 		<form class ='ui big form' method="post">
-            <div class="eight wide field">
-              <label>Gebruikersnaam</label>
-              <input name="username" placeholder="voorbeeld@mail.com" type="text">
-              </div>
-            <div class="eight wide field">
-                <label>Wachtwoord</label>
-                
-                <input name="password" placeholder="Wachtwoord" type="password">
-            </div>
-            <button class="ui huge sand button" name="submit" type="submit" value="submit">Inloggen</button>
-          </form> 
-		
-
+ 	 			<h1 class="ui niagara header">Admin login</h1>
+ 	 			<form class ='ui big form' method="post">
+	            	<div class="eight wide field">
+	              		<label>Gebruikersnaam</label>
+	              		<input name="username" placeholder="voorbeeld@mail.com" type="text">
+	              	</div>
+	            	<div class="eight wide field">
+		                <label>Wachtwoord</label>		                
+		                <input name="password" placeholder="Wachtwoord" type="password">
+	            	</div>
+            		<button class="ui huge sand button" name="submit" type="submit" value="submit">Inloggen</button>
+          		</form> 
   			</div>
   		</div>
   	</div>

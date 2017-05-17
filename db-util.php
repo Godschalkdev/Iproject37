@@ -48,4 +48,30 @@ return $data -> fetchAll();;
 
 
 
+function CheckLogin($username, $plaintextpassword)
+          {
+            global $pdo;
+            $data = $pdo->prepare("SELECT username, password FROM Users WHERE username = :username");
+            $data->execute(array($username));
+
+            $datas = $data->fetch();
+            $count = count($datas);
+            if ($count > 0) {
+              if (password_verify($plaintextpassword, $datas["password"])) {
+                return array($datas["username"]);
+              } else {
+                return false;
+              }}
+              else{
+                return false;
+              }
+            }
+
+function hashpassword($cleartextpassword){
+              $options = [
+                'cost' => 12,
+              ];
+              return password_hash($cleartextpassword, PASSWORD_BCRYPT, $options);
+            }
+
 ?>

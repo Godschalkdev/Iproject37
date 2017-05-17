@@ -1,3 +1,11 @@
+<?php
+$success_message = "Hello user";
+require('../controllers/loginController.php');
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+  $success_message = processForm();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +32,7 @@
       <div class='ui text container'>  
         <div class="ui raised segment">
         <h1 class='ui huge niagara header'>Login</h1>
+        <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>
           <form class ='ui big form' method="post">
             <div class="eight wide field">
               <label>Gebruikersnaam</label>

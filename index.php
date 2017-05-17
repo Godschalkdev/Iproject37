@@ -31,7 +31,7 @@ require('controllers/indexController.php');
       <?php printPopulaireVeilingen(); ?>
       </div>
     </div>
-
+?>
 
 
     <div class='ui vertical segment' id='member'>

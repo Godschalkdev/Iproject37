@@ -16,7 +16,7 @@ if(isset($_POST['submit']))
 
 function checkCredentials()
 {
-if (isset( $_POST["username"]["password"]))
+if (isset( $_POST["username"]["password"])){
 
     $Chk_LoginDetailsReturn = Chk_LoginDetails($_POST["username"]["password"]);
     if(!$Chk_LoginDetailsReturn == false){
@@ -27,10 +27,9 @@ if (isset( $_POST["username"]["password"]))
     else{
       return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
     }
-  } else{
-    return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
   }
-}
+  } 
+
 
 
 // {

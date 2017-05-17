@@ -10,7 +10,7 @@ require('controllers/indexController.php');
 <head>
   <meta charset="utf-8">
 	<?php 
-    	include 'pages/html/homehead.html'
+    	include 'pages/html/mainhead.html'
   	?>
 </head>
 
@@ -32,9 +32,9 @@ require('controllers/indexController.php');
       <?php printPopulaireVeilingen(); ?>
       </div>
     </div>
-?>
 
 
+<!-- 
     <div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara dividing header'>Nieuwe producten</h2>
@@ -67,7 +67,7 @@ require('controllers/indexController.php');
       </div>
 	</div>
 	</div>
-
+ -->
 
       
 

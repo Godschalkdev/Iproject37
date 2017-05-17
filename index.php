@@ -12,6 +12,7 @@ require('controllers/indexController.php');
 	<?php 
     	include 'pages/html/mainhead.html'
   	?>
+    <link rel="stylesheet" type="text/css" href="stylecss/home.css">
 </head>
 
 <body>
@@ -23,15 +24,16 @@ require('controllers/indexController.php');
   ?>
 
   <div class="mainContent">
-  <div class="ui container">
-    <div class='ui segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara dividing header'>Populaire producten</h2>
-      </div>
+    <div class="ui container">
+      
+        <div class='ui center aligned text container'>
+          <h2 class='ui niagara dividing header'>Populaire producten</h2>
+        </div>
         <div class="ui three doubling stackable cards grid container">
-      <?php printPopulaireVeilingen(); ?>
-      </div>
+          <?php printPopulaireVeilingen(); ?>
+        </div>
     </div>
+<<<<<<< HEAD
 
 
 <!-- 
@@ -71,6 +73,12 @@ require('controllers/indexController.php');
 
       
 
+=======
+  </div>
+
+    
+
+>>>>>>> f22010cf5ca7bcf4422f564cde9ce02ffdcaecc8
   <?php include 'pages/html/footer.html' ?>
 
 

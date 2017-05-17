@@ -9,24 +9,24 @@ function printPopulaireVeilingen(){
 
   $populaireVeilingen = getPopulaireVeilingen();
   foreach($populaireVeilingen as $populaireVeilingen){
-$piemel = <<<MYCONTENT
-        <div class="ui card">
-          <div class="image">
-            <img src="../images/Vazen.jpg">
-           </div>
-         <div class="content">
-            <div class="header"> $populaireVeilingen[title] </div>
-              <a class ="meta">Hoogst uitgebracht bod: € $populaireVeilingen[hoogsteBod] </a>
-           <div class="description"> $populaireVeilingen[description] </div>
-          <div class="extra content">
-            <a href="#">
-             <i class="large legal icon"></i>
-              Ga naar veiling </a>
-              </div>
-         </div>
-       </div> 
+$html = <<<MYCONTENT
+        <div class="column">
+          <div class="ui segment">
+            <img src="images/kast.jpg" class="ui rounded medium image">
+            <div class="ui top left attached label huge">
+              € $populaireVeilingen[hoogsteBod]
+            </div>
+            <div class="ui buttons">
+              <button class="ui sand button">Bekijk Veiling</button>
+              <div class="or" data-text=""></div>
+              <button class="ui button">14:00:45</button>
+            </div>
+            <h3 class="niagara">$populaireVeilingen[title]</h3>
+            <p>$populaireVeilingen[description]</p>
+          </div>
+        </div>
 MYCONTENT;
-echo $piemel; 
+echo $html; 
  }
 }
 

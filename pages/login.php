@@ -10,7 +10,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 <html>
 <head>
 	<meta charset="utf-8">
-	
+	<title>Login</title>
   <?php
 	include 'html/mainhead.html'; 
   ?>
@@ -18,17 +18,14 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 </head>
 
-<body>
+<body class="site">
 
   <?php 
     include 'html/menu.html';
     include 'html/sidebar.html';
   ?>
 
-
-
   <div class="maincontent">
-<<<<<<< HEAD
     <div class='ui text container'>  
       <div class="ui raised segment">
       <h1 class='ui huge niagara header'>Login</h1>

@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<title>Verkoper</title>
 	<?php 
     include 'html/mainhead.html';
     include '../Controllers/activate_sellerController.php';

@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<title>Register</title>
 	<link rel="stylesheet" type="text/css" href="../../stylecss/register.css">	
 	<?php 
 		include 'html/mainhead.html';

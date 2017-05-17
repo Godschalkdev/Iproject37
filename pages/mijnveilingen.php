@@ -3,6 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
+		<title>MijnVeiling</title>
 		<?php 
 			include 'html/mainhead.html';
 		?>

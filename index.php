@@ -33,7 +33,8 @@ require('controllers/indexController.php');
           <?php printPopulaireVeilingen(); ?>
         </div>
     </div>
-<<<<<<< HEAD
+    </div>
+
 
 
 <!-- 
@@ -71,14 +72,7 @@ require('controllers/indexController.php');
 	</div>
  -->
 
-      
-
-=======
-  </div>
-
     
-
->>>>>>> f22010cf5ca7bcf4422f564cde9ce02ffdcaecc8
   <?php include 'pages/html/footer.html' ?>
 
 

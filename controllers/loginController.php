@@ -18,7 +18,7 @@ function checkCredentials()
 {
 if (isset( $_POST["username"]["password"])){
 
-    $Chk_LoginDetailsReturn = Chk_LoginDetails($_POST["username"]["password"]);
+    $Chk_LoginDetailsReturn = CheckLogin($_POST["username"]["password"]);
     if(!$Chk_LoginDetailsReturn == false){
     $_SESSION['loggedin'] = 'true';
     $_SESSION['username'] = $Chk_LoginDetailsReturn[0];

@@ -19,7 +19,7 @@ catch(PDOexeption $e){
 
 function getPopulaireVeilingen(){
 global $pdo;
-  $data = $pdo->query("SELECT TOP 10 title, description, max(offer_amount) as hoogsteBod,count(offer_amount) as totaleOffers FROM Object b inner join Offer f ON b.object_nr = f.object_nr GROUP BY title, description ORDER BY TotaleOffers desc");
+  $data = $pdo->query("SELECT TOP 10 title, description, max(offer_amount) as hoogsteBod,count(offer_amount) as totaleOffers FROM Object b inner join Offer f ON b.object_nr = f.object_nr GROUP BY title, description ORDER BY totaleOffers desc");
   return $data->fetchAll();;
 }
 
@@ -47,29 +47,9 @@ return $data -> fetchAll();;
 }
 
 
-
-function CheckLogin($username, $plaintextpassword)
-          {
-            global $pdo;
-            $data = $pdo->prepare("SELECT username, password FROM Users WHERE username = :username");
-            $data->execute(array($username));
-
-            $datas = $data->fetch();
-            $count = count($datas);
-            if ($count > 0) {
-              if (password_verify($plaintextpassword, $datas["password"])) {
-                return array($datas["username"]);
-              } else {
-                return false;
-              }}
-              else{
-                return false;
-              }
-            }
-
 function hashpassword($cleartextpassword){
               $options = [
-                'cost' => 12,
+                'iconcepts' => 12,
               ];
               return password_hash($cleartextpassword, PASSWORD_BCRYPT, $options);
             }

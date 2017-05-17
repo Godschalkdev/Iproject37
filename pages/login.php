@@ -2,7 +2,7 @@
 $success_message = "Hello user";
 require('../controllers/loginController.php');
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-  $success_message = processForm();
+  $success_message = checkCredentials();
 }
 ?>
 
@@ -28,11 +28,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 
   <div class="maincontent">
-<<<<<<< HEAD
     <div class='ui text container'>  
       <div class="ui raised segment">
       <h1 class='ui huge niagara header'>Login</h1>
-        <form class ='ui big form' method="post">
+      <?php if (strlen($success_message) > 1){echo $success_message;$success_message = "LoggedIN";} ?>
+        <form class ='ui big form' action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>  method="post">
           <div class="field">
             <label>Gebruikersnaam</label>
             <input name="username" placeholder="voorbeeld@mail.com" type="text">

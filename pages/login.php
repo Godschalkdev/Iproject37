@@ -21,26 +21,23 @@
 
 
   <div class="maincontent">
-  	<div class='ui vertical stripe segment' id='member'>
-      <div class='ui text container'>  
-        <div class="ui raised segment">
-        <h1 class='ui huge niagara header'>Login</h1>
-          <form class ='ui big form' method="post">
-            <div class="eight wide field">
-              <label>Gebruikersnaam</label>
-              <input name="username" placeholder="voorbeeld@mail.com" type="text">
-              </div>
-            <div class="eight wide field">
-                <label>Wachtwoord</label>
-                
-                <input name="password" placeholder="Wachtwoord" type="password">
+    <div class='ui text container'>  
+      <div class="ui raised segment">
+      <h1 class='ui huge niagara header'>Login</h1>
+        <form class ='ui big form' method="post">
+          <div class="field">
+            <label>Gebruikersnaam</label>
+            <input name="username" placeholder="voorbeeld@mail.com" type="text">
             </div>
-            <button class="ui huge sand button" name="submit" type="submit" value="submit">Inloggen</button>
-          </form> 
-          <p> Nog geen account?
-          <a href="register.php">Registeer hier!</a>
-          </p>
-        </div>
+          <div class="field">
+              <label>Wachtwoord</label>
+              <input name="password" placeholder="Wachtwoord" type="password">
+          </div>
+          <button class="ui huge sand button" name="submit" type="submit" value="submit">Inloggen</button>
+        </form> 
+        <p> Nog geen account?
+        <a href="register.php">Registeer hier!</a>
+        </p>
       </div>
     </div>
   </div>

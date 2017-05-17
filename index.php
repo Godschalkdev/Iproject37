@@ -23,7 +23,8 @@ require('controllers/indexController.php');
   ?>
 
   <div class="mainContent">
-    <div class='ui vertical segment' id='member'>
+  <div class="ui container">
+    <div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara dividing header'>Populaire producten</h2>
       </div>
@@ -34,7 +35,7 @@ require('controllers/indexController.php');
 ?>
 
 
-    <div class='ui vertical segment' id='member'>
+    <div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara dividing header'>Nieuwe producten</h2>
       </div>
@@ -44,7 +45,7 @@ require('controllers/indexController.php');
     </div>
     
 
-    <div class='ui vertical segment' id='member'>
+    <div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara dividing header'>Bijzondere Producten</h2>
       </div>
@@ -56,7 +57,7 @@ require('controllers/indexController.php');
   
 
 
-  	<div class='ui vertical segment' id='member'>
+  	<div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
         <h2 class='ui niagara dividing header'>Koopjes</h2>
       </div>
@@ -64,6 +65,7 @@ require('controllers/indexController.php');
       <?php printKoopjesVeilingen(); ?>
       </div>
       </div>
+	</div>
 	</div>
 
 

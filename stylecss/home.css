@@ -54,3 +54,7 @@ a:hover {
 	color: #c49860 !important;
 }
 
+.mainContent .ui.segment {
+	margin-top: 10px;
+}
+

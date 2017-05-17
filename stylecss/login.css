@@ -5,10 +5,11 @@
 
 .maincontent {
 	margin-top: 80px;
-	margin-bottom: 20px;
+	margin-bottom: 150px;
 }
 
 .maincontent .segment {
+	margin-top: 50px;
 	background-color: rgba(150, 150, 150, 0.1);
 }
 

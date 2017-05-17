@@ -4,8 +4,9 @@
 	<head>
 		<meta charset="utf-8">
 		<?php 
-			include 'html/contacthead.html';
+			include 'html/mainhead.html';
 		?>
+		<link rel="stylesheet" type="text/css" href="../../stylecss/contact.css">
 	</head>
 	
 	<body>

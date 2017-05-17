@@ -4,8 +4,9 @@
 	<head>
 		<meta charset="utf-8">
 		<?php 
-			include 'html/nieuwproducthead.html';	
+			include 'html/mainhead.html';	
 		?>
+		<link rel="stylesheet" type="text/css" href="../../stylecss/nieuwproduct.css">
 	</head>
 	
 	<body>

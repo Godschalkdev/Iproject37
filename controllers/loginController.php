@@ -27,8 +27,9 @@ if (isset( $_POST["username"]["password"])){
     else{
       return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
     }
+
   }
-  } 
+ } 
 
 
 

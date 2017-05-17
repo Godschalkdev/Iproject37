@@ -2,6 +2,12 @@
 /*				FOR THE footer				*/
 /********************************************/
 
+body {
+	display: flex;
+  	min-height: 100vh;
+  	flex-direction: column;
+}
+
 .ui.vertical.footer.segment{
 	min-height: 350px;
 	padding: 10px 0px 0px 0px;
@@ -47,4 +53,7 @@
 
 .footer a:hover {
 	color: #c49860;
+}
+.maincontent {
+	flex: 1;
 }

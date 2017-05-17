@@ -1,3 +1,11 @@
+<?php
+$success_message = "Hello user";
+require('../controllers/loginController.php');
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+  $success_message = processForm();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +23,12 @@
   <?php 
     include 'html/menu.html';
     include 'html/sidebar.html';
-    include ('../Controllers/loginController.php');
   ?>
 
 
 
   <div class="maincontent">
+<<<<<<< HEAD
     <div class='ui text container'>  
       <div class="ui raised segment">
       <h1 class='ui huge niagara header'>Login</h1>
@@ -28,7 +36,7 @@
           <div class="field">
             <label>Gebruikersnaam</label>
             <input name="username" placeholder="voorbeeld@mail.com" type="text">
-            </div>
+          </div>
           <div class="field">
               <label>Wachtwoord</label>
               <input name="password" placeholder="Wachtwoord" type="password">

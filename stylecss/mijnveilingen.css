@@ -26,3 +26,13 @@
 a:hover {
 	color: #c49860 !important;
 }
+
+.maincontent img {
+	width: auto;
+	height: auto;
+	min-width: 200px;
+	min-height: 200px;
+	max-width: 200px;
+	max-height: 200px;
+	margin: 20px auto 20px auto;
+}

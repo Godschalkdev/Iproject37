@@ -23,13 +23,13 @@ require('controllers/indexController.php');
     include 'pages/html/sidebar.html';
   ?>
 
-  <div class="mainContent">
+  <div class="maincontent">
     <div class="ui container">
       
         <div class='ui center aligned text container'>
           <h2 class='ui niagara dividing header'>Populaire producten</h2>
         </div>
-        <div class="ui three doubling stackable cards grid container">
+        <div class="ui three column doubling stackable grid container">
           <?php printPopulaireVeilingen(); ?>
         </div>
     </div>

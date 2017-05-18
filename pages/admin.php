@@ -30,7 +30,19 @@
             <a class="item" data-tab="fourth">Categorieën beheren</a>
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
-             First
+              <table style="width:100%">
+                <tr>
+                  <th>Gebruikersnaam</th>
+                  <th>Voornaam</th>
+                  <th>Achternaam</th>
+                  <th>Email</th>
+                  <th>Swag</th>
+                  <?php
+                    showUsers();
+                  ?>
+                </tr>
+                
+              </table> 
           </div>
           <div class="ui bottom attached tab segment" data-tab="second">
              Second

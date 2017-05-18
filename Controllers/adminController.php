@@ -7,42 +7,31 @@ $passw = "Str00pW4f31";
 
 
 connectToDatabase();
-session_start();
 
-if(isset($_POST['submit']))
+
+function getUsers()
 {
-	checkAdmin();	
-}else
-{
-	session_destroy();
-}
-
-
-function checkAdmin()
-{
-	if(!isset($_POST[username]) && !isset($_POST[password]))
-	{
-		echo "Gebruikersnaam of wachtwoord is niet ingevuld!";
-		session_destroy();
-	}
-
-	else if($_POST[username] != $username || $_POST[password] !=$passw)
-	{
-		echo "Gebruikersnaam of wachtwoord is niet juist!";
-	}
-
-	else
-	{
-		if($_POST[username] == $username && $_POST[password] == $passw)
-		{
-			session_regenerate_id();
-	            $_SESSION['SESSION_USERNAME'] 			= $username;
-            session_write_close();
-		}
-	}
-}	
+	global $pdo;
+	$data = $pdo->query("SELECT * from dbo.Users");
+  	return $data->fetchAll();
+}		
 	
-
+function showUsers()
+{
+	$data = getUsers();
+	foreach($data as $key)
+	{
+		$html = <<<MYCONTENT
+			<tr>
+				<td>$key[username]</td>
+				<td>$key[firstname]</td>
+				<td>$key[lastname]</td>
+				<td>$key[seller_yes_or_no]</td>
+			</tr>
+MYCONTENT;
+	echo $html;
+	}
+}
 
 
 

@@ -1,11 +1,13 @@
-<?php
-$success_message = "Hello user";
-require('../controllers/loginController.php');
-if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-  $success_message = checkCredentials();
-}
-?>
+<?php 
+require_once ('../controllers/loginController.php');
 
+
+if(isset($_POST['submit']))
+{
+  login();
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,13 +26,12 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     include 'html/menu.html';
     include 'html/sidebar.html';
   ?>
-
   <div class="maincontent">
     <div class='ui text container'>  
       <div class="ui raised segment">
       <h1 class='ui huge niagara header'>Login</h1>
-      <?php if (strlen($success_message) > 1){echo $success_message;$success_message = "LoggedIN";} ?>
-        <form class ='ui big form' action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>  method="post">
+   
+        <form class ='ui big form' method="post">
           <div class="field">
             <label>Gebruikersnaam</label>
             <input name="username" placeholder="voorbeeld@mail.com" type="text">

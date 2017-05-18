@@ -6,7 +6,6 @@ connectToDatabase();
 
 function printPopulaireVeilingen(){
 
-
   $populaireVeilingen = getPopulaireVeilingen();
   foreach($populaireVeilingen as $populaireVeilingen){
 $html = <<<MYCONTENT

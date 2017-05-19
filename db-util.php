@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 function connectToDatabase()
 {
 	global $pdo; 
@@ -46,6 +46,8 @@ $data = $pdo ->query("SELECT TOP 3 title, description, MAX(offer_amount) as hoog
 GROUP BY title, description ORDER BY min(duration_start_date)"); 
 return $data -> fetchAll();;
 }
+
+
 
 
 function hashpassword($cleartextpassword){

@@ -8,7 +8,7 @@
     include 'html/mainhead.html';
     include '../Controllers/adminController.php';
   ?>
-  	<link rel="stylesheet" type="text/css" href="../stylecss/login.css">
+  	<link rel="stylesheet" type="text/css" href="/stylecss/login.css">
 </head>
 
 <body>

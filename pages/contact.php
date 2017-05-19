@@ -7,7 +7,7 @@
 		<?php 
 			include 'html/mainhead.html';
 		?>
-		<link rel="stylesheet" type="text/css" href="../../stylecss/contact.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/contact.css">
 	</head>
 	
 	<body>

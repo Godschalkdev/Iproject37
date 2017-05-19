@@ -16,11 +16,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   <?php
 	include 'html/mainhead.html'; 
   ?>
-  <link rel="stylesheet" type="text/css" href="../../stylecss/login.css">
+  <link rel="stylesheet" type="text/css" href="/stylecss/login.css">
 
 </head>
 
-<body class="site">
+<body>
 
   <?php 
     include 'html/menu.html';

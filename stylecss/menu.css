@@ -12,3 +12,13 @@
 .menu h4.ui.header .Eenmaal {
 	font-weight: bold;
 }
+
+.catog {
+	color: #FFFFFA;
+	font-weight: bold;
+}
+
+.ui.accordion.content {
+	margin: 0;
+	padding: 0;
+}

@@ -1,14 +1,13 @@
 /*****************************************
-			LOGIN CSS 				
+			PRODUCTPAGINA CSS 				
 *****************************************/
 
-
 .maincontent {
-	margin: auto, auto;
+	margin-top: 80px;
+	margin-bottom: 20px;
 }
 
 .maincontent .segment {
-	margin-top: 50px;
 	background-color: rgba(150, 150, 150, 0.1);
 }
 
@@ -22,4 +21,14 @@
 
 .maincontent label {
 	color: rgb(150,150,150) !important;
+}
+
+.maincontent img {
+	width: auto;
+	height: auto;
+	min-width: 200px;
+	min-height: 200px;
+	max-width: 200px;
+	max-height: 200px;
+	margin: 20px auto 20px auto;
 }

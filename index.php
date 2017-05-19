@@ -1,7 +1,5 @@
 <?php
-
-require('controllers/indexController.php');
-
+require('/controllers/indexController.php');
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +41,7 @@ require('controllers/indexController.php');
         <h2 class='ui niagara dividing header'>Nieuwe producten</h2>
       </div>
       	<div class="ui three doubling stackable cards grid container">
-       <?php printNieuweVeilingen(); ?>
+       <?php //printNieuweVeilingen(); ?>
        </div>
     </div>
     
@@ -53,7 +51,7 @@ require('controllers/indexController.php');
         <h2 class='ui niagara dividing header'>Bijzondere Producten</h2>
       </div>
       	<div class="ui three doubling stackable cards grid container">
-      <?php printBijzondereVeilingen(); ?>
+      <?php //printBijzondereVeilingen(); ?>
       </div>
     </div>
 
@@ -65,7 +63,7 @@ require('controllers/indexController.php');
         <h2 class='ui niagara dividing header'>Koopjes</h2>
       </div>
       	<div class="ui three doubling stackable cards grid container">
-      <?php printKoopjesVeilingen(); ?>
+      <?php //printKoopjesVeilingen(); ?>
       </div>
       </div>
 	</div>
@@ -73,19 +71,10 @@ require('controllers/indexController.php');
  -->
 
     
-  <?php include 'pages/html/footer.html' ?>
+  <?php 
+    include 'pages/html/footer.html';
+    include 'scripts/menuscript.html';
+  ?>
 
-
-
-	<script>
-		$('.ui.dropdown').dropdown();
-		$('#nextside').click(function(){
-			$('.shape').shape('flip.right');
-		});
-		$('.shape').shape('set stage size', 200, 200);
-		$('#toggle').click(function(){
-			$('.ui.sidebar').sidebar('toggle');
-		});
-	</script>
 </body>
 </html>

@@ -21,6 +21,7 @@ function getPopulaireVeilingen(){
 global $pdo;
   $data = $pdo->query("SELECT TOP 3 title, description, max(offer_amount) as hoogsteBod,count(offer_amount) as totaleOffers FROM Object b inner join Offer f ON b.object_nr = f.object_nr GROUP BY title, description ORDER BY TotaleOffers desc");
   return $data->fetchAll();;
+  
 }
 
 function getBijzondereVeilingen(){

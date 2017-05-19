@@ -8,7 +8,7 @@
     include 'html/mainhead.html';
     include '../Controllers/activate_sellerController.php';
   	?>
-  	<link rel="stylesheet" type="text/css" href="../stylecss/register.css">
+  	<link rel="stylesheet" type="text/css" href="/stylecss/register.css">
 </head>
 
 <body>

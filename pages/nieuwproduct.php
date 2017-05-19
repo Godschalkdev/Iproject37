@@ -7,7 +7,7 @@
 		<?php 
 			include 'html/mainhead.html';	
 		?>
-		<link rel="stylesheet" type="text/css" href="../../stylecss/nieuwproduct.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/nieuwproduct.css">
 	</head>
 	
 	<body>

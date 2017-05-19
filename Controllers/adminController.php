@@ -23,15 +23,24 @@ function showUsers()
 	{
 		$html = <<<MYCONTENT
 			<tr>
-				<td>$key[username]</td>
+				<td>$key[username]</td> 
 				<td>$key[firstname]</td>
 				<td>$key[lastname]</td>
-				<td>$key[seller_yes_or_no]</td>
+				<td>$key[emailaddress]</td>
+				<td>
+					<div class="ui buttons">
+						<button class ="ui button" onClick=".editbtn">Aanpassen</button>
+						<button class ="ui button">Email versturen</button>
+						<button class ="ui button">Verwijderen</button>
+					</div>
+				</td>
 			</tr>
+			
 MYCONTENT;
 	echo $html;
 	}
 }
+
 
 
 

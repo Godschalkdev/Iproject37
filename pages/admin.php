@@ -27,7 +27,6 @@
             <a class="active item" data-tab="first">Account gegevens</a>
             <a class="item" data-tab="second">Categorieën beheren</a>
             <a class="item" data-tab="third">Veilingen beheren</a>
-            <a class="item" data-tab="fourth">Categorieën beheren</a>
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
               <table style="width:100%">
@@ -36,7 +35,6 @@
                   <th>Voornaam</th>
                   <th>Achternaam</th>
                   <th>Email</th>
-                  <th>Swag</th>
                   <?php
                     showUsers();
                   ?>
@@ -54,6 +52,33 @@
              Fourth
           </div>
           <script>$('.menu .item').tab();</script>
+          
+          <script type="text/javascript"> 
+          $(document).ready(function () 
+          {
+            $('.editbtn').click(function () 
+            {
+               var currentTD = $(this).parents('tr').find('td');
+              if ($(this).html() == 'Edit') 
+              {                  
+                $.each(currentTD, function () 
+                {
+                  $(this).prop('contenteditable', true)
+                });
+              } 
+              else 
+              {
+                $.each(currentTD, function () 
+              {
+                $(this).prop('contenteditable', false)
+            });
+          }
+
+          $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
+
+      });
+
+  });</script>
           
 
   		  </div>

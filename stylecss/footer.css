@@ -56,7 +56,12 @@ body {
 .footer a:hover {
 	color: #c49860;
 }
+.ui.logo {
+	display: inline;
+	padding: 0;
+	margin: auto;
+}
 
-.footer .logo {
-	margin-top: 30px;
+.ui.four.column.grid.text.container {
+	margin-bottom: 0;
 }

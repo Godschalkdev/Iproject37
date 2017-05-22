@@ -27,6 +27,7 @@
             <a class="active item" data-tab="first">Account gegevens</a>
             <a class="item" data-tab="second">Categorieën beheren</a>
             <a class="item" data-tab="third">Veilingen beheren</a>
+            <a class="item" data-tab="fourth">KPI's</a>
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
               <table style="width:100%">
@@ -52,14 +53,14 @@
              Fourth
           </div>
           <script>$('.menu .item').tab();</script>
-          
+
           <script type="text/javascript"> 
           $(document).ready(function () 
           {
-            $('.editbtn').click(function () 
+            $('.ui button one').click(function () 
             {
                var currentTD = $(this).parents('tr').find('td');
-              if ($(this).html() == 'Edit') 
+              if ($(this).html() == 'Aanpassen') 
               {                  
                 $.each(currentTD, function () 
                 {
@@ -74,7 +75,7 @@
             });
           }
 
-          $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
+          $(this).html($(this).html() == 'Aanpassen' ? 'Opslaan' : 'Aanpassen')
 
       });
 

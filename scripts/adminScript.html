@@ -1,0 +1,28 @@
+<script>$('.menu .item').tab();</script>
+
+          <script type="text/javascript"> 
+          $(document).ready(function () 
+          {
+            $('.ui button').click(function () 
+            {
+               var currentTD = $(this).parents('tr').find('td');
+              if ($(this).html() == 'Aanpassen') 
+              {                  
+                $.each(currentTD, function () 
+                {
+                  $(this).prop('contentEditable', true)
+                });
+              } 
+              else 
+              {
+                $.each(currentTD, function () 
+              {
+                $(this).prop('contentEditable', false)
+            });
+          }
+
+          $(this).html($(this).html() == 'Aanpassen' ? 'Opslaan' : 'Aanpassen')
+
+      });
+
+  });</script>

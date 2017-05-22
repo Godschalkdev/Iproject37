@@ -27,6 +27,7 @@
             <a class="active item" data-tab="first">Account gegevens</a>
             <a class="item" data-tab="second">Categorieën beheren</a>
             <a class="item" data-tab="third">Veilingen beheren</a>
+            <a class="item" data-tab="fourth">KPI's</a>
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
               <table style="width:100%">
@@ -49,45 +50,15 @@
              Third
           </div>
           <div class="ui bottom attached tab segment" data-tab="fourth">
-             Fourth
+             <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
-          <script>$('.menu .item').tab();</script>
-          
-          <script type="text/javascript"> 
-          $(document).ready(function () 
-          {
-            $('.editbtn').click(function () 
-            {
-               var currentTD = $(this).parents('tr').find('td');
-              if ($(this).html() == 'Edit') 
-              {                  
-                $.each(currentTD, function () 
-                {
-                  $(this).prop('contenteditable', true)
-                });
-              } 
-              else 
-              {
-                $.each(currentTD, function () 
-              {
-                $(this).prop('contenteditable', false)
-            });
-          }
-
-          $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
-
-      });
-
-  });</script>
-          
-
   		  </div>
   		</div>
   	</div>
 
   	<?php include 'html/footer.html'; 
   		  include '../scripts/menuscript.html'; 
-
+        include '../scripts/adminScript.html';
   		?>
 </body>
 </html>

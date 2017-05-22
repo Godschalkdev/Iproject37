@@ -15,7 +15,7 @@
 
  	<?php 
     	include 'html/menu.html';
-    	include 'html/sidebar.html';
+    	//include 'html/sidebar.html';
   	?>
 
   	<div class="maincontent">
@@ -50,45 +50,15 @@
              Third
           </div>
           <div class="ui bottom attached tab segment" data-tab="fourth">
-             Fourth
+             <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
-          <script>$('.menu .item').tab();</script>
-
-          <script type="text/javascript"> 
-          $(document).ready(function () 
-          {
-            $('.ui button one').click(function () 
-            {
-               var currentTD = $(this).parents('tr').find('td');
-              if ($(this).html() == 'Aanpassen') 
-              {                  
-                $.each(currentTD, function () 
-                {
-                  $(this).prop('contenteditable', true)
-                });
-              } 
-              else 
-              {
-                $.each(currentTD, function () 
-              {
-                $(this).prop('contenteditable', false)
-            });
-          }
-
-          $(this).html($(this).html() == 'Aanpassen' ? 'Opslaan' : 'Aanpassen')
-
-      });
-
-  });</script>
-          
-
   		  </div>
   		</div>
   	</div>
 
   	<?php include 'html/footer.html'; 
   		  include '../scripts/menuscript.html'; 
-
+        include '../scripts/adminScript.html';
   		?>
 </body>
 </html>

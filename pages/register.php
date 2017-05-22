@@ -24,7 +24,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     	include 'html/sidebar.html';
   	?>
 	
-
+	<div class="pusher">
 	<div class="maincontent">
 		<div class="ui container">
 			<div class="ui raised segment">
@@ -483,6 +483,10 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			</div>
 		</div>
 	</div>
+	<?php
+		include 'html/footer.html';
+	?>
+	</div>
 	
 	<!-- 
 		Variabele				variablenaam
@@ -502,7 +506,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	 -->
 
 	<?php
-		include 'html/footer.html';
 		include '../scripts/menuscript.html';
 	?>
 	

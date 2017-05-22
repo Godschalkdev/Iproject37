@@ -29,9 +29,9 @@ function showUsers()
 				<td>$key[emailaddress]</td>
 				<td>
 					<div class="ui buttons">
-						<button class ="ui button" onClick=".editbtn">Aanpassen</button>
-						<button class ="ui button">Email versturen</button>
-						<button class ="ui button">Verwijderen</button>
+						<button class ="ui button one" onClick=".editbtn">Aanpassen</button>
+						<button class ="ui button two">Email versturen</button>
+						<button class ="ui button three">Verwijderen</button>
 					</div>
 				</td>
 			</tr>

@@ -11,7 +11,7 @@ function printPopulaireVeilingen(){
 $html = <<<MYCONTENT
         <div class="column">
           <div class="ui segment">
-            <img src="/images/kast.jpg" class="ui rounded medium image">
+            <img src="$populaireVeilingen[filename]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
               € $populaireVeilingen[hoogsteBod]
             </div>

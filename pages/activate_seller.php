@@ -14,14 +14,14 @@
 <body>
 
  	<?php 
-    	include 'html/menu.html';
     	include 'html/sidebar.html';
+    	include 'html/menu.html';
 
     	//test for $_SESSION
     	$_SESSION['username'] = "Gebruikersnaam";
     	$_SESSION['emailaddress'] = "email@address.com";
   	?>
-
+	<div class="pusher">
   	<div class="maincontent">
  	 	<div class="ui container">
  	 		<div class="ui raised segment">
@@ -87,19 +87,17 @@
 		</div>
   	</div>
   	</div>
+  	<?php 
+  		include 'html/footer.html'; 
+  	?>
   	</div>
 
-  	<?php include 'html/footer.html'; 
-  		  include '../scripts/menuscript.html'; 
-
-  		?>
+  	<?php 
+  		include '../scripts/menuscript.html';
+  	?>
 
 	<script>
 		$('.ui.radio.checkbox').checkbox();
-		$('#nextside').click(function(){
-			$('.shape').shape('flip.right');
-		});
-		$('.shape').shape('set stage size', 200, 200);
 	</script>
 </body>
 </html>

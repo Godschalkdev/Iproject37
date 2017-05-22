@@ -15,7 +15,7 @@
     	include 'html/sidebar.html';
   	?>
 	
-
+	<div class="pusher">
 	<div class="maincontent">
 		<div class="ui container">
 			<div class="ui raised segment">
@@ -473,6 +473,10 @@
 			</div>
 		</div>
 	</div>
+	<?php
+		include 'html/footer.html';
+	?>
+	</div>
 	
 	<!-- 
 		Variabele				variablenaam
@@ -492,7 +496,6 @@
 	 -->
 
 	<?php
-		include 'html/footer.html';
 		include '../scripts/menuscript.html';
 	?>
 	

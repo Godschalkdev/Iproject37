@@ -22,26 +22,30 @@
 	include 'html/sidebar.html';
 	?>
 	
+	<div class="pusher">
 	<div class="maincontent">
-	<div class="ui container">
-		<div class="ui raised segment">
-			<h1 class="ui dividing niagara header">Lopende Veilingen</h1>
-			<div class="ui three column doubling stackable grid container">
-          		<?php 
-          		printPopulaireVeilingen(); 
-          		printPopulaireVeilingen();
-          		printPopulaireVeilingen();
-          		printPopulaireVeilingen();
-          		printPopulaireVeilingen();
-          		printPopulaireVeilingen();
-          		?>
-        	</div>
+		<div class="ui container">
+			<div class="ui raised segment">
+				<h1 class="ui dividing niagara header">Lopende Veilingen</h1>
+				<div class="ui three column doubling stackable grid container">
+	          		<?php 
+	          		printPopulaireVeilingen(); 
+	          		printPopulaireVeilingen();
+	          		printPopulaireVeilingen();
+	          		printPopulaireVeilingen();
+	          		printPopulaireVeilingen();
+	          		printPopulaireVeilingen();
+	          		?>
+	        	</div>
+			</div>
 		</div>
 	</div>
+	<?php
+	include 'html/footer.html';
+	?>
 	</div>
 
 	<?php
-	include 'html/footer.html';
 	include '../scripts/menuscript.html';
 	?>
 </body>

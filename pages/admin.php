@@ -14,10 +14,10 @@
 <body>
 
  	<?php 
-    	include 'html/menu.html';
     	include 'html/sidebar.html';
+      include 'html/menu.html';
   	?>
-
+    
   	<div class="maincontent">
  	 	  <div class="ui container">
  	 		 <div class="ui raised segment">

@@ -29,7 +29,7 @@ function showUsers()
 				<td>$key[emailaddress]</td>
 				<td>
 					<div class="ui buttons">
-						<button class ="ui button one" onClick=".editbtn">Aanpassen</button>
+						<button class ="ui button one">Aanpassen</button>
 						<button class ="ui button two">Email versturen</button>
 						<button class ="ui button three">Verwijderen</button>
 					</div>
@@ -41,6 +41,22 @@ MYCONTENT;
 	}
 }
 
+// function saveUsers()
+// {
+// 	$dom = new DomDocument();
+// 	$dom->loadHTML('admin.php');
+// 	$xpath = new DOMXPath($dom);
 
+// 	$arr = array();
+// 	$arr = array_filter(array_map('trim',$arr));
+// 	foreach ($xpath->query('//tbody[@id="userTable"]/tr/td') as $node) 
+// 	{
+// 	    $arr[] = $node->nodeValue;
+// 	}
+// 	print_r($arr);
+
+// }
+
+// saveUsers();
 
 

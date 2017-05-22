@@ -18,9 +18,15 @@
                 $.each(currentTD, function () 
               {
                 $(this).prop('contentEditable', false)
-            });
-          }
-
+                });
+              }
+              if ($(this).html() == 'Opslaan') 
+              {                  
+                $.each(currentTD, function () 
+                {
+                  $(this).prop('contentEditable', true)
+                });
+              } 
           $(this).html($(this).html() == 'Aanpassen' ? 'Opslaan' : 'Aanpassen')
 
       });

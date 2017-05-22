@@ -20,13 +20,13 @@ catch(PDOexeption $e){
  function Chk_LoginDetails($username, $plaintextpassword)
           {
             global $pdo;
-            $data = $pdo->prepare("SELECT username, password, emailaddress FROM users WHERE username = :username");
+            $data = $pdo->prepare("SELECT username, password, emailaddress FROM users WHERE username = ?");
             $data->execute(array($username));
 
             $datas = $data->fetch();
             $count = count($datas);
             if ($count > 0) {
-              if (password_verify($plaintextpassword, $datas["password"])) {
+              if ($plaintextpassword == $datas["password"]) {
                 return array($datas["username"],$datas["emailaddress"]);
               } else {
                 return false;

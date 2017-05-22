@@ -4,7 +4,7 @@
 
 .maincontent {
   display: flex;
-  min-height: 70vh;
+  min-height: 80vh;
   flex-direction: column;
 }
 

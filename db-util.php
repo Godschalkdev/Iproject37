@@ -65,16 +65,35 @@ return $data -> fetchAll();
 
 function getNieuweVeilingen(){
 global $pdo; 
-$data = $pdo ->query("SELECT TOP 3 title, description, MAX(offer_amount) as hoogsteBod FROM Object b left JOIN Offer f on b.object_nr = f.object_nr
+$data = $pdo ->query("SELECT TOP 3 title, description FROM Object b left JOIN Offer f on b.object_nr = f.object_nr
 GROUP BY title, description ORDER BY min(duration_start_date)"); 
 return $data -> fetchAll();
 }
 
-
-
-function hashpassword($cleartextpassword){
-              $options = ['iconcepts' => 37, ];
-              return password_hash($cleartextpassword, PASSWORD_BCRYPT, $options);
+ function Chk_UserAlreadyExist($emailaddress)
+            {
+              global $pdo;
+              $data = $pdo->prepare("SELECT username FROM Users WHERE username = :emailaddress");
+              $data->execute(array($emailaddress));
+              $count = count($data->fetchAll());
+              if ($count > 0) {
+                return true;
+              } else {
+                return false;
+              }
             }
 
+
+
+function addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no) {
+              global $pdo;
+                $stmt = $pdo->prepare("INSERT INTO Users (username, firstname, lastname, addressfield_1, addressfield_2, ZIP_code, city, country, birthday, emailaddress, password, question_nr, answer, seller_yes_or_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?") ;
+                $stmt->execute(array($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, hashpassword($password), $question_nr, $answer, $seller_yes_or_no));
+                return true;
+            }
+
+function hashpassword($cleartextpassword){
+              $extra_key = ['iconcepts' => 37, ];
+              return password_hash($cleartextpassword, PASSWORD_BCRYPT, $extra_key);
+            }
 ?>

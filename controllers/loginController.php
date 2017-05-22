@@ -19,9 +19,9 @@ function processForm()
     $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
     header("Location: index.php");
     }
-    // else{
-    //   return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
-    // }}
+    else{
+      return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
+    }}
   } else{
     return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
   }

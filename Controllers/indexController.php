@@ -1,6 +1,6 @@
 <?php 
 
-require('../db-util.php');
+require('db-util.php');
 
 connectToDatabase();
 

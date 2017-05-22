@@ -1,3 +1,12 @@
+<?php
+
+require('../controllers/registrerencontroller.php');
+$success_message = "";
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+  $success_message = register_validation();
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +29,8 @@
 		<div class="ui container">
 			<div class="ui raised segment">
 			<h1 class="ui niagara header">Registratie</h1>
-				<form  method="POST" class="ui big register form">
+			<?php if (!is_array($success_message)){echo $success_message;$success_message = "";} ?>
+				<form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method="post" class="ui big register form">
 					<h3 class="ui dividing header">Accountgegevens</h3>
 					<div class="required field">
 						<label>Gebruikersnaam</label>
@@ -452,8 +462,8 @@
 						<div class="two fields">
 							<div class="field">
 								<select class="ui dropdown" name="vraag">
-										<option value="huisdier">Hoe heet uw huisdier?</option>
-										<option value="bijnaam">Wat was vroeger uw bijnaam?</option>
+										<option value="1">Hoe heet uw huisdier?</option>
+										<option value="2">Wat was vroeger uw bijnaam?</option>
 								</select>
 							</div>
 							<div class="required field">

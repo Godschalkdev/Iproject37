@@ -30,8 +30,9 @@
             <a class="item" data-tab="fourth">KPI's</a>
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
-              <table style="width:100%">
-                <tbody id="userTable">
+            <form method="post">
+              <table style="width:100%;">
+                <tbody id="userTable" contentEditable="true">
                   <tr>
                     <th>Gebruikersnaam</th>
                     <th>Voornaam</th>
@@ -43,6 +44,7 @@
                   </tr>
                 </tbody>
               </table> 
+            </form>
           </div>
           <div class="ui bottom attached tab segment" data-tab="second">
              Second

@@ -14,7 +14,15 @@ function getUsers()
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Users");
   	return $data->fetchAll();
-}		
+}	
+
+function removeUser()
+{
+ global $pdo;
+ $userData = getUsers();
+ $data = $pdo->query("DELETE from dbo.Users where uid='".$userData['uid']."' AND UTable='".$_REQUEST['uid']."' " );
+
+}	
 	
 function showUsers()
 {
@@ -29,9 +37,10 @@ function showUsers()
 				<td>$key[emailaddress]</td>
 				<td>
 					<div class="ui buttons">
-						<button class ="ui button one">Aanpassen</button>
-						<button class ="ui button two">Email versturen</button>
-						<button class ="ui button three">Verwijderen</button>
+						<input type="hidden" name="UTable" value="$key[uid]"/>
+						<input type="submit" name="edit" value="Opslaan" class ="ui button one">Aanpassen</button>
+						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
+						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
 					</div>
 				</td>
 			</tr>
@@ -40,6 +49,12 @@ MYCONTENT;
 	echo $html;
 	}
 }
+
+if(isset($_POST('remove')))
+{
+
+}
+
 
 // function saveUsers()
 // {

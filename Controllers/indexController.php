@@ -4,24 +4,31 @@ require('db-util.php');
 
 connectToDatabase();
 
-function printPopulaireVeilingen(){
+function printIndexVeilingen($param){
 
-  $populaireVeilingen = getPopulaireVeilingen();
-  foreach($populaireVeilingen as $populaireVeilingen){
+  switch ($param) {
+    case 'populair':
+      $veilingen = getPopulaireVeilingen();
+      break;
+    case 'nieuw':
+      $veilingen = getNieuweVeilingen();
+  }
+  
+  foreach($veilingen as $veilingen){
+   $filename = getfile($veilingen['object_nr']);
 $html = <<<MYCONTENT
         <div class="column">
           <div class="ui segment">
-            <img src="$populaireVeilingen[filename]" class="ui rounded medium image">
+            <img src="$filename[filename]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
-              € $populaireVeilingen[hoogsteBod]
+              € $veilingen[hoogsteBod]
             </div>
             <div class="ui buttons">
               <button class="ui sand button">Bekijk Veiling</button>
               <div class="or" data-text=""></div>
               <button class="ui button">14:00:45</button>
             </div>
-            <h3 class="niagara">$populaireVeilingen[title]</h3>
-            <p>$populaireVeilingen[description]</p>
+            <h3 class="niagara">$veilingen[title]</h3>
           </div>
         </div>
 MYCONTENT;

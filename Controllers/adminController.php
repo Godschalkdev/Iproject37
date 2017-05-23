@@ -16,6 +16,20 @@ function getUsers()
   	return $data->fetchAll();
 }	
 
+function getHeading()
+{
+	global $pdo;
+	$data = $pdo->query("SELECT * from dbo.Heading");
+  	return $data->fetchAll();
+}
+
+function getVeilingen()
+{
+	global $pdo;
+	$data = $pdo->query("SELECT * from dbo.Object");
+  	return $data->fetchAll();
+}
+
 function removeUser()
 {
  global $pdo;
@@ -29,7 +43,7 @@ function showUsers()
 	$data = getUsers();
 	foreach($data as $key)
 	{
-		$html = <<<MYCONTENT
+				$html = <<<MYCONTENT
 			<tr>
 				<td>$key[username]</td> 
 				<td>$key[firstname]</td>
@@ -37,23 +51,90 @@ function showUsers()
 				<td>$key[emailaddress]</td>
 				<td>
 					<div class="ui buttons">
-						<input type="hidden" name="UTable" value="$key[uid]"/>
-						<input type="submit" name="edit" value="Opslaan" class ="ui button one">Aanpassen</button>
+						<input type="hidden" name="UTable" value="$key[user_id]"/>
+						<input type="submit" name="edit" value="Opslaan" class ="ui button one>Aanpassen </button>
 						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
 						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
 					</div>
 				</td>
 			</tr>
-			
 MYCONTENT;
 	echo $html;
 	}
 }
 
-if(isset($_POST('remove')))
+function showHeading()
 {
-
+	$data = getHeading();
+	foreach($data as $key)
+	{
+				$html = <<<MYCONTENT
+			<tr>
+				<td>$key[heading_nr]</td> 
+				<td>$key[heading_name]</td>
+				<td>$key[heading_nr_parent]</td>
+				<td>
+					<div class="ui buttons">
+		
+						<input type="submit" name="edit" value="Opslaan" class ="ui button one>Aanpassen </button>
+						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
+						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
+					</div>
+				</td>
+			</tr>
+MYCONTENT;
+	echo $html;
+	}
 }
+
+function showVeilingen()
+{
+	$data = getVeilingen();
+	foreach($data as $key)
+	{
+				$html = <<<MYCONTENT
+			<tr>
+				<td>$key[title]</td>	
+				<td>$key[seller]</td> 
+				<td>
+					<div class="ui buttons">
+		
+						<input type="submit" name="edit" value="Opslaan" class ="ui button one>Aanpassen </button>
+						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
+						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
+					</div>
+				</td>
+			</tr>
+MYCONTENT;
+	echo $html;
+	}
+}
+
+
+function saveInput(){
+	$conn = connectToDatabase();
+	$data = getUsers();
+	foreach($data as $key)
+
+	if (isset($_POST['edit'])) {
+	$sql = "UPDATE Users 
+			SET username = $key[username],  
+				firstname = $key[firstname],
+				lastname = $key[lastname],
+				emailaddress = $key[emailaddress]
+			WHERE user_id = $key[user_id]";
+
+	$stmt = $conn->prepare($sql);
+	$stmt->execute();
+
+	echo $stmt->rowCount() . " records UPDATED successfully";
+}
+}
+
+//if(isset($_POST('remove')))
+// {
+
+// }
 
 
 // function saveUsers()

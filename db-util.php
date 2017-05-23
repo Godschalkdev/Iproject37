@@ -69,12 +69,19 @@ return $data -> fetchAll();
 function getNieuweVeilingen(){
 
   global $pdo; 
-  $data = $pdo ->query("SELECT TOP 3 Object.object_nr, duration_start_date, duration_start_time, offer_amount AS hoogsteBod, title
-                        FROM Object JOIN Offer
-                        ON Object.object_nr = Offer.object_nr
-                        ORDER BY duration_start_date DESC, duration_start_time DESC"); 
+  $data = $pdo ->query("SELECT top 3 Object.object_nr, duration_start_date, duration_start_time, title
+                        FROM Object
+                        ORDER BY duration_start_date desc, duration_start_time desc"); 
   return $data -> fetchAll();
 }
+
+function getHoogsteBod($param){
+  global $pdo;
+  $data = $pdo ->query("SELECT MAX(offer_amount) as hoogsteBod
+                        FROM Offer
+                        WHERE object_nr = $param");
+  return $data->fetch();
+  }
 
  function Chk_UserAlreadyExist($emailaddress)
     {

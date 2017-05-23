@@ -42,15 +42,13 @@ require('controllers/indexController.php');
            </div>
         </div>
     
-<!--
-    <div class='ui segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara dividing header'>Bijzondere Producten</h2>
-      </div>
-      	<div class="ui three doubling stackable cards grid container">
-      <?php //printBijzondereVeilingen(); ?>
-      </div>
-    </div>
+          <div class='ui center aligned text container'>
+            <h2 class='ui niagara dividing header'>Bijzondere Producten</h2>
+          </div>
+          	<div class="ui three column doubling stackable cards grid container">
+          <?php printBijzondereVeilingen(); ?>
+          </div>
+        </div>
 
   
 

@@ -13,6 +13,7 @@ function processForm()
   if (!empty( $_POST["username"]) && !empty( $_POST["password"])) {
     $Chk_LoginDetailsReturn = Chk_LoginDetails($_POST["username"],$_POST["password"]);
     if($Chk_LoginDetailsReturn == true){
+
       $_SESSION['loggedin'] = 'true';
       $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
       $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
@@ -22,6 +23,7 @@ function processForm()
      }
    } else{
     return "<p style=\"color:red;\">Vul uw gegevens in</p>";
+
   }
 }
 

@@ -31,16 +31,17 @@
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
               <table style="width:100%">
-                <tr>
-                  <th>Gebruikersnaam</th>
-                  <th>Voornaam</th>
-                  <th>Achternaam</th>
-                  <th>Email</th>
-                  <?php
-                    showUsers();
-                  ?>
-                </tr>
-                
+                <tbody id="userTable">
+                  <tr>
+                    <th>Gebruikersnaam</th>
+                    <th>Voornaam</th>
+                    <th>Achternaam</th>
+                    <th>Email</th>
+                    <?php
+                      showUsers();
+                    ?>
+                  </tr>
+                </tbody>
               </table> 
           </div>
           <div class="ui bottom attached tab segment" data-tab="second">

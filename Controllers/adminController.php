@@ -50,11 +50,11 @@ MYCONTENT;
 	}
 }
 
-if(isset($_POST('remove')))
-{
 
-}
+// if(isset($_POST('remove')))
+// {
 
+// }
 
 // function saveUsers()
 // {

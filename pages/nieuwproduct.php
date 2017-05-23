@@ -3,9 +3,11 @@
 
 	<head>
 		<meta charset="utf-8">
+		<title>Nieuw Product</title>
 		<?php 
-			include 'html/nieuwproducthead.html';	
+			include 'html/mainhead.html';	
 		?>
+		<link rel="stylesheet" type="text/css" href="/stylecss/nieuwproduct.css">
 	</head>
 	
 	<body>
@@ -16,7 +18,7 @@
 			include 'html/sidebar.html';
 		?>
 
-	
+		<div class="pusher">
 		<div class="maincontent">
 			<div class="ui container">
 				<div class = "ui raised segment">
@@ -24,60 +26,54 @@
 					<form  method="POST" class="ui big register form">
 						<h3 class="ui dividing header">Productgegevens</h3>
 						
-							<div class="required field">
-								<div class="three fields">
-									<div class="required four wide field">
-									<label>Product</label>
-										<input type="text" name="productnaam" placeholder="Productnaam">
-									</div>
-									<div class="required ten wide field">
-									<label>Productbeschrijving</label>
-										<input type="text" name="productbeschrijving" placeholder="Productbeschrijving">
-									</div>
-									<div class="required two wide field">
-									<label>Duur veiling</label>
-										<input type="text" name="duurveiling" placeholder="Duur">
-									</div>
-								</div>
-							</div>
-									
 							
-
-							<div class="three fields">
-										<div class="required field">
-										<label>Prijs</label>
-											<input type="text" name="startprijs" placeholder="Start prijs">
-										</div>
-										<div class="required field">
-										<label>Betaalwijze</label>
-											<select class="ui search dropdown" name="betaalwijze" placeholder="Betaalwijze">
-												<option value="">Betaalwijze</option>
-									    		<option value="paypal">Paypal</option>
-									    		<option value="creditcard">Creditcard</option>
-									    		<option value="acceptgiro">Accept Giro</option>
-											</select>
-										</div>
-									<div class="field">
-									<label>Betaalinstructies</label>
-											<input type="text" name="betaalinstructies" placeholder="Betaal instructies">
-									</div>
-							</div>
-
-								<div class="required field">
-										<label>Categorieën</label>
-										<select class="ui fluid search dropdown" name="categorieen" placeholder="Categorieën" multiple="">
-
-											<?php foreach ($data as $row): ?>
-												<option value="<?= $row['heading_name'];?>"> 
-												<?= $row['heading_name'];?>
-												</option>
-											<?php endforeach; ?>
-
-										</select>
+							<div class="two fields">
+								<div class="required ten wide field">
+								<label>Product</label>
+									<input type="text" name="productnaam" placeholder="Productnaam">
 								</div>
+								<div class="required six wide field">
+									<label>Duur veiling</label>
+									<select class="ui dropdown">
+										<option value="">Dagen</option>
+										<option value="1">1</option>
+										<option value="3">3</option>
+										<option value="5">5</option>
+										<option value="7">7</option>
+										<option value="10">10</option>
+									</select>
+								</div>
+							</div>
+							<div class="three fields">
+								<div class="required field">
+									<label>Prijs</label>
+									<input type="text" name="startprijs" placeholder="Start prijs">
+								</div>
+								<div class="required field">
+									<label>Betaalwijze</label>
+									<select class="ui search dropdown" name="betaalwijze" placeholder="Betaalwijze">
+										<option value="">Betaalwijze</option>
+							    		<option value="paypal">Paypal</option>
+							    		<option value="creditcard">Creditcard</option>
+							    		<option value="acceptgiro">Accept Giro</option>
+									</select>
+								</div>
+								<div class="field">
+									<label>Betaalinstructies</label>
+									<input type="text" name="betaalinstructies" placeholder="Betaal instructies">
+								</div>
+							</div>
+							<div class="required field">
+								<label>Categorie</label>
+							</div>
+							<div class="field">
+								<label>Beschijving</label>
+								<textarea rows="2"></textarea>
+							</div>
+							
 					
 
-						<h3 class="ui dividing header">Afbeeldingen</h3>	
+							<h3 class="ui dividing header">Afbeeldingen</h3>	
 
 							<div class="required field">
 								<label>Kies 1 of meerdere afbeelding. (maximaal 4)</label>
@@ -89,30 +85,8 @@
 						                Bestanden
 						            </div>
 								</div>
-								
 							</div>
 
-								<script>
-									$('.ui.file.input').find('input:text, .ui.button')
-									  .on('click', function(e) {
-									    $(e.target).parent().find('input:file').click();
-									  })
-									;
-
-									$('input:file', '.ui.file.input')
-									  .on('change', function(e) {
-									    var file = $(e.target);
-									    var name = '';
-
-									    for (var i=0; i<e.target.files.length; i++) {
-									      name += e.target.files[i].name + ', ';
-									    }
-									    name = name.replace(/,\s*$/, '');
-											$('input:text', file.parent()).val(name);
-									  })
-									;
-								</script>
-							  
 
 						<h3 class="ui dividing header">Bezorggegevens</h3>
 						<div class="two fields">
@@ -388,12 +362,14 @@
 				</div>
 			</div>
 		</div>
+		<?php
+		include 'html/footer.html';
+		?>
+		</div>
 			
 		
 	<?php
-
-		include 'html/footer.html';
-		include '../scripts/menuscript.html';
+	include '../scripts/menuscript.html';
 	?>
 
     <script>
@@ -413,6 +389,27 @@
 			  })
 			;
     </script>
+    <script>
+		$('.ui.file.input').find('input:text, .ui.button')
+		  .on('click', function(e) {
+		    $(e.target).parent().find('input:file').click();
+		  })
+		;
+
+		$('input:file', '.ui.file.input')
+		  .on('change', function(e) {
+		    var file = $(e.target);
+		    var name = '';
+
+		    for (var i=0; i<e.target.files.length; i++) {
+		      name += e.target.files[i].name + ', ';
+		    }
+		    name = name.replace(/,\s*$/, '');
+				$('input:text', file.parent()).val(name);
+		  })
+		;
+	</script>
+							  
 		
 	</body>
 </html>

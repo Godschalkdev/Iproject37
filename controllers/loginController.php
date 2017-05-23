@@ -1,67 +1,80 @@
 <?php
-include '../db-util.php';
 
-
-connectToDatabase();
 session_start();
+include '../db-util.php';
+connectToDatabase();
 
-if(isset($_POST['submit']))
+
+
+function processForm()
 {
-	checkCredentials();	
-}else
-{
-	session_destroy();
+
+
+  if (!empty( $_POST["username"]) && !empty( $_POST["password"])) {
+    $Chk_LoginDetailsReturn = Chk_LoginDetails($_POST["username"],$_POST["password"]);
+    if($Chk_LoginDetailsReturn == true){
+
+      $_SESSION['loggedin'] = 'true';
+      $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
+      $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
+      header("Location: /index.php");
+    } else {
+       return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
+     }
+   } else{
+    return "<p style=\"color:red;\">Vul uw gegevens in</p>";
+
+  }
 }
 
 
-function checkCredentials()
-{
-	global $pdo;
-	if(!isset($_POST['username']) || !isset($_POST['password']))
-	{
-		echo "Gebruikers of wachtwoord is niet ingevuld!";
-	}
+ 
+ function login(){
+ {
+ global $pdo;
+ if(!isset($_POST['username']) || !isset($_POST['password']))
+ 	{
+ 		echo "Gebruikers of wachtwoord is niet ingevuld!";
+ 	}
 
-	else
-	{
-		$username = $_POST['username'];
-		$password = $_POST['password'];
+ 	else
+ 	{
+ 		$username = $_POST['username'];
+ 		$password = $_POST['password'];
 
-		$query = $pdo -> prepare("SELECT username, password, firstname, lastname, seller_yes_or_no FROM users where username=? AND password=?");
-		$query ->bindParam('ss', $username, PDO::PARAM_STR);
-		$query ->bindParam('ss', $password, PDO::PARAM_STR);
+ 		$query = $pdo -> prepare("SELECT username, password FROM users where username=? AND password=?");
+ 		$query ->bindParam('1', $username, PDO::PARAM_STR);
+ 		$query ->bindParam('2', $password, PDO::PARAM_STR);
 
-		if($query ->execute() == true)
-		{
-			$query ->bind_result($query, $username, $password, $firstname, $lastname, $seller_yes_or_no);
-			$query ->fetch();
+ 		if($query ->execute() == true)
+ 		{
+ 			$query ->bind_result($query, $username, $password);
+ 			$query ->fetch();
 
-			session_regenerate_id();
-	            $_SESSION['SESSION_USERNAME'] 			= $query['username'];
-	            $_SESSION['SESSION_FIRST_NAME'] 		= $query['firstname'];
-	            $_SESSION['SESSION_LAST_NAME']			= $query['lastname'];
-	            $_SESSION['SESSION_SELLER_YES_OR_NO'] 	= $query['seller_yes_or_no'];
-            session_write_close();
+ 			session_regenerate_id();
+ 	            $_SESSION['SESSION_USERNAME'] = $query['username'];
+             session_write_close();
 
-            if(session_status() == PHP_SESSION_NONE)
-        	{
-        		echo "failed";
-        	}
-        	else if(session_status() == PHP_SESSION_ACTIVE)
-        	{
-        		echo "succes";
-        	}
-        	header("./index.php");
-		}
+             if(session_status() == PHP_SESSION_NONE)
+         	{
+         		echo "failed";
+         	}
+         	else if(session_status() == PHP_SESSION_ACTIVE)
+         	{
+         		echo "succes";
+         	}
+         	header("./index.php");
+ 		}
 
-		else
-		{
-			echo "query failed";
-			session_destroy();
-		}
+ 		else
+ 		{
+ 			echo "query failed";
+ 			session_destroy();
+ 		}
 		
-	}
-}	
+ 	}
+ }	
 	
+ }
 
-
+?>

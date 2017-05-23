@@ -1,9 +1,6 @@
 <?php
-
 require('controllers/indexController.php');
-
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -11,60 +8,72 @@ require('controllers/indexController.php');
 <head>
   <meta charset="utf-8">
 	<?php 
-    include 'pages/html/homehead.html';
-  ?>
+    	include 'pages/html/mainhead.html'
+  	?>
+    <link rel="stylesheet" type="text/css" href="stylecss/home.css">
 </head>
 
 <body>
 
   <?php 
-    include 'pages/html/menu.html';
-    include 'pages/html/banner.html';
     include 'pages/html/sidebar.html';
-  ?>
+    include 'pages/html/menu.html';
+  ?>  
 
-  <div class="mainContent">
-  	
-    <div class='ui vertical segment' id='member'>
+  <div class="pusher">
+    <?php
+      include 'pages/html/banner.html';
+    ?>
+    <div class="maincontent">
+      <div class="ui container">
+        
+          <div class='ui center aligned text container'>
+            <h2 class='ui niagara dividing header'>Populaire producten</h2>
+          </div>
+          <div class="ui three column doubling stackable grid container">
+            <?php printIndexVeilingen('populair'); ?>
+          </div>
+
+          <div class='ui center aligned text container'>
+            <h2 class='ui niagara dividing header'>Nieuwe producten</h2>
+          </div>
+          	<div class="ui three column doubling stackable cards grid container">
+           <?php printIndexVeilingen('nieuw'); ?>
+           </div>
+        </div>
+    
+<!--
+    <div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
-        <h2 class='ui niagara header'>Populaire producten</h2>
+        <h2 class='ui niagara dividing header'>Bijzondere Producten</h2>
       </div>
-      <?php printPopulaireVeilingen(); ?>
+      	<div class="ui three doubling stackable cards grid container">
+      <?php //printBijzondereVeilingen(); ?>
       </div>
-      <div class = 'ui divider'> </div>
+    </div>
+
+  
 
 
-    <div class='ui vertical segment' id='member'>
+  	<div class='ui segment' id='member'>
       <div class='ui center aligned text container'>
-        <h2 class='ui niagara header'>Bijzondere Producten</h2>
+        <h2 class='ui niagara dividing header'>Koopjes</h2>
       </div>
-      <?php printBijzondereVeilingen(); ?>
-      </div>
-
-      <div class = 'ui divider'> </div>
-
-
-  <div class='ui vertical segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara header'>Koopjes</h2>
-      </div>
-      <?php printKoopjesVeilingen(); ?>
-      </div>
-
-      <div class = 'ui divider'> </div>
-
-
-      <div class='ui vertical segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara header'>Nieuwste producten</h2>
-      </div>
-      <?php printNieuweVeilingen(); ?>
+      	<div class="ui three doubling stackable cards grid container">
+      <?php //printKoopjesVeilingen(); ?>
       </div>
       </div>
-      
-
-  <?php include 'pages/html/footer.html' ;
-  include 'scripts/menuscript.html';
+	</div>
+	</div>
+ -->
+    </div>
+  </div>
+    <?php 
+    include 'pages/html/footer.html';
+    ?>
+    </div>
+  <?php
+    include 'scripts/menuscript.html';
   ?>
 
 </body>

@@ -3,9 +3,11 @@
 
 	<head>
 		<meta charset="utf-8">
+		<title>MijnVeiling</title>
 		<?php 
-			include 'html/mijnveilingenhead.html';
+			include 'html/mainhead.html';
 		?>
+		<link rel="stylesheet" type="text/css" href="/stylecss/mijnveilingen.css">
 	</head>
 	
 	<body>
@@ -14,98 +16,72 @@
 			include 'html/menu.html';
 			include 'html/sidebar.html';
 		?>
-
-		<div class="maincontent">
-			<div class="ui container">
-				<div class = "ui raised segment">
-					<h1 class="ui niagara header">Mijn Veilingen</h1>
-
-					<h3 class="ui dividing header"></h3>
-
-						<div class="ui container">
-        					<a href="../pages/nieuwproduct.php" class="ui sand huge button">
-            					Nieuw product aanbieden
-        					</a>
-        				</div>
-
-        				<h3 class="ui dividing header"></h3>
-
-        				<div class='ui vertical segment' id='member'>
-     			
-					      <div class='ui three doubling stackable cards grid container'>
-					        <div class='ui card'>
-					            <img class='ui large image' src='../images/Kast.jpg'>
-					           <div class='content'>
-					            <div class='header' name="naamproduct">Kast</div>
-					            <div class='meta' name="hoogstebod">
-					              Hoogste bod: €10.00
-					            </div>
-					          </div>
-					          <div class='extra content'>
-					            <a href='#'>Toon product</a>
-					          </div>
-					        </div>
-			
-					        <div class='ui card'>
-					          <div class='ui large image' name="afbeelding">
-					            <img src='../images/Xbox.jpg'>
-					          </div>
-					          <div class='content'>
-					            <div class='header' name="naamproduct">Xbox</div>
-					            <div class='meta' name="hoogstebod">
-					              Hoogste bod: €300.00
-					            </div>
-					          </div>
-					          <div class='extra content'>
-					            <a href='#'>Toon product</a>
-					          </div>
+		
+		<div class="pusher">
+			<div class="maincontent">
+				<div class="ui container">
+					<div class = "ui raised segment">
+						<h1 class="ui niagara header">Mijn Veilingen</h1>
+						<div class="ui three column doubling stackable grid container">
+							<div class="column">
+								<div class="ui segment">
+									<img src="../images/kast.jpg" class="ui rounded medium image">
+									<div class="ui top left attached label large">
+										$ 400,-
+									</div>
+									<div class="ui buttons">
+										<button class="ui sand button">Bekijk Veiling</button>
+										<div class="or" data-text=""></div>
+										<button class="ui button">14:00:45</button>
+									</div>
+									<h3 class="niagara">Xbox One</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores, aliquam animi veritatis? Numquam facere sunt maiores harum quae dolores obcaecati neque cum, tempora laudantium, delectus a sapiente distinctio illum.</p>
+								</div>
 							</div>
-
-					      </div>
-					    </div>
-
-					    <div class='ui vertical segment' id='member'>
-     			
-					      <div class='ui three doubling stackable cards grid container'>
-					        <div class='ui card'>
-					          <div class='ui large image' name="afbeelding">
-					            <img src='../images/Tafel.jpg'>
-					          </div>
-					          <div class='content'>
-					            <div class='header' name="naamproduct">Tafel</div>
-					            <div class='meta' name="hoogstebod">
-					              Hoogste bod: €45.00
-					            </div>
-					          </div>
-					          <div class='extra content'>
-					            <a href='#'>Toon product</a>
-					          </div>
-					        </div>
-			
-					        <div class='ui card'>
-					          <div class='ui large image' name="afbeelding">
-					            <img src='../images/Vazen.jpg'>
-					          </div>
-					          <div class='content'>
-					            <div class='header' name="naamproduct">Vazen</div>
-					            <div class='meta' name="hoogstebod">
-					              Hoogste bod: €300.00
-					            </div>
-					          </div>
-					          <div class='extra content'>
-					            <a href='#'>Toon product</a>
-					          </div>
+							<div class="column">
+								<div class="ui segment">
+									<img src="../images/xbox.jpg" class="ui rounded medium image">
+									<div class="ui top left attached label large">
+										$ 400,-
+									</div>
+									<div class="ui buttons">
+										<button class="ui sand button">Bekijk Veiling</button>
+										<div class="or" data-text=""></div>
+										<button class="ui button">14:00:45</button>
+									</div>
+									<h3 class="niagara">Xbox One</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores, aliquam animi veritatis? Numquam facere sunt maiores harum quae dolores obcaecati neque cum, tempora laudantium, delectus a sapiente distinctio illum.</p>
+								</div>
 							</div>
-							
-					      </div>
-					    </div>
-
+							<div class="column">
+								<div class="ui segment">
+									<img src="../images/vazen.jpg" class="ui rounded medium image">
+									<div class="ui top left attached label large">
+										$ 400,-
+									</div>
+									<div class="ui buttons">
+										<button class="ui sand button">Bekijk Veiling</button>
+										<div class="or" data-text=""></div>
+										<button class="ui button">14:00:45</button>
+									</div>
+									<h3 class="niagara">Xbox One</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores, aliquam animi veritatis? Numquam facere sunt maiores harum quae dolores obcaecati neque cum, tempora laudantium, delectus a sapiente distinctio illum.</p>
+								</div>
+							</div>
+						</div>
+						<div class="ui divider"></div>
+						<a href="../pages/nieuwproduct.php" class="ui sand huge button">
+	    				Nieuw product aanbieden
+						</a>
+					</div>
 				</div>
 			</div>
+		<?php
+		include 'html/footer.html';
+		?>
 		</div>
 	
 		<?php
-		include 'html/footer.html';
 		include '../scripts/menuscript.html';
 		?>
 		

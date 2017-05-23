@@ -1,5 +1,5 @@
 /*****************************************
-			MIJNVEILINGEN CSS 				
+			PRODUCTPAGINA CSS 				
 *****************************************/
 
 .maincontent {
@@ -21,10 +21,6 @@
 
 .maincontent label {
 	color: rgb(150,150,150) !important;
-}
-
-a:hover {
-	color: #c49860 !important;
 }
 
 .maincontent img {

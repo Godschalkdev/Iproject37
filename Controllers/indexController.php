@@ -4,109 +4,36 @@ require('db-util.php');
 
 connectToDatabase();
 
-function printPopulaireVeilingen(){
+function printIndexVeilingen($param){
 
-echo "<div class=\"ui three doubling stackable cards grid container\">";
-  $populaireVeilingen = getPopulaireVeilingen();
-  foreach($populaireVeilingen as $populaireVeilingen){
-        echo "<div class=\"ui card\">";
-         echo "<div class=\"image\">";
-           echo "<img src=\"../images/Vazen.jpg\"></div>";
-          echo "<div class=\"content\">";
-            echo "<div class=\"header\">".$populaireVeilingen["title"]."</div>";
-            echo "<div class=\"meta\">";
-              echo "<a>Hoogst uitgebracht bod: €".$populaireVeilingen["hoogsteBod"]."</a>";
-            echo "</div>";
-            echo "<div class=\"description\">".$populaireVeilingen["description"]."</div>";
-          echo "<div class=\"extra content\">";
-            echo "<a href=\"#\">";
-              echo "<i class=\"large legal icon\"></i>";
-              echo "Ga naar veiling </a>";
-         echo "</div>";
-        echo "</div>";
-        echo "</div>";
+  switch ($param) {
+    case 'populair':
+      $veilingen = getPopulaireVeilingen();
+      break;
+    case 'nieuw':
+      $veilingen = getNieuweVeilingen();
   }
+  
+  foreach($veilingen as $veilingen){
+   $filename = getfile($veilingen['object_nr']);
+$html = <<<MYCONTENT
+        <div class="column">
+          <div class="ui segment">
+            <img src="$filename[filename]" class="ui rounded medium image">
+            <div class="ui top left attached label huge">
+              € $veilingen[hoogsteBod]
+            </div>
+            <div class="ui buttons">
+              <button class="ui sand button">Bekijk Veiling</button>
+              <div class="or" data-text=""></div>
+              <button class="ui button">14:00:45</button>
+            </div>
+            <h3 class="niagara">$veilingen[title]</h3>
+          </div>
+        </div>
+MYCONTENT;
+echo $html; 
+ }
 }
 
-function printKoopjesVeilingen(){
-
-
-echo "<div class=\"ui three doubling stackable cards grid container\">";
-  $koopjesVeilingen = getKoopjes();
-  foreach($koopjesVeilingen as $koopjesVeilingen){
-        echo "<div class=\"ui card\">";
-         echo "<div class=\"image\">";
-           echo "<img src=\"../images/Vazen.jpg\"></div>";
-          echo "<div class=\"content\">";
-            echo "<div class=\"header\">".$koopjesVeilingen["title"]."</div>";
-            echo "<div class=\"meta\">";
-              echo "<a>Hoogst uitgebracht bod: €".$koopjesVeilingen["hoogsteBod"]."</a>";
-            echo "</div>";
-            echo "<div class=\"description\">".$koopjesVeilingen["description"]."</div>";
-          echo "<div class=\"extra content\">";
-            echo "<a href=\"#\">";
-              echo "<i class=\"large legal icon\"></i>";
-              echo "Ga naar veiling</a>";
-         echo "</div>";
-        echo "</div>";
-        echo "</div>";
-    
-
-    
-  }
-}
-
-function printNieuweVeilingen(){
-echo "<div class=\"ui three doubling stackable cards grid container\">";
-  $nieuweVeilingen = getNieuweVeilingen();
-  foreach($nieuweVeilingen as $nieuweVeilingen){
-        echo "<div class=\"ui card\">";
-         echo "<div class=\"image\">";
-           echo "<img src=\"../images/Vazen.jpg\"></div>";
-          echo "<div class=\"content\">";
-            echo "<div class=\"header\">".$nieuweVeilingen["title"]."</div>";
-            echo "<div class=\"meta\">";
-              echo "<a>Hoogst uitgebracht bod: €".$nieuweVeilingen["hoogsteBod"]."</a>";
-            echo "</div>";
-            echo "<div class=\"description\">".$nieuweVeilingen["description"]."</div>";
-          echo "<div class=\"extra content\">";
-            echo "<a href=\"#\">";
-              echo "<i class=\"large legal icon\"></i>";
-              echo "Ga naar veiling</a>";
-         echo "</div>";
-        echo "</div>";
-        echo "</div>";
-    
-
-    
-  }
-}
-
-
-function printBijzondereVeilingen(){
-
-echo "<div class=\"ui three doubling stackable cards grid container\">";
-  $bijzondereVeilingen = getBijzondereVeilingen();
-  foreach($bijzondereVeilingen as $bijzondereVeilingen){
-        echo "<div class=\"ui card\">";
-         echo "<div class=\"image\">";
-           echo "<img src=\"../images/Vazen.jpg\"></div>";
-          echo "<div class=\"content\">";
-            echo "<div class=\"header\">".$bijzondereVeilingen["title"]."</div>";
-            echo "<div class=\"meta\">";
-              echo "<a>Hoogst uitgebracht bod: €".$bijzondereVeilingen["hoogsteBod"]."</a>";
-            echo "</div>";
-            echo "<div class=\"description\">".$bijzondereVeilingen["description"]."</div>";
-          echo "<div class=\"extra content\">";
-            echo "<a href=\"#\">";
-              echo "<i class=\"large legal icon\"></i>";
-              echo "Ga naar veiling</a>";
-         echo "</div>";
-        echo "</div>";
-        echo "</div>";
-    
-
-    
-  }
-}
 ?>

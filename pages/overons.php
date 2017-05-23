@@ -3,8 +3,10 @@
 
 	<head>
 		<meta charset="utf-8">
+		<title>Over ons</title>
+		<link rel="stylesheet" type="text/css" href="/stylecss/overons.css">
 		<?php 
-			include 'html/overonshead.html';
+			include 'html/mainhead.html';
 		?>
 	</head>
 	
@@ -14,7 +16,7 @@
 			include 'html/menu.html';
 			include 'html/sidebar.html';
 		?>
-
+		<div class="pusher">
 		<div class="maincontent">
 			<div class="ui container">
 				<div class = "ui raised segment">
@@ -28,10 +30,12 @@
 				</div>
 			</div>
 		</div>
-	
-		
 		<?php
 		include 'html/footer.html';
+		?>
+		</div>
+		
+		<?php
 		include '../scripts/menuscript.html';
 		?>
 		

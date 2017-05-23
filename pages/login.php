@@ -1,11 +1,22 @@
+<?php 
+ $success_message = "";
+require('../controllers/loginController.php');
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+  $success_message = processForm();
+}
+      
+        
+            
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	
+	<title>Login</title>
   <?php
-	include 'html/loginhead.html'; 
+	include 'html/mainhead.html'; 
   ?>
+  <link rel="stylesheet" type="text/css" href="/stylecss/login.css">
 
 </head>
 
@@ -14,27 +25,23 @@
   <?php 
     include 'html/menu.html';
     include 'html/sidebar.html';
-    include ('../Controllers/loginController.php');
   ?>
-
-
-
-  <div class="maincontent">
-  	<div class='ui vertical stripe segment' id='member'>
+  <div class="pusher">
+    <div class="maincontent">
       <div class='ui text container'>  
         <div class="ui raised segment">
         <h1 class='ui huge niagara header'>Login</h1>
-          <form class ='ui big form' method="post">
-            <div class="eight wide field">
+     <?php if (strlen($success_message) > 1){echo $success_message;$success_message = "";} ?>
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  class="ui big form" method="POST">
+            <div class="field">
               <label>Gebruikersnaam</label>
               <input name="username" placeholder="voorbeeld@mail.com" type="text">
-              </div>
-            <div class="eight wide field">
+            </div>
+            <div class="field">
                 <label>Wachtwoord</label>
-                
                 <input name="password" placeholder="Wachtwoord" type="password">
             </div>
-            <button class="ui huge sand button" name="submit" type="submit" value="submit">Inloggen</button>
+            <input type="submit" value="submit" class="ui sand button">
           </form> 
           <p> Nog geen account?
           <a href="register.php">Registeer hier!</a>
@@ -42,12 +49,14 @@
         </div>
       </div>
     </div>
+    <?php 
+        include 'html/footer.html';
+    ?>
   </div>
 
-  <?php 
-    include 'html/footer.html';
-    include '../scripts/menuscript.html';
-   ?>
+    <?php
+      include '../scripts/menuscript.html';
+    ?>
 
 </body>
 </html>

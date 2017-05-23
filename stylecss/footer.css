@@ -2,11 +2,21 @@
 /*				FOR THE footer				*/
 /********************************************/
 
+.maincontent {
+  display: flex;
+  min-height: 80vh;
+  flex-direction: column;
+}
+
+.maincontent .footer {
+  flex: 1;
+}
+
 .ui.vertical.footer.segment{
 	min-height: 350px;
 	padding: 10px 0px 0px 0px;
 	margin-bottom: 0px;
-	margin-top: 20px
+	margin-top: 20px;
 }
 .footer .logo.item img {
 	margin-right: 1em;
@@ -47,4 +57,13 @@
 
 .footer a:hover {
 	color: #c49860;
+}
+.ui.logo {
+	display: inline;
+	padding: 0;
+	margin: auto;
+}
+
+.ui.four.column.grid.text.container {
+	margin-bottom: 0;
 }

@@ -3,7 +3,7 @@ session_start();
 require_once "../db-util.php";
 connectToDatabase();
 $Errors                         = array();
-$requiredFields                 = array('gebruikersnaam', 'voornaam', 'achternaam', 'straat', 'postcode', 'stad', 'land', 'jaar', 'maand', 'dag', 'emailadres', 'wachtwoord',  'vraag', 'antwoord','no'  );
+$requiredFields                 = array('gebruikersnaam', 'voornaam', 'achternaam', 'straat', 'postcode', 'stad', 'land', 'geboortejaar', 'geboortemaand', 'geboortedag', 'wachtwoord', 'vraag', 'antwoord');
 
 
 function register_validation()
@@ -18,11 +18,11 @@ function register_validation()
     $ZIP_code         =   $_POST['postcode'];
     $city             =   $_POST['stad'];
     $country          =   $_POST['land'];
-    $year             =   $_POST['jaar'];
-    $month            =   $_POST['maand'];
-    $day              =   $_POST['dag'];
-    $birthday         =   "$year/$month/$day";
-    $emailaddress     =   $_POST['emailadres'];
+    $year             =   $_POST['geboortejaar'];
+    $month            =   $_POST['geboortemaand'];
+    $day              =   $_POST['geboortedag'];
+    $birthday         =   $year."-".$month."-".$day;
+    $emailaddress     =   "test@hotmail.nl";
     $password         =   $_POST['wachtwoord'];
     $question_nr      =   $_POST['vraag'];
     $answer           =   $_POST['antwoord'];
@@ -33,7 +33,7 @@ function register_validation()
   }
   else{
     return $Errors;
-  }
+}
 }
 
 
@@ -54,8 +54,8 @@ function chk_Fields($fields){
       array_push($Errors,$fieldname);
       $error                    = true;
     }
-    elseif ($fieldname == "emailaddress"){
-      if(Chk_UserAlreadyExist($_POST["emailaddress"])){
+    elseif ($fieldname == "gebruikersnaam"){
+      if(Chk_UserAlreadyExist($_POST['gebruikersnaam'])){
         array_push($Errors,$fieldname);
         $error                = true;
       }

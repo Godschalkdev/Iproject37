@@ -25,8 +25,13 @@
  	 	<div class="ui container">
  	 		<div class="ui raised segment">
  	 		<h1 class="ui niagara header">Registreren als verkoper</h1>
+ 	 		<?php 
+ 	 		    echo "<pre>";
+    			print_r($_POST);
+    			echo "</pre>"; 
+    		?>
  	 		<form>
-  			<div method="POST" action="../pages/activate_seller.php" class="ui big form">
+  			<div method="post" action="../pages/activate_seller.php" class="ui big form">
   			<h4 class="ui dividing header">Verkopersinformatie</h4>
 		  
   				<div class="two fields">

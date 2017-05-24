@@ -28,65 +28,51 @@
             <a class="item" data-tab="second">Categorieën beheren</a>
             <a class="item" data-tab="third">Veilingen beheren</a>
             <a class="item" data-tab="fourth">KPI's</a>
+
           </div>
+
+          <div>
+            <form action="zoekenController.php" method='GET'>
+              <input type='text' name='zoeken' placeholder='Zoeken'> 
+              <input type='submit' name='knop' value='Zoeken' class='button '>
+
+            </form>   
+          </div>
+
           <div class="ui bottom attached tab segment active" data-tab="first">
             <form method="post">
-              <table style="width:100%;">
-                <tbody id="userTable" contentEditable="true">
-                  <tr>
-                    <th>Gebruikersnaam</th>
-                    <th>Voornaam</th>
-                    <th>Achternaam</th>
-                    <th>Email</th>
                     <?php
                       showUsers();
+
                     //  saveInput();
-                    ?>
-                  </tr>
-                </tbody>
-              </table> 
+                    ?>  
             </form>
           </div>
 
           <div class="ui bottom attached tab segment" data-tab="second">
               <form method="post">
-              <table style="width:100%;">
-                <tbody id="userTable" contentEditable="true">
-                  <tr>
-                    <th>Heading nr</th>
-                    <th>Heading name</th>
-                    <th>Heading nr parent</th>
                     <?php
                       showHeading();
                     //  saveInput();
                     ?>
-                  </tr>
-                </tbody>
-              </table> 
             </form>
           </div>
 
           <div class="ui bottom attached tab segment" data-tab="third">
             <form method="post">
-              <table style="width:100%;">
-                <tbody id="userTable" contentEditable="true">
-                  <tr>
-                    <th>Titel</th>
-                    <th>Verkoper</th>
                     <?php
                       showVeilingen();
                     //  saveInput();
                     ?>
-                  </tr>
-                </tbody>
-              </table> 
             </form>
           </div>
 
-          </div>
+      
+
           <div class="ui bottom attached tab segment" data-tab="fourth">
              <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
+
   		  </div>
   		</div>
   	</div>

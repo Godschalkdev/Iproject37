@@ -5,112 +5,265 @@ include '../db-util.php';
 $username = "admin";
 $passw = "Str00pW4f31";
 
-
 connectToDatabase();
-
-
-function getUsers()
-{
-	global $pdo;
-	$data = $pdo->query("SELECT * from dbo.Users");
-  	return $data->fetchAll();
-}	
-
-function getHeading()
-{
-	global $pdo;
-	$data = $pdo->query("SELECT * from dbo.Heading");
-  	return $data->fetchAll();
-}
-
-function getVeilingen()
-{
-	global $pdo;
-	$data = $pdo->query("SELECT * from dbo.Object");
-  	return $data->fetchAll();
-}
 
 function removeUser()
 {
  global $pdo;
  $userData = getUsers();
- $data = $pdo->query("DELETE from dbo.Users where uid='".$userData['uid']."' AND UTable='".$_REQUEST['uid']."' " );
+ $data = $pdo->query("DELETE from dbo.Users where user_id='".$userData['user_id']."' AND UTable='".$_REQUEST['user_id']."' " );
 
 }	
 	
 function showUsers()
 {
-	$data = getUsers();
-	foreach($data as $key)
-	{
-				$html = <<<MYCONTENT
-			<tr>
-				<td>$key[username]</td> 
-				<td>$key[firstname]</td>
-				<td>$key[lastname]</td>
-				<td>$key[emailaddress]</td>
-				<td>
-					<div class="ui buttons">
-						<input type="hidden" name="UTable" value="$key[user_id]"/>
-						<input type="submit" name="edit" value="Opslaan" class ="ui button one>Aanpassen </button>
-						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
-						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
-					</div>
-				</td>
-			</tr>
-MYCONTENT;
-	echo $html;
+	global $pdo;
+
+	$sql = "SELECT COUNT(user_id) FROM dbo.Users"; 
+
+	$stmt = $pdo->query($sql);
+
+	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
+ 	$rijenPerPagina = 1000;
+
+	if($nRijen[0] == 0) 
+	{ 
+	    echo "No rows returned."; 
+	} 
+	else 
+	{     
+	    $nPagina = ceil($nRijen[0]/$rijenPerPagina); 
+	    for($i = 1; $i<=$nPagina; $i++) 
+	    { 
+	        $paginaNummer = "?paginaNummer=$i"; 
+	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
+	    } 
+	    echo "<br/><br/>"; 
 	}
+
+
+	$sql = "SELECT * FROM  
+            			(SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
+            			AS rownumber, username, firstname, lastname,  emailaddress FROM dbo.Users) 
+        				AS Temp 
+        				WHERE rownumber BETWEEN ? AND ?";
+
+    $stmt2 = $pdo->prepare($sql);
+   
+  
+
+	if(isset($_GET['paginaNummer'])) 
+	{ 
+	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
+	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
+	} 
+	else 
+	{ 
+	    $laagRijNummer = 1; 
+	    $hoogRijNummer = $rijenPerPagina; 
+	}
+
+	$params = array(&$laagRijNummer, &$hoogRijNummer);
+	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
+
+	 $nRijen = $stmt->rowCount();
+	
+	print("<table border='1px'> 
+	        <tr>
+		        <td>user ID</td> 
+		        <td>username</td>
+		        <td>firstname</td>
+		        <td>lastname</td>
+		        <td>emailaddress</td>
+	        </tr>"); 
+
+		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
+	    { 
+	        print("
+				<tbody id='userTable' contentEditable='true'>
+	        	<tr>
+	        		<td>$row[0]</td> 
+	                <td>$row[1]</td> 
+	                <td>$row[2]</td>
+	                <td>$row[3]</td>
+	                <td>$row[4]</td>
+	                <td>
+	                	<div class='ui buttons'>
+	                	<input type='hidden' name='UTable' value='$row[0]'/>
+	                		<input type='submit' name'edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	                		<input type='submit' name'email' value='Mailen' class='ui button two'>Mailen</button>
+	                		<input type='submit' name'remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                	</div>
+	                </td>
+	               </tr>
+	                </tbody>"); 
+	    } 
+	    print("</table>");
 }
+
 
 function showHeading()
 {
-	$data = getHeading();
-	foreach($data as $key)
-	{
-				$html = <<<MYCONTENT
-			<tr>
-				<td>$key[heading_nr]</td> 
-				<td>$key[heading_name]</td>
-				<td>$key[heading_nr_parent]</td>
-				<td>
-					<div class="ui buttons">
-		
-						<input type="submit" name="edit" value="Opslaan" class ="ui button one>Aanpassen </button>
-						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
-						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
-					</div>
-				</td>
-			</tr>
-MYCONTENT;
-	echo $html;
+	global $pdo;
+
+	$sql = "SELECT COUNT(heading_nr) FROM dbo.Heading"; 
+
+	$stmt = $pdo->query($sql);
+
+	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
+ 	$rijenPerPagina = 1000;
+	if($nRijen[0] == 0) 
+	{ 
+	    echo "No rows returned."; 
+	} 
+	else 
+	{     
+	    $nPagina = ceil($nRijen[0]/$rijenPerPagina); 
+	    for($i = 1; $i<=$nPagina; $i++) 
+	    { 
+	        $paginaNummer = "?paginaNummer=$i"; 
+	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
+	    } 
+	    echo "<br/><br/>"; 
 	}
+
+
+	$sql = "SELECT * FROM  
+            			(SELECT ROW_NUMBER() OVER(ORDER BY heading_nr) 
+            			AS rownumber, heading_nr, heading_name, heading_nr_parent FROM dbo.Heading) 
+        				AS Temp 
+        				WHERE rownumber BETWEEN ? AND ?";
+
+    $stmt2 = $pdo->prepare($sql);
+   
+  
+
+	if(isset($_GET['paginaNummer'])) 
+	{ 
+	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
+	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
+	} 
+	else 
+	{ 
+	    $laagRijNummer = 1; 
+	    $hoogRijNummer = $rijenPerPagina; 
+	}
+
+	$params = array(&$laagRijNummer, &$hoogRijNummer);
+	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
+
+	 $nRijen = $stmt->rowCount();
+	
+	print("<table border='1px'> 
+	        <tr>
+		        <td>Heading Nr</td> 
+		        <td>Heading name</td>
+		        <td>Heading parent</td>
+	        </tr>"); 
+
+		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
+	    { 
+	        print("
+				<tbody id='userTable' contentEditable='true'>
+	        	<tr>
+	        		<td>$row[0]</td> 
+	                <td>$row[1]</td> 
+	                <td>$row[2]</td>
+	                <td>
+	                	<div class='ui buttons'>
+	                		<input type='submit' name'edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	                		<input type='submit' name'email' value='Mailen' class='ui button two'>Mailen</button>
+	                		<input type='submit' name'remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                	</div>
+	                </td>
+	               </tr>
+	                </tbody>"); 
+	    } 
+	    print("</table>");
 }
 
 function showVeilingen()
 {
-	$data = getVeilingen();
-	foreach($data as $key)
-	{
-				$html = <<<MYCONTENT
-			<tr>
-				<td>$key[title]</td>	
-				<td>$key[seller]</td> 
-				<td>
-					<div class="ui buttons">
-		
-						<input type="submit" name="edit" value="Opslaan" class ="ui button one>Aanpassen </button>
-						<input type="submit" name="email" value="Mailen" class ="ui button two">Email versturen</button>
-						<input type="submit" name="remove" value="Verwijderen" class ="ui button three">Verwijderen</button>
-					</div>
-				</td>
-			</tr>
-MYCONTENT;
-	echo $html;
+	global $pdo;
+
+	$sql = "SELECT COUNT(object_nr) FROM dbo.Object"; 
+
+	$stmt = $pdo->query($sql);
+
+	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
+ 	$rijenPerPagina = 1000;
+	if($nRijen[0] == 0) 
+	{ 
+	    echo "No rows returned."; 
+	} 
+	else 
+	{     
+	    $nPagina = ceil($nRijen[0]/$rijenPerPagina); 
+	    for($i = 1; $i<=$nPagina; $i++) 
+	    { 
+	        $paginaNummer = "?paginaNummer=$i"; 
+	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
+	    } 
+	    echo "<br/><br/>"; 
 	}
+
+
+	$sql = "SELECT * FROM  
+            			(SELECT ROW_NUMBER() OVER(ORDER BY object_nr) 
+            			AS rownumber, object_nr, title, seller FROM dbo.Object) 
+        				AS Temp 
+        				WHERE rownumber BETWEEN ? AND ?";
+
+    $stmt2 = $pdo->prepare($sql);
+   
+  
+
+	if(isset($_GET['paginaNummer'])) 
+	{ 
+	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
+	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
+	} 
+	else 
+	{ 
+	    $laagRijNummer = 1; 
+	    $hoogRijNummer = $rijenPerPagina; 
+	}
+
+	$params = array(&$laagRijNummer, &$hoogRijNummer);
+	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
+
+	 $nRijen = $stmt->rowCount();
+	
+	print("<table border='1px'> 
+	        <tr>
+		        <td>Object Nr</td> 
+		        <td>Title</td>
+		        <td>Seller</td>
+
+	        </tr>"); 
+
+		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
+	    { 
+	        print("
+				<tbody id='userTable' contentEditable='true'>
+	        	<tr>
+	        		<td>$row[0]</td> 
+	                <td>$row[1]</td> 
+	                <td>$row[2]</td>
+	                <td>
+	                	<div class='ui buttons'>
+	                		<input type='submit' name'edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	                		<input type='submit' name'email' value='Mailen' class='ui button two'>Mailen</button>
+	                		<input type='submit' name'remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                	</div>
+	                </td>
+	               </tr>
+	                </tbody>"); 
+	    } 
+	    print("</table>");
 }
 
-
+/*
 function saveInput(){
 	$conn = connectToDatabase();
 	$data = getUsers();
@@ -130,6 +283,8 @@ function saveInput(){
 	echo $stmt->rowCount() . " records UPDATED successfully";
 }
 }
+*/
+
 
 //if(isset($_POST('remove')))
 // {

@@ -46,11 +46,42 @@
               </table> 
             </form>
           </div>
+
           <div class="ui bottom attached tab segment" data-tab="second">
-             Second
+              <form method="post">
+              <table style="width:100%;">
+                <tbody id="userTable" contentEditable="true">
+                  <tr>
+                    <th>Heading nr</th>
+                    <th>Heading name</th>
+                    <th>Heading nr parent</th>
+                    <?php
+                      showHeading();
+                    //  saveInput();
+                    ?>
+                  </tr>
+                </tbody>
+              </table> 
+            </form>
           </div>
+
           <div class="ui bottom attached tab segment" data-tab="third">
-             Third
+            <form method="post">
+              <table style="width:100%;">
+                <tbody id="userTable" contentEditable="true">
+                  <tr>
+                    <th>Titel</th>
+                    <th>Verkoper</th>
+                    <?php
+                      showVeilingen();
+                    //  saveInput();
+                    ?>
+                  </tr>
+                </tbody>
+              </table> 
+            </form>
+          </div>
+
           </div>
           <div class="ui bottom attached tab segment" data-tab="fourth">
              <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>

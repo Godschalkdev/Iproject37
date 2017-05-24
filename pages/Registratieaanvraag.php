@@ -20,14 +20,14 @@
   <div class="pusher">
     <div class="maincontent">
       <div class='ui text container'>  
-        <div class="ui bottom attached segment">
-        <h1 class='ui huge niagara header'>Registratie aanvraag</h1>
+        <div class="ui raised segment">
+        <h1 class='ui massive niagara header'>Registratie of Verkoop</h1>
           <form action=""  class="ui massive form" method="POST">
             <div class="field">
               <label >Emailadres</label>
               <input name="emailaddress" placeholder="voorbeeld@mail.com" type="text">
             </div>
-            <input type="submit" value="submit" class="ui massive sand button">
+            <input type="submit" value="Aanvragen" class="ui massive sand button">
           </form> 
           <p> Al een account?
           <a href="register.php">Log hier in!</a></div>

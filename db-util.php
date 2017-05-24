@@ -26,7 +26,7 @@ catch(PDOexeption $e){
       $datas = $data->fetch();
       $count = count($datas);
       if ($count > 0) {
-        if ($plaintextpassword == $datas["password"]) {
+        if (password_verify($plaintextpassword, $datas["password"])) {
           return array($datas["username"],$datas["emailaddress"]);
         } else {
           return false;
@@ -76,12 +76,12 @@ function getNieuweVeilingen(){
   return $data -> fetchAll();
 }
 
- function Chk_UserAlreadyExist($emailaddress)
+ function Chk_UserAlreadyExist($gebruikersnaam)
 
             {
               global $pdo;
-              $data = $pdo->prepare("SELECT username FROM Users WHERE emailaddress = ?");
-              $data->execute(array($emailaddress));
+              $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
+              $data->execute(array($gebruikersnaam));
               $count = count($data->fetchAll());
               if ($count > 0) {
                 return true;

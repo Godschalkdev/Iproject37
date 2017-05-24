@@ -20,7 +20,7 @@ catch(PDOexeption $e){
  function Chk_LoginDetails($username, $plaintextpassword)
     {
       global $pdo;
-      $data = $pdo->prepare("SELECT  top 500 username, password, emailaddress FROM users WHERE username = ?");
+      $data = $pdo->prepare("SELECT username, password, emailaddress FROM users WHERE username = ?");
       $data->execute(array($username));
 
       $datas = $data->fetch();

@@ -139,10 +139,10 @@ function saveInput(){
 }
 }
 
-//if(isset($_POST('remove')))
-// {
-
-// }
+if(isset($_POST['remove']))
+{
+	removeUser();
+}
 
 
 // function saveUsers()

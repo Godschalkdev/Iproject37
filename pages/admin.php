@@ -28,12 +28,22 @@
             <a class="item" data-tab="second">Categorieën beheren</a>
             <a class="item" data-tab="third">Veilingen beheren</a>
             <a class="item" data-tab="fourth">KPI's</a>
+
+          </div>
+
+          <div>
+            <form action="zoekenController.php" method='GET'>
+              <input type='text' name='zoeken' placeholder='Zoeken'> 
+              <input type='submit' name='knop' value='Zoeken' class='button '>
+
+            </form>   
           </div>
 
           <div class="ui bottom attached tab segment active" data-tab="first">
             <form method="post">
                     <?php
                       showUsers();
+
                     //  saveInput();
                     ?>  
             </form>

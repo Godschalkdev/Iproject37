@@ -90,9 +90,9 @@ function showUsers()
 	                <td>
 	                	<div class='ui buttons'>
 	                	<input type='hidden' name='UTable' value='$row[0]'/>
-	                		<input type='submit' name'edit' value='Opslaan' class='ui button one'>Opslaan</button>
-	                		<input type='submit' name'email' value='Mailen' class='ui button two'>Mailen</button>
-	                		<input type='submit' name'remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	                		<input type='submit' name='email' value='Mailen' class='ui button two'>Mailen</button>
+	                		<input type='submit' name'=remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
 	                	</div>
 	                </td>
 	               </tr>
@@ -171,9 +171,9 @@ function showHeading()
 	                <td>$row[2]</td>
 	                <td>
 	                	<div class='ui buttons'>
-	                		<input type='submit' name'edit' value='Opslaan' class='ui button one'>Opslaan</button>
-	                		<input type='submit' name'email' value='Mailen' class='ui button two'>Mailen</button>
-	                		<input type='submit' name'remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	
+	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
 	                	</div>
 	                </td>
 	               </tr>
@@ -252,9 +252,9 @@ function showVeilingen()
 	                <td>$row[2]</td>
 	                <td>
 	                	<div class='ui buttons'>
-	                		<input type='submit' name'edit' value='Opslaan' class='ui button one'>Opslaan</button>
-	                		<input type='submit' name'email' value='Mailen' class='ui button two'>Mailen</button>
-	                		<input type='submit' name'remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
+
+	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
 	                	</div>
 	                </td>
 	               </tr>
@@ -262,6 +262,9 @@ function showVeilingen()
 	    } 
 	    print("</table>");
 }
+
+
+
 
 /*
 function saveInput(){
@@ -311,3 +314,4 @@ function saveInput(){
 // saveUsers();
 
 
+?>

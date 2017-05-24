@@ -13,7 +13,8 @@ function getUsers()
 {
 	global $pdo;
 	$data = $pdo->query("SELECT top 10 * from dbo.Users");
-  	return $data->fetchAll();
+	
+  	return $data->fetchAll(PDO::FETCH_ASSOC);
 }	
 
 function getHeading()
@@ -34,7 +35,7 @@ function removeUser()
 {
  global $pdo;
  $userData = getUsers();
- $data = $pdo->query("DELETE from dbo.Users where user_id='".$userData['user_id']."' AND UTable='".$_REQUEST['user_id']."' " );
+ $data = $pdo->query("DELETE from dbo.Users where user_id='".$_POST['UTable']."' " );
 
 }	
 	
@@ -162,5 +163,3 @@ if(isset($_POST['remove']))
 // }
 
 // saveUsers();
-
-

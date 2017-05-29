@@ -17,9 +17,9 @@
     	include 'html/sidebar.html';
     	include 'html/menu.html';
 
-    	//test for $_SESSION
-    	$_SESSION['username'] = "Gebruikersnaam";
-    	$_SESSION['emailaddress'] = "email@address.com";
+    	// v test for $_SESSION, verwijderen voor eind v
+    	$_SESSION['username'] = "[Username]";
+    	$_SESSION['emailaddress'] = "[email@mail.com]";
   	?>
 	<div class="pusher">
   	<div class="maincontent">
@@ -27,19 +27,24 @@
  	 		<div class="ui raised segment">
  	 		<h1 class="ui niagara header">Registreren als verkoper</h1>
  	 		<?php 
+
+ 	 			// v print test tijdelijk v
  	 		    echo "<pre>";
+ 	 		    print_r($_SESSION);
     			print_r($_POST);
     			echo "</pre>"; 
-    		?>
- 	 		<form>
 
-  			<div method="post" action="../pages/activate_seller.php" class="ui big form">
+    			printSellers();
+    			
+    		?>
+ 	 		<form method="post" action="../pages/activate_seller.php" class="ui big form">
+
   			<h4 class="ui dividing header">Verkopersinformatie</h4>
 		  
   				<div class="two fields">
 			   		<div class="field">
 			      	<label>Gebruikersnaam</label>
-			      			<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
 			    	</div>
 			   		<div class="field">
 			      	<label>Email</label>
@@ -47,51 +52,51 @@
 			    	</div>
 			    </div>
 
-	  			<div method="POST" action="../pages/activate_seller.php" class="ui big form">
-					<h4 class="ui dividing header">Betalingsinformatie</h4>
-			    	<div class="two fields">
-						<div class="field">
-						    <label>Bank</label>
-						    <select class="ui search dropdown" name="bank">
-					            <option value="0">Rabobank</option>
-					            <option value="1">ING Bank</option>
-					            <option value="2">ABN Ambro</option>
-					            <option value="3">SNS Bank</option>
-					        </select>
-					  	</div>
-
-				    	<div class="field">
-					    	<label>Rekeningnummer</label>
-					    	<input type="text" placeholder="Rekeningnummer">
-				    	</div>
-					</div>
-
-					<div class="inline fields">
-					    <label for="controleoptie">Selecteer controleoptie:</label>
-					    <div class="field">
-					     	<div class="ui radio required checkbox">
-						        <input type="radio" name="controleoptie" checked="" tabindex="0">
-						        <label>Creditcard</label>
-					      	</div>
-					    </div>
-					    <div class="field">
-					      	<div class="ui radio checkbox">
-						        <input type="radio" name="controleoptie" tabindex="0">
-						        <label>Post</label>
-					      	</div>
-					    </div>
+			<h4 class="ui dividing header">Betalingsinformatie</h4>
+		    	<div class="two fields">
+					<div class="field">
+					    <label>Bank</label>
+					    <select class="ui search dropdown" name="bank">
+				            <option value="Rabobank">Rabobank</option>
+				            <option value="ING Bank">ING Bank</option>
+				            <option value="ABN Ambro">ABN Ambro</option>
+				            <option value="SNS Bank">SNS Bank</option>
+				        </select>
 				  	</div>
 
-				  	<div class="field">
-				      	<label>Creditcardnummer</label>
-				      	<input type="text" placeholder="Creditcardnummer">
+			    	<div class="field">
+				    	<label>Rekeningnummer</label>
+				    	<input type="text" name="rekeningnummer" placeholder="Rekeningnummer">
+			    	</div>
+				</div>
+
+				<div class="inline fields">
+				    <label for="controleoptie">Selecteer identificatiemethode:</label>
+				    <div class="field">
+				     	<div class="ui radio checkbox">
+					        <input type="radio" name="controleoptie" value="creditcard" required>
+					        <label>Creditcard</label>
+				      	</div>
 				    </div>
-			    	<h4 class="ui dividing header">Valideren</h4>
-			    	<div class="two wide field">
-				      	<label>Activatiecode</label>
-				      	<input type="text" placeholder="05XBSO0">
+				    <div class="field">
+				      	<div class="ui radio checkbox">
+					        <input type="radio" name="controleoptie" value="post">
+					        <label>Post</label>
+				      	</div>
 				    </div>
-			    <input type="submit" value="Verkoopaccount Activeren" class="ui huge sand button">
+			  	</div>
+
+			  	<div class="field">
+			      	<label>Creditcardnummer</label>
+			      	<input type="text" name="creditcardnummer" placeholder="Creditcardnummer">
+			    </div>
+		    	<h4 class="ui dividing header">Valideren</h4>
+		    	<div class="two wide field">
+			      	<label>Activatiecode</label>
+			      	<input type="text" name="activatiecode">
+			    </div>
+			    <input type="submit" value="Activeren" class="ui huge sand button">
+			    <?php  register_seller(); ?>
 			</form>
 		</div>
   	</div>

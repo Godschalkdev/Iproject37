@@ -21,24 +21,32 @@
     	$_SESSION['username'] = "Gebruikersnaam";
     	$_SESSION['emailaddress'] = "email@address.com";
   	?>
-	<div class="pusher">
+<div class="pusher">
   	<div class="maincontent">
  	 	<div class="ui container">
  	 		<div class="ui raised segment">
  	 		<h1 class="ui niagara header">Registreren als verkoper</h1>
- 	 		<form>
-	  			<div method="POST" action="../pages/activate_seller.php" class="ui big form">
-		  			<h4 class="ui dividing header">Verkopersinformatie</h4>
-	  				<div class="two fields">
-				   		<div class="field">
-					      	<label>Gebruikersnaam</label>
-					      	<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
-				    	</div>
-				   		<div class="field">
-				      		<label>Email</label>
-				      		<h3 class="ui grey header"><?php echo $_SESSION['emailaddress'] ?></h3>
-				    	</div>
-				    </div>
+ 	 		<?php 
+ 	 		    echo "<pre>";
+    			print_r($_POST);
+    			echo "</pre>"; 
+    		?>
+ 	 		<form method="post" action="../pages/activate_seller.php" class="ui big form">
+
+  			<h4 class="ui dividing header">Verkopersinformatie</h4>
+		  
+  			<div class="two fields">
+			   	<div class="field">
+			      	<label>Gebruikersnaam</label>
+			      	<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
+			    </div>
+			   		<div class="field">
+			      		<label>Email</label>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['emailaddress'] ?></h3>
+			    	</div>
+			</div>
+
+	  			
 					<h4 class="ui dividing header">Betalingsinformatie</h4>
 			    	<div class="two fields">
 						<div class="field">
@@ -50,6 +58,7 @@
 					            <option value="3">SNS Bank</option>
 					        </select>
 					  	</div>
+
 
 				    	<div class="field">
 					    	<label>Rekeningnummer</label>
@@ -87,9 +96,11 @@
 		</div>
   	</div>
   	</div>
+  	</form>
   	<?php 
   		include 'html/footer.html'; 
   	?>
+
   	</div>
 
   	<?php 

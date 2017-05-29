@@ -28,31 +28,51 @@
             <a class="item" data-tab="second">Categorieën beheren</a>
             <a class="item" data-tab="third">Veilingen beheren</a>
             <a class="item" data-tab="fourth">KPI's</a>
+
           </div>
+
+          <div>
+            <form action="zoekenController.php" method='GET'>
+              <input type='text' name='zoeken' placeholder='Zoeken'> 
+              <input type='submit' name='knop' value='Zoeken' class='button '>
+
+            </form>   
+          </div>
+
           <div class="ui bottom attached tab segment active" data-tab="first">
-              <table style="width:100%">
-                <tbody id="userTable">
-                  <tr>
-                    <th>Gebruikersnaam</th>
-                    <th>Voornaam</th>
-                    <th>Achternaam</th>
-                    <th>Email</th>
+            <form method="post">
                     <?php
                       showUsers();
-                    ?>
-                  </tr>
-                </tbody>
-              </table> 
+
+                    //  saveInput();
+                    ?>  
+            </form>
           </div>
+
           <div class="ui bottom attached tab segment" data-tab="second">
-             Second
+              <form method="post">
+                    <?php
+                      showHeading();
+                    //  saveInput();
+                    ?>
+            </form>
           </div>
+
           <div class="ui bottom attached tab segment" data-tab="third">
-             Third
+            <form method="post">
+                    <?php
+                      showVeilingen();
+                    //  saveInput();
+                    ?>
+            </form>
           </div>
+
+      
+
           <div class="ui bottom attached tab segment" data-tab="fourth">
              <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
+
   		  </div>
   		</div>
   	</div>

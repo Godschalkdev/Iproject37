@@ -26,7 +26,7 @@ catch(PDOexeption $e){
       $datas = $data->fetch();
       $count = count($datas);
       if ($count > 0) {
-        if ($plaintextpassword == $datas["password"]) {
+        if (password_verify($plaintextpassword, $datas["password"])) {
           return array($datas["username"],$datas["emailaddress"]);
         } else {
           return false;
@@ -95,12 +95,35 @@ function getHoogsteBod($param){
       }
     }
 
+ function Chk_UserAlreadyExist($gebruikersnaam)
+
+            {
+              global $pdo;
+              $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
+              $data->execute(array($gebruikersnaam));
+              $count = count($data->fetchAll());
+              if ($count > 0) {
+                return true;
+              } else {
+                return false;
+              }
+            }
+    
+
+
 
 
 function addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no) {
               global $pdo;
-                $stmt = $pdo->prepare("INSERT INTO Users (username, firstname, lastname, addressfield_1, addressfield_2, ZIP_code, city, country, birthday, emailaddress, password, question_nr, answer, seller_yes_or_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?") ;
+                try{ 
+    
+                $stmt = $pdo->prepare("INSERT INTO Users (username, firstname, lastname, addressfield_1, addressfield_2, ZIP_code, city, country, birthday, emailaddress, password, question_nr, answer, seller_yes_or_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
                 $stmt->execute(array($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, hashpassword($password), $question_nr, $answer, $seller_yes_or_no));
+}
+      catch(PDOexeption $e){
+          echo $e->getMessage();
+}
+
                 return true;
             }
 

@@ -3,7 +3,7 @@ session_start();
 require_once "../db-util.php";
 connectToDatabase();
 $Errors                         = array();
-$requiredFields                 = array('gebruikersnaam', 'voornaam', 'achternaam', 'straat', 'postcode', 'stad', 'land', 'jaar', 'maand', 'dag', 'emailadres', 'wachtwoord',  'vraag', 'antwoord','no'  );
+$requiredFields                 = array('gebruikersnaam', 'voornaam', 'achternaam', 'straat', 'postcode', 'stad', 'land', 'geboortejaar', 'geboortemaand', 'geboortedag', 'wachtwoord', 'rewachtwoord'  ,'vraag', 'antwoord');
 
 
 function register_validation()
@@ -18,11 +18,11 @@ function register_validation()
     $ZIP_code         =   $_POST['postcode'];
     $city             =   $_POST['stad'];
     $country          =   $_POST['land'];
-    $year             =   $_POST['jaar'];
-    $month            =   $_POST['maand'];
-    $day              =   $_POST['dag'];
-    $birthday         =   "$year/$month/$day";
-    $emailaddress     =   $_POST['emailadres'];
+    $year             =   $_POST['geboortejaar'];
+    $month            =   $_POST['geboortemaand'];
+    $day              =   $_POST['geboortedag'];
+    $birthday         =   $year."-".$month."-".$day;
+    $emailaddress     =   "test@hotmail.nl";
     $password         =   $_POST['wachtwoord'];
     $question_nr      =   $_POST['vraag'];
     $answer           =   $_POST['antwoord'];
@@ -33,7 +33,7 @@ function register_validation()
   }
   else{
     return $Errors;
-  }
+}
 }
 
 
@@ -44,23 +44,45 @@ function isValidForm()
   return chk_Fields($requiredFields);
 }
 
-
-
 function chk_Fields($fields){
-  $error                        = false;
+  $error = false;
   global $Errors;
   foreach($fields AS $fieldname) {
     if(!isset($_POST[$fieldname]) || empty($_POST[$fieldname])) {
       array_push($Errors,$fieldname);
       $error                    = true;
     }
-    elseif ($fieldname == "emailaddress"){
-      if(Chk_UserAlreadyExist($_POST["emailaddress"])){
+    elseif ($fieldname == "gebruikersnaam"){
+      if(Chk_UserAlreadyExist($_POST["gebruikersnaam"])){
         array_push($Errors,$fieldname);
         $error                = true;
       }
     }
+    elseif ($fieldname == "voornaam"){
+      if (!ctype_alpha($_POST["voornaam"])) {
+        array_push($Errors,$fieldname);
+        $error                = true;
+      }
+    }
+    elseif ($fieldname == "achternaam"){
+      if (!ctype_alpha($_POST["achternaam"])) {
+        array_push($Errors,$fieldname);
+        $error                = true;
+      }
+    }
+    elseif ($fieldname == "wachtwoord"){
+      if (!preg_match('/[a-zA-Z]+\d+[^a-zA-Z\d]/', $_POST["wachtwoord"]) || strlen($_POST["wachtwoord"]) < 8) {
+        array_push($Errors,$fieldname);
+        $error                = true;
+      }
+    }
+    elseif ($fieldname == "rewachtwoord"){
+    if ($_POST["wachtwoord"] != $_POST["rewachtwoord"]){
+      array_push($Errors,$fieldname);
+        $error                = true;
+    }
   }
+}
   if($error){
     return false;
   }else{
@@ -109,25 +131,47 @@ function chk_InErrorArray($value){
   {
     switch ($value) {
       case $requiredFields[0]:
-      echo "<p style=\"color:red\">Ongeldige Abbonoment.</p>";
+      echo "<p style=\"color:red\">Ongeldige gebruikersnaam.</p>";
       break;
       case $requiredFields[1]:
-      echo "<p style=\"color:red\">Ongeldige Naam.</p>";
+      echo "<p style=\"color:red\">Ongeldige voornaam.</p>";
       break;
       case $requiredFields[2]:
-      echo "<p style=\"color:red\">Ongeldige emailaddress/Al in gebruik.</p>";
+      echo "<p style=\"color:red\">Ongeldige achternaam</p>";
       break;
       case $requiredFields[3]:
-      echo "<p style=\"color:red\">Ongeldige geboortedatum.</p>";
+      echo "<p style=\"color:red\">Ongeldige straat.</p>";
       break;
       case $requiredFields[4]:
-      echo "<p style=\"color:red\">Ongeldige IBAN Nummer.</p>";
+      echo "<p style=\"color:red\">Ongeldige postcode.</p>";
       break;
       case $requiredFields[5]:
-      echo "<p style=\"color:red\">Ongeldige BIC Nummer.</p>";
+      echo "<p style=\"color:red\">Ongledige stad.</p>";
       break;
       case $requiredFields[6]:
-      echo "<p style=\"color:red\">Ongeldige BIC Nummer.</p>";
+      echo "<p style=\"color:red\">Ongeldige land.</p>";
+      break;
+      case $requiredFields[7]:
+      echo "<p style=\"color:red\">Geen geldige geboortejaar.</p>";
+      break;
+      case $requiredFields[8]:
+      echo "<p style=\"color:red\">Geen geldige geboortemaand.</p>";
+      break;
+      case $requiredFields[9]:
+      echo "<p style=\"color:red\">Geen geldige geboortedag.</p>";
+      break;
+      case $requiredFields[10]:
+      echo "<p style=\"color:red\">Wachtwoord moet minimaal 8 tekens zijn,</p>";
+      echo "<p style=\"color:red\">minimaal één hoofdletter, cijfer en speciale teken bevatten!</p>";
+      break;
+      case $requiredFields[11]:
+      echo "<p style=\"color:red\">Herhaal wachtwoord komt niet overeen!</p>";
+      break;
+      case $requiredFields[12]:
+      echo "<p style=\"color:red\">geen geldige vraag.</p>";
+      break;
+      case $requiredFields[13]:
+      echo "<p style=\"color:red\">Geen geldige antwoord.</p>";
       break;
     }
   }

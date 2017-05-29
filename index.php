@@ -40,32 +40,22 @@ require('controllers/indexController.php');
           	<div class="ui three column doubling stackable cards grid container">
            <?php printIndexVeilingen('nieuw'); ?>
            </div>
-        </div>
     
           <div class='ui center aligned text container'>
             <h2 class='ui niagara dividing header'>Bijzondere Producten</h2>
           </div>
           	<div class="ui three column doubling stackable cards grid container">
-          <?php printBijzondereVeilingen(); ?>
+          <?php printIndexVeilingen('bijzonder'); ?>
           </div>
-        </div>
 
-  
-
-
-  	<div class='ui segment' id='member'>
-      <div class='ui center aligned text container'>
-        <h2 class='ui niagara dividing header'>Koopjes</h2>
-      </div>
-      	<div class="ui three doubling stackable cards grid container">
-      <?php //printKoopjesVeilingen(); ?>
-      </div>
-      </div>
-	</div>
-	</div>
- -->
-    </div>
-  </div>
+        	<div class='ui center aligned text container'>
+              <h2 class='ui niagara dividing header'>Koopjes</h2>
+            </div>
+            	<div class="ui three column doubling stackable cards grid container">
+            <?php printIndexVeilingen('koopje'); ?>
+            </div>
+            </div>
+      	</div>
     <?php 
     include 'pages/html/footer.html';
     ?>

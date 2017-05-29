@@ -52,16 +52,15 @@ function getfile($objectnummer) {
 
 function getBijzondereVeilingen(){
 	global $pdo;
-	$data = $pdo->query("SELECT TOP 3 title, description, starting_price, MAX(offer_amount) as hoogsteBod, CAST(((100 / b.starting_price) * (max(f.offer_amount) - b.starting_price)) as NUMERIC(7,2)) as percentageVerschil FROM Object b Inner JOIN Offer f On b.object_nr = f.object_nr Group by title, description, starting_price ORDER BY percentageVerschil desc");
+	$data = $pdo->query("SELECT TOP 3 b.object_nr, title, description, starting_price, MAX(offer_amount) as hoogsteBod, CAST(((100 / (b.starting_price+1)) * (max(f.offer_amount) - b.starting_price)) as NUMERIC(7,2)) as percentageVerschil FROM Object b Inner JOIN Offer f On b.object_nr = f.object_nr Group by title, description, starting_price, b.object_nr ORDER BY percentageVerschil desc");
 	return $data -> fetchAll();
-
 }
 
 
 function getKoopjes(){
 global $pdo; 
 $data = $pdo ->query("SELECT TOP 3 title, description, starting_price ,MAX(offer_amount) as hoogsteBod, count(offer_amount) as totaleOffers
-FROM Object b INNER JOIN Offer f on b.object_nr = f.object_nr GROUP BY starting_price, title, description HAVING starting_price <= 50 AND ((100 / b.starting_price) * (max(f.offer_amount) - b.starting_price)) < 20 ORDER BY totaleOffers desc");
+FROM Object b INNER JOIN Offer f on b.object_nr = f.object_nr GROUP BY starting_price, title, description HAVING starting_price <= 50 AND ((100 / (b.starting_price+1)) * (max(f.offer_amount) - b.starting_price)) < 20 ORDER BY totaleOffers desc");
 return $data -> fetchAll();
 
 }
@@ -109,4 +108,18 @@ function hashpassword($cleartextpassword){
               $extra_key = ['iconcepts' => 37, ];
               return password_hash($cleartextpassword, PASSWORD_BCRYPT, $extra_key);
             }
+
+function getRubriek($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * from heading where heading_nr_parent = $param");
+  return $data ->fetchAll(); 
+}
+
+function getProductsByHeader($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $param");
+
+  return $data ->fetchAll();
+}
+
 ?>

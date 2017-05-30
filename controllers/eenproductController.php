@@ -30,9 +30,9 @@ function getTimeObject($param) {
 function printVergelijkbareVeilingen($param){
 	$veilingen = getVergelijkbareVeilingen($param);
 
-  foreach($veilingen as $veilingen){
-   $filename = getfile($veilingen['object_nr']);
-   $hoogsteBod = getHoogsteBod($veilingen['object_nr']);
+  foreach($veilingen as $veiling){
+   $filename = getfile($veiling['object_nr']);
+   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
 $html = <<<MYCONTENT
         <div class="column">
           <div class="ui object segment">
@@ -41,11 +41,11 @@ $html = <<<MYCONTENT
               € $hoogsteBod[hoogsteBod]
             </div>
             <div class="ui buttons">
-              <a class="ui sand button" href="/pages/Eenproduct.php?id=$veilingen[object_nr]" method="get">Bekijk Veiling</a>
+              <a class="ui sand button" href="/pages/Eenproduct.php?id=$veiling[object_nr]" method="get">Bekijk Veiling</a>
               <div class="or" data-text=""></div>
               <button class="ui button">14:00:45</button>
             </div>
-            <h3 class="niagara">$veilingen[title]</h3>
+            <h3 class="niagara">$veiling[title]</h3>
           </div>
         </div>
 MYCONTENT;
@@ -91,6 +91,18 @@ function printBiedKnoppen($param) {
 }
 
 function doeBod($object_nr, $username, $offer) {
-  bodQuery($object_nr, $username, $offer);
+  bodQuery($object_nr, $offer, $username);
+}
+
+function getTime($param) {
+  $object = getObject($param);
+}
+
+function alert($msg) {
+    echo "<script type='text/javascript'>alert('$msg');</script>";
+}
+
+function hoogsteBodUser($param) {
+  return getHoogsteBod($param);
 }
 ?>

@@ -6,8 +6,16 @@
 		$object = getObject($_GET['id']);
 	}
 
+	$_SESSION['user'] = 'traum_bad';
+
 	if (isset($_POST['snelBod'])) {
-		doeBod($_POST['snelBod']);
+		$user = hoogsteBodUser($_GET['id']);
+
+		if ($_SESSION['user'] == $user['username']) {
+			alert('U kan niet over uwzelf bieden');
+		} else {
+			doeBod($_GET['id'], $_SESSION['user'],$_POST['snelBod']);
+		}
 		unset($_POST['snelBod']);
 	} 
 ?>
@@ -35,8 +43,8 @@
 		<div class="maincontent">
 			<div class="ui container">
 				<div class="ui raised main segment">
-					<ui class="ui top right attached label massive">
-						<?php echo ""; ?>
+					<ui class="ui top right attached label massive" id="timer">
+					
 					</ui>
 					<div class="ui grid">
 						<div class="ui eight wide column">

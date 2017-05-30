@@ -52,7 +52,10 @@ function getfile($objectnummer) {
 
 function getBijzondereVeilingen(){
 	global $pdo;
-	$data = $pdo->query("SELECT TOP 3 b.object_nr, title, description, starting_price, MAX(offer_amount) as hoogsteBod, CAST(((100 / (b.starting_price+1)) * (max(f.offer_amount) - b.starting_price)) as NUMERIC(7,2)) as percentageVerschil FROM Object b Inner JOIN Offer f On b.object_nr = f.object_nr Group by title, description, starting_price, b.object_nr ORDER BY percentageVerschil desc");
+	$data = $pdo->query("SELECT TOP 3 o.object_nr, title, [description], starting_price, MAX(offer_amount) as hoogsteBod, ((100 / (o.starting_price+1)) * (max(f.offer_amount) - o.starting_price)) as percentageVerschil 
+                      FROM [Object] o Inner JOIN Offer f On o.object_nr = f.object_nr 
+                      Group by title, description, starting_price, o.object_nr 
+                      ORDER BY percentageVerschil desc");
 	return $data -> fetchAll();
 }
 
@@ -76,9 +79,11 @@ function getNieuweVeilingen(){
 
 function getHoogsteBod($param){
   global $pdo;
-  $data = $pdo ->query("SELECT MAX(offer_amount) as hoogsteBod
+  $data = $pdo ->query("SELECT TOP 1 MAX(offer_amount) as hoogsteBod, username
                         FROM Offer
-                        WHERE object_nr = $param");
+                        WHERE object_nr = 400808373330
+                        GROUP BY username
+                        ORDER BY hoogsteBod DESC");
   return $data->fetch();
   }
 
@@ -176,14 +181,14 @@ function getObject($param) {
 
 function getBiedingen($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Offer WHERE object_nr = $param ORDER BY offer_amount DESC");
+  $data = $pdo ->query("SELECT TOP 5 * FROM Offer WHERE object_nr = $param ORDER BY offer_amount DESC");
 
   return $data ->fetchAll(); 
 }
 
 function bodQuery($objectnr, $amount, $username) {
   global $pdo;
-  $data = $pdo->prepare("INSERT INTO Offer VALUES (?,?,?,GETDATE(),GETTIME())");
+  $data = $pdo->prepare("INSERT INTO Offer VALUES (?,?,?,GETDATE(),CONVERT (time, SYSDATETIME()))");
   $data->execute(array($objectnr, $amount, $username));
 }
 ?>

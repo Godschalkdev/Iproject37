@@ -1,5 +1,4 @@
 <?php
-
 require('../controllers/registrerencontroller.php');
 $success_message = "";
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
@@ -20,7 +19,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 <body>
 	<?php 
-    	include 'html/menu.html';
+    	include 'menu.php';
     	include 'html/sidebar.html';
   	?>
 	
@@ -188,6 +187,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 						</div>
 					</div>
 					<h3 class="ui dividing header">Contactgegevens</h3>
+					<div class="required field">
+						<label>Emailadress</label>
+						<input type="text" name="emailaddress" placeholder="Email@outlook.com">
+						<?php chk_InErrorArray("emailaddress")?>
+					</div>
 					<div class="required field">
 						<label>Adres &amp Postcode</label>
 						<div class="fields">

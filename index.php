@@ -17,7 +17,7 @@ require('controllers/indexController.php');
 
   <?php 
     include 'pages/html/sidebar.html';
-    include 'pages/html/menu.html';
+    include 'pages/menu.php';
   ?>  
 
   <div class="pusher">

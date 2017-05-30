@@ -82,7 +82,7 @@ function getHoogsteBod($param){
   return $data->fetch();
   }
 
- function Chk_UserAlreadyExist($emailaddress)
+ function Chk_UserAlreadyExist_email($emailaddress)
     {
       global $pdo;
       $data = $pdo->prepare("SELECT username FROM Users WHERE username = :emailaddress");
@@ -95,20 +95,19 @@ function getHoogsteBod($param){
       }
     }
 
- function Chk_UserAlreadyExist($gebruikersnaam)
+ function Chk_UserAlreadyExist_gebruikersnaam($gebruikersnaam)
+      {
+        global $pdo;
+        $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
+        $data->execute(array($gebruikersnaam));
+        $count = count($data->fetchAll());
+        if ($count > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
 
-            {
-              global $pdo;
-              $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
-              $data->execute(array($gebruikersnaam));
-              $count = count($data->fetchAll());
-              if ($count > 0) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-    
 
 
 
@@ -145,4 +144,46 @@ function getProductsByHeader($param) {
   return $data ->fetchAll();
 }
 
+
+function getVergelijkbareVeilingen($param) {
+  global $pdo;
+  $heading_nr = getObjectRubriek($param);
+  $data = $pdo ->query("SELECT TOP 3 * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $heading_nr[lowest_heading_nr]");
+
+  return $data ->fetchAll();
+}
+
+function getObjectRubriek($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT lowest_heading_nr FROM Object_in_Heading WHERE object_nr = $param");
+
+  return $data ->fetch();
+}
+
+function getAllFiles($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT filename FROM [File] WHERE object_nr = $param");
+
+  return $data ->fetch();  
+}
+
+function getObject($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM Object WHERE object_nr = $param");
+
+  return $data ->fetch();
+}
+
+function getBiedingen($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM Offer WHERE object_nr = $param ORDER BY offer_amount DESC");
+
+  return $data ->fetchAll(); 
+}
+
+function bodQuery($objectnr, $amount, $username) {
+  global $pdo;
+  $data = $pdo->prepare("INSERT INTO Offer VALUES (?,?,?,GETDATE(),GETTIME())");
+  $data->execute(array($objectnr, $amount, $username));
+}
 ?>

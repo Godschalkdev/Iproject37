@@ -51,6 +51,7 @@ function getfile($objectnummer) {
 }
 
 function getBijzondereVeilingen(){
+
   global $pdo;
   $data = $pdo->query("SELECT TOP 3 b.object_nr, title, description, starting_price, MAX(offer_amount) as hoogsteBod, CAST(((100 / (b.starting_price+1)) * (max(f.offer_amount) - b.starting_price)) as NUMERIC(12,2)) as percentageVerschil FROM Object as b Inner JOIN Offer as f On b.object_nr = f.object_nr Group by title, description, starting_price, b.object_nr ORDER BY percentageVerschil desc");
   return $data->fetchAll();
@@ -78,26 +79,42 @@ function getNieuweVeilingen(){
 
 function getHoogsteBod($param){
   global $pdo;
-  $data = $pdo ->query("SELECT MAX(offer_amount) as hoogsteBod
+  $data = $pdo ->query("SELECT TOP 1 MAX(offer_amount) as hoogsteBod, username
                         FROM Offer
-                        WHERE object_nr = $param");
+                        WHERE object_nr = 400808373330
+                        GROUP BY username
+                        ORDER BY hoogsteBod DESC");
   return $data->fetch();
   }
 
 
- function Chk_UserAlreadyExist($gebruikersnaam)
+ function Chk_UserAlreadyExist_email($emailaddress)
+    {
+      global $pdo;
+      $data = $pdo->prepare("SELECT username FROM Users WHERE username = :emailaddress");
+      $data->execute(array($emailaddress));
+      $count = count($data->fetchAll());
+      if ($count > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
-            {
-              global $pdo;
-              $data = $pdo->prepare("SELECT username FROM [User] WHERE username = ?");
-              $data->execute(array($gebruikersnaam));
-              $count = count($data->fetchAll());
-              if ($count > 0) {
-                return true;
-              } else {
-                return false;
-              }
-            }
+
+ function Chk_UserAlreadyExist_gebruikersnaam($gebruikersnaam)
+      {
+        global $pdo;
+        $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
+        $data->execute(array($gebruikersnaam));
+        $count = count($data->fetchAll());
+        if ($count > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
 
 
 function checkActivation(){ 
@@ -142,7 +159,7 @@ function addNewUser($username, $firstname,$lastname,$address_field1,$address_fie
 }
 
                 return true;
-            }
+ }
 
 function hashpassword($cleartextpassword){
               $extra_key = ['iconcepts' => 37, ];
@@ -162,4 +179,46 @@ function getProductsByHeader($param) {
   return $data ->fetchAll();
 }
 
+
+function getVergelijkbareVeilingen($param) {
+  global $pdo;
+  $heading_nr = getObjectRubriek($param);
+  $data = $pdo ->query("SELECT TOP 3 * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $heading_nr[lowest_heading_nr]");
+
+  return $data ->fetchAll();
+}
+
+function getObjectRubriek($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT lowest_heading_nr FROM Object_in_Heading WHERE object_nr = $param");
+
+  return $data ->fetch();
+}
+
+function getAllFiles($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT filename FROM [File] WHERE object_nr = $param");
+
+  return $data ->fetch();  
+}
+
+function getObject($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM Object WHERE object_nr = $param");
+
+  return $data ->fetch();
+}
+
+function getBiedingen($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT TOP 5 * FROM Offer WHERE object_nr = $param ORDER BY offer_amount DESC");
+
+  return $data ->fetchAll(); 
+}
+
+function bodQuery($objectnr, $amount, $username) {
+  global $pdo;
+  $data = $pdo->prepare("INSERT INTO Offer VALUES (?,?,?,GETDATE(),CONVERT (time, SYSDATETIME()))");
+  $data->execute(array($objectnr, $amount, $username));
+}
 ?>

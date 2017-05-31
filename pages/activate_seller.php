@@ -15,7 +15,7 @@
 
  	<?php 
     	include 'html/sidebar.html';
-    	include 'menu.php';
+    	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 
     	// // v test for $_SESSION, verwijderen voor eind v
     	// $_SESSION['username'] = "I-Projectgroep 37";

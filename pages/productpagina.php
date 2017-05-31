@@ -18,7 +18,7 @@
 
 <body>
 	<?php 
-	include 'menu.php';
+	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 	include 'html/sidebar.html';
 	?>
 	

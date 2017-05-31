@@ -35,7 +35,7 @@
 
 <body>
 	<?php 
-	include 'html/menu.html';
+	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 	include 'html/sidebar.html';
 	?>
 	

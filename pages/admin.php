@@ -16,7 +16,7 @@
 
  	<?php 
     	include 'html/sidebar.html';
-      include 'menu.php';
+      include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
   	?>
     
   	<div class="maincontent">

@@ -132,7 +132,7 @@ if(isset($_GET['emailaddress']) && !empty($_GET['emailaddress']) && isset($_GET[
         // We have a match, activate the account
       $updateActive = $pdo->prepare("UPDATE [User] SET activated_yes_or_no ='yes' WHERE emailaddress = ? AND activation_code = ? AND activated_yes_or_no = 'no'");
         $updateActive->execute(array($emailaddress, $activation_code));
-        echo 'Je account is geactiveerd, je kunt nu inloggen';
+        echo 'Je account is geactiveerd, je kunt nu inloggen <a href="http://www.eenmaalandermaal.dev/pages/login.php">Hier!</a></div>';
     }else{
         // No match -> invalid url or account has already been activated.
         echo 'De link is ongeldig, of je bent al geactiveerd.';

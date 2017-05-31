@@ -7,14 +7,14 @@
 		<?php 
 			include 'html/mainhead.html';	
 		?>
-		<link rel="stylesheet" type="text/css" href="/stylecss/nieuwproduct.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/extrapaginas.css">
 	</head>
 	
 	<body>
 	
 		<?php 
 			require ('../Controllers/nieuwproductController.php');
-			include 'menu.php';
+			include '../menu.php';
 			include 'html/sidebar.html';
 		?>
 

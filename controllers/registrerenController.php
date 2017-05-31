@@ -1,14 +1,16 @@
 <?php
 session_start();
 require_once "../db-util.php";
+require_once "mailcontroller.php";
 connectToDatabase();
 $Errors                         = array();
-$requiredFields                 = array('gebruikersnaam', 'voornaam', 'achternaam', 'straat', 'postcode', 'stad', 'land', 'geboortejaar', 'geboortemaand', 'geboortedag', 'wachtwoord', 'rewachtwoord'  ,'vraag', 'antwoord');
+$requiredFields                 = array('gebruikersnaam', 'voornaam', 'achternaam', 'straat', 'postcode', 'stad', 'land', 'geboortejaar', 'geboortemaand', 'geboortedag', 'emailaddress' ,'wachtwoord','rewachtwoord'  ,'vraag', 'antwoord');
 
 
 function register_validation()
 {
   global $Errors;
+
   if (isValidForm()) {
     $username         =   $_POST['gebruikersnaam'];
     $firstname        =   $_POST['voornaam'];
@@ -22,13 +24,18 @@ function register_validation()
     $month            =   $_POST['geboortemaand'];
     $day              =   $_POST['geboortedag'];
     $birthday         =   $year."-".$month."-".$day;
-    $emailaddress     =   "test@hotmail.nl";
-    $password         =   $_POST['wachtwoord'];
+    $emailaddress     =   $_POST['emailaddress'];
+    $password         =   hashpassword($_POST['wachtwoord']);
     $question_nr      =   $_POST['vraag'];
     $answer           =   $_POST['antwoord'];
-    $seller_yes_or_no =   "no";
-    if(addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no)){
-      return "<p style=\"color:green;\">Uw account is aangemaakt, u kunt inloggen via de login pagina.</p>";
+    $seller_yes_or_no =   'no';
+    $generatedCode    =   md5(rand(0,1000));
+    $activation_code  =   $generatedCode;
+    $registration_date =  GETDATE(); 
+    $activated_yes_or_no = 'no';
+    if(addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no,  $activated_yes_or_no, $activation_code)){
+      sendUserVerification($emailaddress, $activation_code, $password, $username);
+      return "<h1 style=\"color:green;\">Registratie doorgestuurd, verifieer uw account door uw mail te controleren.</h1>";
     }
   }
   else{
@@ -70,8 +77,15 @@ function chk_Fields($fields){
         $error                = true;
       }
     }
+    elseif ($fieldname == "emailaddress"){
+      if(!filter_var($_POST['emailaddress'], FILTER_VALIDATE_EMAIL)){ 
+        array_push($Errors,$fieldname);
+        $error                = true;
+      }
+    }
     elseif ($fieldname == "wachtwoord"){
-      if (!preg_match('/[a-zA-Z]+\d+[^a-zA-Z\d]/', $_POST["wachtwoord"]) || strlen($_POST["wachtwoord"]) < 8) {
+      $wachtwoordlengte = 8;
+      if (!preg_match('/[a-zA-Z]+\d+[^a-zA-Z\d]/', $_POST["wachtwoord"]) || strlen($_POST["wachtwoord"]) < $wachtwoordlengte) {
         array_push($Errors,$fieldname);
         $error                = true;
       }
@@ -131,7 +145,7 @@ function chk_InErrorArray($value){
   {
     switch ($value) {
       case $requiredFields[0]:
-      echo "<p style=\"color:red\">Ongeldige gebruikersnaam.</p>";
+      echo "<p style=\"color:red\">Gebruikersnaam is al in gebruik, of niet toegestaan.</p>";
       break;
       case $requiredFields[1]:
       echo "<p style=\"color:red\">Ongeldige voornaam.</p>";
@@ -161,16 +175,19 @@ function chk_InErrorArray($value){
       echo "<p style=\"color:red\">Geen geldige geboortedag.</p>";
       break;
       case $requiredFields[10]:
+      echo "<p style=\"color:red\">Geen geldig emailadress</p>";
+      break;
+      case $requiredFields[11]:
       echo "<p style=\"color:red\">Wachtwoord moet minimaal 8 tekens zijn,</p>";
       echo "<p style=\"color:red\">minimaal één hoofdletter, cijfer en speciale teken bevatten!</p>";
       break;
-      case $requiredFields[11]:
+      case $requiredFields[12]:
       echo "<p style=\"color:red\">Herhaal wachtwoord komt niet overeen!</p>";
       break;
-      case $requiredFields[12]:
+      case $requiredFields[13]:
       echo "<p style=\"color:red\">geen geldige vraag.</p>";
       break;
-      case $requiredFields[13]:
+      case $requiredFields[14]:
       echo "<p style=\"color:red\">Geen geldige antwoord.</p>";
       break;
     }

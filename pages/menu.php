@@ -1,3 +1,7 @@
+<?php 
+require ($_SERVER['DOCUMENT_ROOT'] .'/controllers/menuController.php');
+?>
+
 <div class="ui large inverted niagara fixed pointing secondary menu">
 	<div class="ui container">
       <h4 class="ui bottom aligned inverted header">
@@ -20,13 +24,14 @@
 			<div class="ui right icon pointing dropdown button">
 			  	<i class="large niagara user icon"></i>
 			  	<div class="menu">
-			  		<div class="header">User</div>
 
-				    <a href="http://iproject37.icasites.nl/pages/login.php" class="item">Log In</a>
-				    <a href="http://iproject37.icasites.nl/pages/mijnveilingen.php" class="item">Mijn veilingen</a>
+			  	<?php if (isset($_SESSION['loggedin'])){
+			  		printUserOptionLoggedIn();
+			  		}else{
+			  			printUserOptionLoggedOut();
+			  			} ?>
 
-				    <div class="ui divider"></div>
-				    <a href="http://iproject37.icasites.nl/pages/register.php" class="item">Register</a>
+
 				</div>
 			</div>
 		</div>

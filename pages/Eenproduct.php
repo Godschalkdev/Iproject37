@@ -1,5 +1,5 @@
 <?php
-	require '../controllers/indexController.php';
+	require '../controllers/EenproductController.php';
 ?>
 
 

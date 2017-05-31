@@ -11,6 +11,11 @@
 	background-color: rgba(150, 150, 150, 0.1);
 }
 
+.maincontent .ui.product.segment {
+	min-height: 400px !important;
+	max-height: 400px !important;
+}
+
 .maincontent h1.ui.header {
 	font-size: 3em;
 }

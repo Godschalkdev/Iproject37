@@ -70,3 +70,8 @@ a:hover {
 .maincontent {
 	margin-top: 25px;
 }
+
+.maincontent .ui.product.segment {
+	min-height: 400px !important;
+	max-height: 400px !important;
+}

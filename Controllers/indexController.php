@@ -12,19 +12,27 @@ function printIndexVeilingen($param){
       break;
     case 'nieuw':
       $veilingen = getNieuweVeilingen();
+      break;
+    case 'bijzonder':
+      $veilingen = getBijzondereVeilingen();
+      break;
+    case 'koopje':
+      $veilingen = getKoopjes();
+      break;
   }
   
   foreach($veilingen as $veilingen){
    $filename = getfile($veilingen['object_nr']);
+   $hoogsteBod = getHoogsteBod($veilingen['object_nr']);
 $html = <<<MYCONTENT
         <div class="column">
-          <div class="ui segment">
+          <div class="ui object segment">
             <img src="$filename[filename]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
-              € $veilingen[hoogsteBod]
+              € $hoogsteBod[hoogsteBod]
             </div>
             <div class="ui buttons">
-              <button class="ui sand button">Bekijk Veiling</button>
+              <a class="ui sand button" href="/pages/Eenproduct.php">Bekijk Veiling</a>
               <div class="or" data-text=""></div>
               <button class="ui button">14:00:45</button>
             </div>

@@ -35,18 +35,22 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					<div class="required field">
 						<label>Gebruikersnaam</label>
 						<input type="text" name="gebruikersnaam" placeholder="Gebruikersnaam">
+						<?php chk_InErrorArray("gebruikersnaam")?>
 					</div>
 					<div class="required field">
 						<label>Naam</label>
 						<div class="fields">
 							<div class="six wide field">
 								<input type="text" name="voornaam" placeholder="Voornaam">
+								<?php chk_InErrorArray("voornaam")?>
 							</div>
 							<div class="four wide field">
 								<input type="text" name="tussenvoegsel" placeholder="evt. tussenvoegsel">
+								<?php chk_InErrorArray("tussenvoegsel")?>
 							</div>
 							<div class="six wide field">
 								<input type="text" name="achternaam" placeholder="Achternaam">
+								<?php chk_InErrorArray("achternaam")?>
 							</div>
 						</div>
 					</div>
@@ -55,9 +59,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 						<div class="two fields">
 							<div class="field">
 								<input type="password" name="wachtwoord" placeholder="Wachtwoord">
+								<?php chk_InErrorArray("wachtwoord")?>
 							</div>
 							<div class="field">
 								<input type="password" name="rewachtwoord" placeholder="Herhaal Wachtwoord">
+								<?php chk_InErrorArray("rewachtwoord")?>
 							</div>
 						</div>
 					</div>
@@ -99,6 +105,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 						            <option value="30">30</option>
 						            <option value="31">31</option>
 								</select>
+								<?php chk_InErrorArray("geboortedag")?>
 							</div>
 							<div class="required field">
 								<select class="ui search dropdown" name="geboortemaand">
@@ -116,6 +123,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 									<option value="11">November</option>
 									<option value="12">December</option>
 								</select>
+								<?php chk_InErrorArray("geboortemaand")?>
 							</div>
 							<div class="required field">
 								<select class="ui search dropdown" name="geboortejaar">
@@ -175,6 +183,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 									<option value="1948">1948</option>
 									<option value="1947">1947</option>
 								</select>
+								<?php chk_InErrorArray("geboortejaar")?>
 						    </div>
 						</div>
 					</div>
@@ -184,12 +193,14 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 						<div class="fields">
 							<div class="required eight wide field">
 								<input type="text" name="straat" placeholder="Straatnaam">
+								<?php chk_InErrorArray("straat")?>
 							</div>
 							<div class="required three wide field">
 								<input type="text" name="straatnummer" placeholder="#123">
 							</div>
 							<div class="required five wide field">
 								<input type="text" name="postcode" placeholder="1234 AB">
+								<?php chk_InErrorArray("postcode")?>
 							</div>
 						</div>
 					</div>
@@ -197,6 +208,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 						<div class="required field">
 							<label>Stad</label>
 							<input type="text" name="stad" placeholder="Stad">
+							<?php chk_InErrorArray("stad")?>
 						</div>
 						<div class="required field">
 					      	<label>Land</label>
@@ -445,6 +457,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 							    <option value="zm"><i class="zm flag"></i>Zambia</option>
 							    <option value="zw"><i class="zw flag"></i>Zimbabwe</option>
 							</select>
+							<?php chk_InErrorArray("land")?>
 						</div>
 					</div>
 					<div class="two fields">
@@ -465,9 +478,11 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 										<option value="1">Hoe heet uw huisdier?</option>
 										<option value="2">Wat was vroeger uw bijnaam?</option>
 								</select>
+								<?php chk_InErrorArray("vraag")?>
 							</div>
 							<div class="required field">
 								<input type="text" name="antwoord" placeholder="Antwoord">
+								<?php chk_InErrorArray("antwoord")?>
 							</div>
 						</div>
 					<h3 class="ui dividing header"></h3>
@@ -517,8 +532,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	  			  voornaam   		: 'empty',
 			      achternaam   		: 'empty',
 			      gebruikersnaam 	: ['empty','doesntContain[admin]'],
-			      wachtwoord		: ['minLength[6]', 'empty'],
-			      rewachtwoord		: ['minLength[6]', 'empty'],
+			      wachtwoord		: ['minLength[8]', 'empty'],
+			      rewachtwoord		: ['minLength[8]', 'empty'],
 			      geboortedag   	: 'empty',
 			      geboortemaand   	: 'empty',
 			      geboortejaar   	: 'empty',

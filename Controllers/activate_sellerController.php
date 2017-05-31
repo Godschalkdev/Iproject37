@@ -16,11 +16,25 @@ function register_seller(){
 	$controleoptie = $_POST['controleoptie'];
 	$creditcardnummer = $_POST['creditcardnummer'];
 
-	$query = $pdo -> prepare("INSERT INTO dbo.Seller (username, bankname, account_number, control_option_name, creditcardnumber)
-							VALUES (?, ?, ?, ?, ?)");
-	$query->execute(array( $username, $bank, $rekeningnummer, $controleoptie, $creditcardnummer));
+	if (!null == ($_POST['rekeningnummer'] || $_POST['creditcardnummer']) ) {
+
+		$query = $pdo -> query("UPDATE dbo.User 
+				SET seller_yes_or_no = 'yes' 
+				WHERE username ='".$_SESSION['username']."' " );
+
+		$query = $pdo -> prepare("INSERT INTO dbo.Seller (username, bankname, account_number, control_option_name, creditcardnumber)
+								VALUES (?, ?, ?, ?, ?)");
+		$query->execute(array( $username, $bank, $rekeningnummer, $controleoptie, $creditcardnummer));
+
+
+	} else {
+		echo '<div class="ui red message">Vul uw bankrekeningnummer en/of creditcardnummer in.</div>';
+	}
 };
 
+function genereerCode() {
+	echo(rand());
+}
 
 
 
@@ -35,8 +49,9 @@ function getSellers()
 function printSellers(){
 	$data = getSellers();
 	foreach($data as $key){
-		print($key['username']);
+		print_r($key['username']);
 	}
 }	
+// ^
 
 ?>

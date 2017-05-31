@@ -221,4 +221,6 @@ function bodQuery($objectnr, $amount, $username) {
   $data = $pdo->prepare("INSERT INTO Offer VALUES (?,?,?,GETDATE(),CONVERT (time, SYSDATETIME()))");
   $data->execute(array($objectnr, $amount, $username));
 }
+
+
 ?>

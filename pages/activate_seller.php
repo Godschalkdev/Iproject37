@@ -15,7 +15,7 @@
 
  	<?php 
     	include 'html/sidebar.html';
-    	include 'html/menu.html';
+    	include 'menu.php';
 
     	//test for $_SESSION
     	$_SESSION['username'] = "Gebruikersnaam";

@@ -1,5 +1,9 @@
 <?php
-if ($_SESSION['loggedin'] != 'true')
+session_start();
+
+
+
+if ($_SESSION['loggedin'] != true)
 {
   header("Location: ../index.php");
 }

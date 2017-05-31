@@ -60,7 +60,7 @@ function chk_Fields($fields){
       $error                    = true;
     }
     elseif ($fieldname == "gebruikersnaam"){
-      if(Chk_UserAlreadyExist($_POST["gebruikersnaam"])){
+      if(Chk_UserAlreadyExist_gebruikersnaam($_POST["gebruikersnaam"])){
         array_push($Errors,$fieldname);
         $error                = true;
       }

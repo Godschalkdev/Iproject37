@@ -288,8 +288,104 @@ function showVeilingen()
 	    print("</table>");
 }
 
+// function searchBar(){
+	
+// 	global $pdo;
+// 	$zoekinput = $_GET['zoeken'];
+// 	$zoekknop = $_GET['verstuur'];
+
+// 	if( isset($zoekinput) && isset($zoekknop)) {
 
 
+// 	$query = $_GET['zoeken'];
+// 	$sql = "SELECT * FROM dbo.Users
+//             WHERE ('user_id' LIKE %".$zoekinput."%) 
+//            	   OR ('username' LIKE '%".$zoekinput."%')
+//                OR ('firstname' LIKE '%".$zoekinput."%')
+//                OR ('lastname' LIKE '%".$zoekinput."%')
+//                OR ('emailaddress' LIKE '%".$zoekinput."%')";
+
+
+// 	$stmt = $pdo->query($sql);
+
+// 	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
+//  	$rijenPerPagina = 1000;
+
+// 	if($nRijen[0] == 0) 
+// 	{ 
+// 	    echo "No rows returned."; 
+// 	} 
+// 	else 
+// 	{     
+// 	    $nPagina = ceil($nRijen[0]/$rijenPerPagina); 
+// 	    for($i = 1; $i<=$nPagina; $i++) 
+// 	    { 
+// 	        $paginaNummer = "?paginaNummer=$i"; 
+// 	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
+// 	    } 
+// 	    echo "<br/><br/>"; 
+// 	}
+
+
+// 	$sql = "SELECT * FROM  
+//             			(SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
+//             			AS rownumber, username, firstname, lastname,  emailaddress FROM dbo.Users) 
+//         				AS Temp 
+//         				WHERE rownumber BETWEEN ? AND ?";
+
+//     $stmt2 = $pdo->prepare($sql);
+   
+  
+
+// 	if(isset($_GET['paginaNummer'])) 
+// 	{ 
+// 	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
+// 	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
+// 	} 
+// 	else 
+// 	{ 
+// 	    $laagRijNummer = 1; 
+// 	    $hoogRijNummer = $rijenPerPagina; 
+// 	}
+
+// 	$params = array(&$laagRijNummer, &$hoogRijNummer);
+// 	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
+
+// 	 $nRijen = $stmt->rowCount();
+	
+// 	print("<table border='1px'> 
+// 	        <tr>
+// 		        <td>user ID</td> 
+// 		        <td>username</td>
+// 		        <td>firstname</td>
+// 		        <td>lastname</td>
+// 		        <td>emailaddress</td>
+// 	        </tr>"); 
+
+// 		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
+// 	    { 
+// 	        print("
+// 				<tbody id='userTable' contentEditable='true'>
+// 	        	<tr>
+// 	        		<td>$row[0]</td> 
+// 	                <td>$row[1]</td> 
+// 	                <td>$row[2]</td>
+// 	                <td>$row[3]</td>
+// 	                <td>$row[4]</td>
+// 	                <td>
+// 	                	<div class='ui buttons'>
+// 	                	<input type='hidden' name='UTable' value='$row[0]'/>
+// 	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
+// 	                		<input type='submit' name='email' value='Mailen' class='ui button two'>Mailen</button>
+// 	                		<input type='submit' name'=remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+// 	                	</div>
+// 	                </td>
+// 	               </tr>
+// 	                </tbody>"); 
+// 	    } 
+// 	    print("</table>");
+// 	}
+// }
 
 /*
 function saveInput(){
@@ -336,11 +432,3 @@ function saveInput(){
 
 // }
 
-<<<<<<< HEAD
-// saveUsers();
-=======
-// saveUsers();
-
-
-?>
->>>>>>> f19888fbfcd593dd32760b75bd123d1d764d2723

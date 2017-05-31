@@ -82,18 +82,6 @@ function getHoogsteBod($param){
   return $data->fetch();
   }
 
- function Chk_UserAlreadyExist($emailaddress)
-    {
-      global $pdo;
-      $data = $pdo->prepare("SELECT username FROM Users WHERE username = :emailaddress");
-      $data->execute(array($emailaddress));
-      $count = count($data->fetchAll());
-      if ($count > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
 
  function Chk_UserAlreadyExist($gebruikersnaam)
 

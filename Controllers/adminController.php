@@ -12,9 +12,9 @@ connectToDatabase();
 function getUsers()
 {
 	global $pdo;
-	$data = $pdo->query("SELECT top 10 * from dbo.Users");
+	$data = $pdo->query("SELECT * from dbo.Users");
 	
-  	return $data->fetchAll(PDO::FETCH_ASSOC);
+  	return $data->fetchAll();
 }	
 
 function getHeading()
@@ -36,7 +36,14 @@ function removeUser()
 {
  global $pdo;
  $userData = getUsers();
- $data = $pdo->query("DELETE from dbo.Users where user_id='".$_POST['UTable']."' " );
+ $user = $_POST['UTable'];
+ 
+
+ if(isset($_POST['remove']))
+ {
+ 	$data = $pdo->prepare("DELETE from dbo.Users where user_id= ?");
+ 	$data->execute(array($user));
+ }
 
 }	
 	
@@ -117,7 +124,7 @@ function showUsers()
 	                	<input type='hidden' name='UTable' value='$row[0]'/>
 	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
 	                		<input type='submit' name='email' value='Mailen' class='ui button two'>Mailen</button>
-	                		<input type='submit' name'=remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
 	                	</div>
 	                </td>
 	               </tr>
@@ -288,7 +295,7 @@ function showVeilingen()
 	    print("</table>");
 }
 
-
+removeUser();
 
 
 /*
@@ -336,11 +343,3 @@ function saveInput(){
 
 // }
 
-<<<<<<< HEAD
-// saveUsers();
-=======
-// saveUsers();
-
-
-?>
->>>>>>> f19888fbfcd593dd32760b75bd123d1d764d2723

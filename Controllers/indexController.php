@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 require('db-util.php');
 
 connectToDatabase();
@@ -32,7 +32,7 @@ $html = <<<MYCONTENT
               € $hoogsteBod[hoogsteBod]
             </div>
             <div class="ui buttons">
-              <a class="ui sand button" href="/pages/Eenproduct.php">Bekijk Veiling</a>
+              <a class="ui sand button" href="pages/Eenproduct.php?id=$veilingen[object_nr]">Bekijk Veiling</a>
               <div class="or" data-text=""></div>
               <button class="ui button">14:00:45</button>
             </div>

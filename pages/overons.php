@@ -13,7 +13,7 @@
 	<body>
 	
 		<?php 
-			include 'html/menu.html';
+			include 'menu.php';
 			include 'html/sidebar.html';
 		?>
 		<div class="pusher">

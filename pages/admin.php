@@ -16,7 +16,7 @@
 
  	<?php 
     	include 'html/sidebar.html';
-      include 'html/menu.html';
+      include 'menu.php';
   	?>
     
   	<div class="maincontent">

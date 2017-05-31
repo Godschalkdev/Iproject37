@@ -27,6 +27,14 @@ function processForm()
   }
 }
 
+function logout(){
+
+  if(!empty($_POST["logout"])) {
+  $_SESSION["user_id"] = "";
+  session_destroy();
+}
+}
+
 
  
  function login(){

@@ -14,7 +14,7 @@
 	
 		<?php 
 			require ('../Controllers/nieuwproductController.php');
-			include 'html/menu.html';
+			include 'menu.php';
 			include 'html/sidebar.html';
 		?>
 

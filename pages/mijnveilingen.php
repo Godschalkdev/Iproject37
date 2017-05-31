@@ -1,3 +1,9 @@
+<?php
+if ($_SESSION['loggedin'] != 'true')
+{
+  header("Location: ../index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -13,7 +19,7 @@
 	<body>
 	
 		<?php 
-			include 'html/menu.html';
+			include 'menu.php';
 			include 'html/sidebar.html';
 		?>
 		

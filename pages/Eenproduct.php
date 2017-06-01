@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require ('../controllers/eenproductController.php');
 	if (empty($_GET['id'])) {
 		header('../index.php');

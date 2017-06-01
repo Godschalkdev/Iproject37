@@ -5,6 +5,7 @@ require ('../db-util.php');
 connectToDatabase();
 
 
+
 if(isset($_POST['doorsturen']))
 {
 	insertNieuwProduct();
@@ -19,9 +20,5 @@ if(isset($_POST['doorsturen']))
 	$stmt -> execute();
 	$data = $stmt -> fetchAll();
 
-
-function insertNieuwProduct(){
-
-}
 
 ?>

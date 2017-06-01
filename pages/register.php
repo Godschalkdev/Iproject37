@@ -1,12 +1,8 @@
 <?php
+
 require('../controllers/registrerencontroller.php');
 $success_message = "";
-session_destroy();
 
-if ($_SESSION['loggedin'] == true)
-{
-  header("Location: ../index.php");
-};
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   $success_message = register_validation();

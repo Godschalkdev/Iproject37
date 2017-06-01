@@ -81,7 +81,7 @@ function getHoogsteBod($param){
   global $pdo;
   $data = $pdo ->query("SELECT TOP 1 MAX(offer_amount) as hoogsteBod, username
                         FROM Offer
-                        WHERE object_nr = 400808373330
+                        WHERE object_nr = $param
                         GROUP BY username
                         ORDER BY hoogsteBod DESC");
   return $data->fetch();
@@ -183,7 +183,7 @@ function getProductsByHeader($param) {
 function getVergelijkbareVeilingen($param) {
   global $pdo;
   $heading_nr = getObjectRubriek($param);
-  $data = $pdo ->query("SELECT TOP 3 * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $heading_nr[lowest_heading_nr]");
+  $data = $pdo ->query("SELECT TOP 3 * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $heading_nr[lowest_heading_nr] AND Object.object_nr != $param");
 
   return $data ->fetchAll();
 }
@@ -199,7 +199,7 @@ function getAllFiles($param) {
   global $pdo;
   $data = $pdo ->query("SELECT filename FROM [File] WHERE object_nr = $param");
 
-  return $data ->fetch();  
+  return $data ->fetchAll();  
 }
 
 function getObject($param) {
@@ -222,5 +222,24 @@ function bodQuery($objectnr, $amount, $username) {
   $data->execute(array($objectnr, $amount, $username));
 }
 
+function startBedragQuery($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT starting_price
+                       FROM [Object]
+                       WHERE object_nr = $param");
+
+  return $data ->fetchAll();
+}
+
+function insertNieuwProduct(){
+  global $pdo; 
+  
+  $insert = $pdo ->query (
+    "INSERT INTO [object] (title, [description], starting_price, payment_method, payment_instructions, city, country, duration, shipping_cost, shipping_instructions) 
+    VALUES (productnaam, productbeschrijving, startprijs, betaalwijze, Betaalinstructies, stad, land, duurveiling, bezorgkosten, bezorginstructies),
+    INSERT INTO [file] ([filename]) 
+    VALUES (afbeelding[])"
+      );
+}
 
 ?>

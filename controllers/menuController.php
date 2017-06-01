@@ -1,7 +1,6 @@
 <?php 
 session_start();
 
-
 function printUserOptionLoggedIn(){	
 $html = <<<MYCONTENT
         <div class="header">User</div>

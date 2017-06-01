@@ -2,6 +2,7 @@
 require ('../Controllers/nieuwproductController.php');
 ?>
 
+
 <!DOCTYPE html>
 <html>
 

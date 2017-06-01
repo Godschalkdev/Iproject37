@@ -3,7 +3,6 @@
 require ('../db-util.php');
 
 connectToDatabase();
-session_start();
 
 
 if(isset($_POST['doorsturen']))
@@ -22,14 +21,7 @@ if(isset($_POST['doorsturen']))
 
 
 function insertNieuwProduct(){
-	global $pdo; 
-	
-	$insert = $pdo ->query (
-		"INSERT INTO [object] (title, [description], starting_price, payment_method, payment_instructions, city, country, duration, shipping_cost, shipping_instructions) 
-		VALUES (productnaam, productbeschrijving, startprijs, betaalwijze, Betaalinstructies, stad, land, duurveiling, bezorgkosten, bezorginstructies),
-		INSERT INTO [file] ([filename]) 
-		VALUES (afbeelding[])"
-			);
+
 }
 
 ?>

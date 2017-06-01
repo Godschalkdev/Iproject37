@@ -91,7 +91,7 @@ function getHoogsteBod($param){
  function Chk_UserAlreadyExist_email($emailaddress)
     {
       global $pdo;
-      $data = $pdo->prepare("SELECT username FROM Users WHERE username = :emailaddress");
+      $data = $pdo->prepare("SELECT emailaddress FROM [User] WHERE emailaddress = ?");
       $data->execute(array($emailaddress));
       $count = count($data->fetchAll());
       if ($count > 0) {
@@ -105,7 +105,7 @@ function getHoogsteBod($param){
  function Chk_UserAlreadyExist_gebruikersnaam($gebruikersnaam)
       {
         global $pdo;
-        $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
+        $data = $pdo->prepare("SELECT username FROM [User] WHERE username = ?");
         $data->execute(array($gebruikersnaam));
         $count = count($data->fetchAll());
         if ($count > 0) {

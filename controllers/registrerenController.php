@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once "../db-util.php";
 require_once "mailcontroller.php";
 connectToDatabase();
@@ -16,7 +16,7 @@ function register_validation()
     $firstname        =   $_POST['voornaam'];
     $lastname         =   $_POST['achternaam'];
     $address_field1   =   $_POST['straat'];
-    $address_field2   =   $_POST[''];
+    $address_field2   =   $address_field1;
     $ZIP_code         =   $_POST['postcode'];
     $city             =   $_POST['stad'];
     $country          =   $_POST['land'];
@@ -78,7 +78,7 @@ function chk_Fields($fields){
       }
     }
     elseif ($fieldname == "emailaddress"){
-      if(!filter_var($_POST['emailaddress'], FILTER_VALIDATE_EMAIL)){ 
+      if(!filter_var($_POST['emailaddress'], FILTER_VALIDATE_EMAIL) || Chk_UserAlreadyExist_email($_POST['emailaddress'])){ 
         array_push($Errors,$fieldname);
         $error                = true;
       }
@@ -175,7 +175,7 @@ function chk_InErrorArray($value){
       echo "<p style=\"color:red\">Geen geldige geboortedag.</p>";
       break;
       case $requiredFields[10]:
-      echo "<p style=\"color:red\">Geen geldig emailadress</p>";
+      echo "<p style=\"color:red\">Geen geldig emailadress, of emailadress is al gebruikt</p>";
       break;
       case $requiredFields[11]:
       echo "<p style=\"color:red\">Wachtwoord moet minimaal 8 tekens zijn,</p>";

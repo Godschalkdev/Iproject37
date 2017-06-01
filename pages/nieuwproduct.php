@@ -1,5 +1,6 @@
 <?php
 require ('../Controllers/nieuwproductController.php');
+include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 ?>
 
 

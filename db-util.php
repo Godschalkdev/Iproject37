@@ -231,15 +231,11 @@ function startBedragQuery($param) {
   return $data ->fetchAll();
 }
 
-function insertNieuwProduct(){
-  global $pdo; 
-  
-  $insert = $pdo ->query (
-    "INSERT INTO [object] (title, [description], starting_price, payment_method, payment_instructions, city, country, duration, shipping_cost, shipping_instructions) 
-    VALUES (productnaam, productbeschrijving, startprijs, betaalwijze, Betaalinstructies, stad, land, duurveiling, bezorgkosten, bezorginstructies),
-    INSERT INTO [file] ([filename]) 
-    VALUES (afbeelding[])"
-      );
+function insertNieuwObject(){
+  try{ 
+                  global $pdo;
+    
+                $stmt = $pdo->prepare("INSERT INTO [User] (title, description, starting_price, payment_method, payment_instructions,city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, buyer, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
+                $stmt->execute(array($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price));
 }
-
 ?>

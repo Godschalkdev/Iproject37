@@ -1,3 +1,7 @@
+<?php
+require ('../Controllers/nieuwproductController.php');
+?>
+
 
 <!DOCTYPE html>
 <html>
@@ -8,14 +12,14 @@
 		<?php 
 			include 'html/mainhead.html';	
 		?>
-		<link rel="stylesheet" type="text/css" href="/stylecss/nieuwproduct.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/extrapaginas.css">
 	</head>
 	
 	<body>
 	
 		<?php 
-			require ('../Controllers/nieuwproductController.php');
-			include 'menu.php';
+			
+			include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 			include 'html/sidebar.html';
 		?>
 

@@ -1,6 +1,13 @@
 <?php
 require('../controllers/registrerencontroller.php');
 $success_message = "";
+session_destroy();
+
+if ($_SESSION['loggedin'] == true)
+{
+  header("Location: ../index.php");
+};
+
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   $success_message = register_validation();
 }
@@ -19,7 +26,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 <body>
 	<?php 
-    	include 'menu.php';
+    	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
     	include 'html/sidebar.html';
   	?>
 	

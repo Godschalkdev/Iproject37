@@ -1,5 +1,9 @@
 <?php
-if ($_SESSION['loggedin'] != 'true')
+session_start();
+
+
+
+if ($_SESSION['loggedin'] != true)
 {
   header("Location: ../index.php");
 }
@@ -19,7 +23,7 @@ if ($_SESSION['loggedin'] != 'true')
 	<body>
 	
 		<?php 
-			include 'menu.php';
+			include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 			include 'html/sidebar.html';
 		?>
 		

@@ -4,10 +4,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Over ons</title>
-		<link rel="stylesheet" type="text/css" href="/stylecss/overons.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/extrapaginas.css">
+
 		<?php 
 			include 'html/mainhead.html';
 		?>
+		
 	</head>
 	
 	<body>

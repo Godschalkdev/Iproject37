@@ -31,11 +31,7 @@ $html = <<<MYCONTENT
             <div class="ui top left attached label huge">
               € $hoogsteBod[hoogsteBod]
             </div>
-            <div class="ui buttons">
               <a class="ui sand button" href="pages/Eenproduct.php?id=$veilingen[object_nr]">Bekijk Veiling</a>
-              <div class="or" data-text=""></div>
-              <button class="ui button">14:00:45</button>
-            </div>
             <h3 class="niagara">$veilingen[title]</h3>
           </div>
         </div>

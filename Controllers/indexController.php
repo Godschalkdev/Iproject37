@@ -26,7 +26,7 @@ function printIndexVeilingen($param){
    $hoogsteBod = getHoogsteBod($veilingen['object_nr']);
 $html = <<<MYCONTENT
         <div class="column">
-          <div class="ui object segment">
+          <div class="ui product segment">
             <img src="$filename[filename]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
               € $hoogsteBod[hoogsteBod]

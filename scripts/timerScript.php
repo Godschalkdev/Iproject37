@@ -13,7 +13,7 @@
 		    if (remainingSeconds < 10) {
 		        remainingSeconds = "0" + remainingSeconds; 
 		    }
-		    document.getElementById("timer").innerHTML = days + ":" + hours + ":" + minutes + ":" + remainingSeconds;
+		    document.getElementById("timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + remainingSeconds + "s";
 		    if (seconds <= 0) {
 		        clearInterval(countdownTimer);
 		        document.getElementById("timer").innerHTML = "Bieding verlopen";

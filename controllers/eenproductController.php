@@ -89,7 +89,7 @@ function printHoogsteBod($param) {
 function printBiedKnoppen($param) {
   $hoogsteBod = getHoogsteBod($param);
   for ($i=0; $i < 3; $i++) { 
-    $bedrag = $hoogsteBod['hoogsteBod'];
+    $bedrag = floor($hoogsteBod['hoogsteBod']);
     $bedrag += 10 + 10*$i;
     echo "<button value=\"$bedrag\" class=\"ui sand button snel\" name=\"snelBod\" onclick=\"this.form.submit()\">€$bedrag</button>";
   }
@@ -141,5 +141,13 @@ function getEndDateTimeDiff($param) {
 
   $date = strtotime($object['duration_end_date']." ".$object['duration_end_time']);
   return $date - time();
+}
+
+function chk_id($param) {
+  $object = getObject($param);
+  if (empty($object['object_nr'])) {
+    return true;
+  }
+  return false;
 }
 ?>

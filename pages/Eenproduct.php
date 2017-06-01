@@ -1,7 +1,8 @@
 <?php
 	session_start();
 	require ('../controllers/eenproductController.php');
-	if (empty($_GET['id'])) {
+	
+	if (chk_id($_GET['id'])) {
 		header('../index.php');
 	} else {
 		$object = getObject($_GET['id']);

@@ -499,7 +499,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					    	<label>Ik wil een nieuwsbrief ontvangen</label>
 						</div>
 					</div>
-					<input type="submit" value="Submit" class="ui huge sand button">
+					<input type="submit" value="Registreer" class="ui huge sand button">
 					</div>
 				</form>		
 			</div>

@@ -4,23 +4,23 @@ include '../db-util.php';
 
 connectToDatabase();
 
-session_start();
+
 
 function register_seller(){
 	global $pdo;
 
-	$username = $_SESSION['username'];
-	$email = $_SESSION['emailaddress'];
+	$username = $_SESSION['naamuser'];
+	$email = $_SESSION['emailuser'];
 	$bank = $_POST['bank'];
 	$rekeningnummer = $_POST['rekeningnummer'];
 	$controleoptie = $_POST['controleoptie'];
 	$creditcardnummer = $_POST['creditcardnummer'];
 
-	if (!null == ($_POST['rekeningnummer'] || $_POST['creditcardnummer']) ) {
+	if (!empty($_POST['rekeningnummer'] && !empty($_POST['creditcardnummer'])) ) {
 
 		$query = $pdo -> query("UPDATE dbo.User 
 				SET seller_yes_or_no = 'yes' 
-				WHERE username ='".$_SESSION['username']."' " );
+				WHERE username ='".$_SESSION['username']."' ");
 
 		$query = $pdo -> prepare("INSERT INTO dbo.Seller (username, bankname, account_number, control_option_name, creditcardnumber)
 								VALUES (?, ?, ?, ?, ?)");

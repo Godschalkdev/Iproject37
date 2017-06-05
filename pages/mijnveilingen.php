@@ -2,11 +2,7 @@
 session_start();
 
 
-
-if ($_SESSION['loggedin'] != true)
-{
-  header("Location: ../index.php");
-}
+include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 ?>
 <!DOCTYPE html>
 <html>

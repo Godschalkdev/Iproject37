@@ -1,12 +1,8 @@
 <?php
+
 require('../controllers/registrerencontroller.php');
 $success_message = "";
-session_destroy();
 
-if ($_SESSION['loggedin'] == true)
-{
-  header("Location: ../index.php");
-};
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   $success_message = register_validation();
@@ -503,7 +499,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					    	<label>Ik wil een nieuwsbrief ontvangen</label>
 						</div>
 					</div>
-					<input type="submit" value="Submit" class="ui huge sand button">
+					<input type="submit" value="Registreer" class="ui huge sand button">
 					</div>
 				</form>		
 			</div>

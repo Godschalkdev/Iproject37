@@ -25,7 +25,7 @@
  	 			  <h1 class="ui niagara header">Admin</h1>
           <h3 class="ui dividing header"></h3>
  	 			  <div class="ui top attached tabular menu">
-           <a class="active item" data-tab="first">Zoeken</a>
+            <a class="active item" data-tab="first">Zoeken</a>
             <a class="item" data-tab="second">Account gegevens</a>
             <a class="item" data-tab="third">Categorieën beheren</a>
             <a class="item" data-tab="fourth">Veilingen beheren</a>
@@ -41,15 +41,6 @@
             <?php 
               searchBar();
             ?>
-
-<!--             <select name='database' >
-              <option value='user'".(isset($_GET['user']) ? 'selected' : '')."> Account gegevens </option>
-              <option> Categorieën </option>
-              <option> Veilingen </option>
-            </select>
-
-              <input type='text' name='zoeken' value="<?php echo $zoeken ?>" placeholder='Zoeken' method="POST"> 
-              <input type='submit' name='knop' value='verstuur' class='button ' method="REQUEST"> -->
         
             </form>   
 
@@ -59,7 +50,7 @@
             <form method="post">
                     <?php
                       showUsers();
-
+                     // testUsers();
                     //  saveInput();
                     ?>  
             </form>

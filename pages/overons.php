@@ -9,7 +9,7 @@
 		<?php 
 			include 'html/mainhead.html';
 		?>
-		
+
 	</head>
 	
 	<body>
@@ -26,7 +26,10 @@
 
 					<h3 class="ui dividing header"></h3>
 					
-        				<h3 class="ui dividing header">Eenmaalandermaal</h3>
+        				<h3 class="ui dividing header">iConcepts</h3>
+
+        				<p>iConcepts is een bedrijf dat betrouwbaarheid hoog in het vaandel heeft staan. </p>
+
 						<h3 class="ui dividing header">Het Team</h3>			
 
 				</div>

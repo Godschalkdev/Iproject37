@@ -239,28 +239,24 @@ function startBedragQuery($param) {
   return $data ->fetchAll();
 }
 
+function insertNieuwObject(){
+    global $pdo;
 
-
-
-
-
-//Nieuwe object toevoegen functies
-function insertNieuwObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price){
-
-try {
-global $pdo;
-    
-$data = $pdo->prepare("INSERT INTO [Object] (title, description, starting_price, payment_method, payment_instructions,city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
-
-$data->execute(array($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed));
-
-}
-      catch(PDOexeption $e){
-          echo $e->getMessage();
+  $stmt = $pdo->prepare("INSERT INTO [User] (title, description, starting_price, payment_method, payment_instructions,city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, buyer, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
+  $stmt->execute(array($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price));
 }
 
-                return true;
- }
+function getUserVeilingen($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM [Object] WHERE seller = '$param'");
+  return $data ->fetchAll();
+}
+
+function getUserVeilingenBieden($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT MAX(offer_amount) AS bod, Offer.object_nr, title FROM Offer JOIN [Object] ON [Object].object_nr = Offer.object_nr WHERE username = '$param' GROUP BY Offer.object_nr, title");
+  return $data ->fetchAll();
+}
 
 
 
@@ -307,6 +303,7 @@ global $pdo;
   return $data;
 
 }
+
 
 // Querys voor admin pagina
 
@@ -359,6 +356,17 @@ function getAfgeslotenVeilingen(){
     return $data ->fetchAll();
 }
 
+
+function getFeedback($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM Feedback JOIN Object ON Object.object_nr = Feedback.object_nr WHERE seller = '$param'");
+  return $data ->fetchAll();
+}
+
+
+function getFeedbackBeschikbaar($user, $logger) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM [Object] WHERE seller = '$user' AND buyer = '$logger'");
+  return $data ->fetchAll();
+}
 ?>
-
-

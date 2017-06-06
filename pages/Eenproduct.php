@@ -1,10 +1,11 @@
 <?php
 
 	session_start();
-	include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+	//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 
 	require ('../controllers/eenproductController.php');
-	if (empty($_GET['id'])|| !$_SESSION['loggedin']) {
+
+	if (chk_id($_GET['id'])) {
 		header('../index.php');
 	} else {
 		$object = getObject($_GET['id']);

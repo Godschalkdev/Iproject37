@@ -49,11 +49,11 @@
   			<div class="two fields">
 			   	<div class="field">
 			      	<label>Gebruikersnaam</label>
-			      		<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['naamuser'] ?></h3>
 			    	</div>
 			   		<div class="field">
 			      		<label>Email</label>
-			      		<h3 class="ui grey header"><?php echo $_SESSION['emailaddress'] ?></h3>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['emailuser'] ?></h3>
 			    	</div>
 			</div>
 

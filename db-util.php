@@ -17,6 +17,7 @@ catch(PDOexeption $e){
 }
 }
 
+//Functies voor het inloggen
  function Chk_LoginDetails($username, $plaintextpassword)
     {
       global $pdo;
@@ -36,7 +37,7 @@ catch(PDOexeption $e){
         }
       }
 
-
+//Functies voor de index pagina
 function getPopulaireVeilingen(){
 global $pdo;
   $data = $pdo->query("SELECT TOP 3 title, description, max(offer_amount) as hoogsteBod,count(offer_amount) as totaleOffers, b.object_nr FROM Object b inner join Offer f ON b.object_nr = f.object_nr GROUP BY title, description, b.object_nr ORDER BY TotaleOffers desc");
@@ -87,6 +88,9 @@ function getHoogsteBod($param){
   return $data->fetch();
   }
 
+
+
+//Functies op nieuwe gebruikers te registreren
 
  function Chk_UserAlreadyExist_email($emailaddress)
     {
@@ -165,6 +169,10 @@ function hashpassword($cleartextpassword){
               $extra_key = ['iconcepts' => 37, ];
               return password_hash($cleartextpassword, PASSWORD_BCRYPT, $extra_key);
             }
+
+
+
+//Functie om producten en biedingen weer te geven
 
 function getRubriek($param) {
   global $pdo;
@@ -248,5 +256,75 @@ function getUserVeilingenBieden($param) {
   global $pdo;
   $data = $pdo ->query("SELECT MAX(offer_amount) AS bod, Offer.object_nr, title FROM Offer JOIN [Object] ON [Object].object_nr = Offer.object_nr WHERE username = '$param' GROUP BY Offer.object_nr, title");
   return $data ->fetchAll();
+
+
+
+
+
+//Nieuwe object toevoegen functies
+function insertNieuwObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price){
+
+try {
+global $pdo;
+    
+$data = $pdo->prepare("INSERT INTO [Object] (title, description, starting_price, payment_method, payment_instructions,city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
+
+$data->execute(array($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed));
+
 }
+      catch(PDOexeption $e){
+          echo $e->getMessage();
+}
+
+                return true;
+ }
+
+
+
+function insertNieuwFiles($object_nr, $filename){
+  try {
+global $pdo;
+foreach ([$filename]['name'] as $file)
+    {    
+$data = $pdo->prepare("INSERT INTO [File] (filename, object_nr) VALUES (?,?)") ;
+$data->execute(array($file, $object_nr));
+
+}
+}
+      catch(PDOexeption $e){
+          echo $e->getMessage();
+}
+
+                return true;
+ 
+}
+
+
+
+function insertNieuwObject_in_Heading($object_nr, $lowest_heading_nr){
+try {
+global $pdo;
+
+$data = $pdo->prepare("INSERT INTO [Object_in_Heading] (object_nr, lowest_heading_nr) VALUES (?,?)") ;
+$data->execute(array($object_nr, $lowest_heading_nr));
+
+}
+      catch(PDOexeption $e){
+          echo $e->getMessage();
+}
+
+                return true;
+ }
+
+function getObjectnummer($title, $duration_start_date, $duration_start_time, $seller){
+global $pdo;
+  
+  $data = $pdo->prepare("SELECT object_nr FROM [Object] WHERE title = ? AND duration_start_date = ? AND duration_start_time = ? AND seller = ?");
+  $data->execute(array($title, $duration_start_date, $duration_start_time, $seller));
+  return $data;
+
+}
+
 ?>
+
+

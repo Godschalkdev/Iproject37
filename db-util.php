@@ -309,4 +309,10 @@ function getFeedback($param) {
   $data = $pdo ->query("SELECT * FROM Feedback JOIN Object ON Object.object_nr = Feedback.object_nr WHERE seller = '$param'");
   return $data ->fetchAll();
 }
+
+function getFeedbackBeschikbaar($user, $logger) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM [Object] WHERE seller = '$user' AND buyer = '$logger'");
+  return $data ->fetchAll();
+}
 ?>

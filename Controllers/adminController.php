@@ -7,22 +7,21 @@ $passw = "Str00pW4f31";
 
 connectToDatabase();
 
-function getUsers()
-{
-	global $pdo;
-	$data = $pdo->query("SELECT top 10 * from dbo.Users");
-	
-  	return $data->fetchAll(PDO::FETCH_ASSOC);
-}	
+// function getUsers(){
+// 	global $pdo;
+//     $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.Users");
+  
+//     return $stmt->fetch(PDO::FETCH_NUM);
+// }
 
-function getHeading()
+function getHeadingPaginanummers()
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Heading");
   	return $data->fetchAll();
 }
 
-function getVeilingen()
+function getVeilingenPaginanummers()
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Object");
@@ -44,11 +43,8 @@ function showUsers()
 {
 	global $pdo;
 
-	$sql = "SELECT COUNT(user_id) FROM dbo.Users"; 
+	$nRijen = getAantalUsers(); 
 
-	$stmt = $pdo->query($sql);
-
-	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
  	$rijenPerPagina = 1000;
 
 	if($nRijen[0] == 0) 
@@ -91,7 +87,7 @@ function showUsers()
 	$params = array(&$laagRijNummer, &$hoogRijNummer);
 	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
 
-	 $nRijen = $stmt->rowCount();
+	//$nRijen = $stmt->rowCount();
 	
 
 
@@ -110,7 +106,24 @@ function showUsers()
     }
 
     }
+//aanpassesn
+     if(isset($_GET['param']) && $_GET['param']=="update"){
+         $update_id = $_GET['id'];
+         $update_user_id = $_GET['user_id'];
+         $update_heading_name = $_GET['heading_name'];
+         $update_heading_nr_parent = $_GET['heading_nr_parent'];
+         $sql="UPDATE dbo.Heading SET heading_nr = '$update_heading_nr', heading_name = '$update_heading_name', heading_nr_parent = '$update_heading_nr_parent' WHERE Heading_nr='$update_id'";
+         $resultaat=$pdo->query($sql);
 
+    if ($resultaat){
+        echo "Updaten gelukt";
+
+    } else {
+        echo "Updaten error";
+
+    }
+
+    }
 
 	print("<table border='1px'> 
 	        <tr>
@@ -133,13 +146,14 @@ function showUsers()
 	                <td contentEditable='true'>$row[emailaddress]</td>
 
 	                <td><a href='?param=verwijder&amp;id={$row['user_id']}'>Verwijderen</a></td>
-	                <td><a href='?param=opslaan&amp;id={$row['user_id']}'>Opslaan</a></td>
+	                <td><a href='?param=update&amp;id={$row['user_id']}&amp;user_id={$row['user_id']}&amp;username={$row['username']}&amp;firstname={$row['firstname']}&amp;lastname={$row['lastname']}&amp;emailaddress={$row['emailaddress']}'>Opslaan</a></td>
 	               </tr>
 	                </tbody>"); 
 	    } 
 	    print("</table>");
 
 }
+
 
 
 function showHeading()
@@ -246,11 +260,7 @@ function showHeading()
 	                <td contentEditable='true' name='heading_nr'>$row[heading_nr_parent]</td>
 	                <td><a href='?param=verwijder&amp;id={$row['heading_nr']}'>Verwijderen</a></td>
 
-	                <td><a href='?param=update&amp;
-	                			  id={$row['heading_nr']}&amp;
-	                			  heading_nr={$row['heading_nr']}&amp;
-	                			  heading_name={$row['heading_name']}&amp;
-	                			  heading_nr_parent={$row['heading_nr_parent']}'>
+	                <td><a href='?param=update&amp;id={$row['heading_nr']}&amp;heading_nr={$row['heading_nr']}&amp;heading_name={$row['heading_name']}&amp;heading_nr_parent={$row['heading_nr_parent']}'>
 	                			  Update</a></td>
 
 	               </tr>
@@ -331,7 +341,8 @@ function showVeilingen()
          $update_object_nr = $_GET['object_nr'];
          $update_title = $_GET['title'];
          $update_seller = $_GET['seller'];
-         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller' WHERE object_nr='$update_id'";
+         $update_buyer = $_GET['buyer'];
+         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller', buyer = '$update_buyer' WHERE object_nr='$update_id'";
          $resultaat=$pdo->query($sql);
 
     if ($resultaat){
@@ -364,11 +375,7 @@ function showVeilingen()
 	                <td  contentEditable='true'>$row[buyer]</td>
 	                <td><a href='?param=verwijder&amp;id={$row['object_nr']}'>Verwijderen</a></td>
 
-	                <td><a href='?param=update&amp;
-	                			  id={$row['object_nr']}&amp;
-	                			  object_nr={$row['object_nr']}&amp;
-	                			  title={$row['title']}&amp;
-	                			  seller={$row['seller']}'>
+	                <td><a href='?param=update&amp;id={$row['object_nr']}&amp;object_nr={$row['object_nr']}&amp;title={$row['title']}&amp;seller={$row['seller']}&amp;buyer={$row['buyer']}'>
 	                			  Update</a></td>
 	               </tr>
 	                   </tbody>"); 
@@ -377,3 +384,59 @@ function showVeilingen()
 
 	    print("</table>");
 }
+
+// tabblad 5 van Admin Page
+function buttonAfgelopenVeilingen()
+{
+  print("<div class='ui input'>
+        <input  type='submit' name='knop' method='POST' value='Mail versturen'>
+      </div>"); 
+
+	$rows =  getAfgelopenVeilingen();
+    foreach($rows as $row)
+      { 
+        $hoogsteBod = getHoogsteBod($row['object_nr']);
+        $objectnr = $row['object_nr'];
+	   if(isset($_POST['knop'])){
+	        koperInObject($objectnr, $hoogsteBod['username']);
+	        //aflopendeVeilingMail();
+	        veilingSluiten($objectnr);
+	   }
+	}
+}
+
+function tabelKoppenAfgelopenVeilingen(){
+	  print("<br/><br/>
+      <table border='1px'> 
+          <tr>
+            <td>Object nummer</td> 
+            <td>Titel</td>
+            <td>Koper</td>
+            <td>Verkoper</td>
+            
+          </tr>"); 
+}
+
+function tabelAfgelopenVeilingen(){
+  $rows =  getAfgelopenVeilingen();
+  	if (!empty($rows)) {
+  		tabelKoppenAfgelopenVeilingen();
+	  	foreach($rows as $row)
+	      { 
+	        $hoogsteBod = getHoogsteBod($row['object_nr']) ;
+	          print("
+	        <tbody id='userTable'>
+	            <tr>
+	              <td>$row[object_nr]</td> 
+	                  <td>$row[title]</td> 
+	                  <td>$hoogsteBod[username]</td>
+	                  <td>$row[seller]</td>
+	                 </tr>
+	                  </tbody>"); 
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen aflopende veilingen.";
+  	}
+}
+?>

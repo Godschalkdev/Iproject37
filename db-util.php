@@ -308,6 +308,57 @@ global $pdo;
 
 }
 
+// Querys voor admin pagina
+
+// Geeft aantal gebruikers terug
+function getAantalUsers()
+{
+  global $pdo;
+  $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.Users");
+  
+  return $stmt->fetch(PDO::FETCH_NUM);
+} 
+
+
+// Geeft alle afgelopen veilingen terug
+function getAfgelopenVeilingen(){
+  global $pdo;
+
+  $data = $pdo ->query("SELECT object_nr, title, buyer, seller FROM dbo.Object
+      WHERE  auction_closed = 0 AND CAST(GETDATE() AS DATE) >= duration_end_date ");
+      //AND CAST(GETDATE() AS TIME) >= duration_end_time";
+       //AND CAST(GETDATE() AS TIME >= duration_end_time)"; 
+    return $data ->fetchAll();
+}
+
+function koperInObject($object_nr, $username){
+    global $pdo;
+      
+    $stmt = $pdo->prepare("UPDATE [Object] 
+                          SET buyer = (?)
+                          WHERE object_nr = '$object_nr'");
+    $stmt ->execute(array($username));
+}
+
+function veilingSluiten($object_nr){
+    global $pdo;
+      
+    $stmt = $pdo->prepare("UPDATE [Object] 
+                          SET auction_closed = 1
+                          WHERE object_nr = '$object_nr'");
+    $stmt ->execute(array());
+}
+
+function getAfgeslotenVeilingen(){
+    global $pdo;
+
+  $data = $pdo ->query("SELECT object_nr, title, buyer, seller FROM dbo.Object
+      WHERE  auction_closed = 1");
+      //AND CAST(GETDATE() AS TIME) >= duration_end_time";
+       //AND CAST(GETDATE() AS TIME >= duration_end_time)"; 
+    return $data ->fetchAll();
+}
+
 ?>
 
 

@@ -16,6 +16,8 @@ $headers = 'From:noreply@yourwebsite.com' . "\r\n";
 mail($to, $subject, $message, $headers);
 }
 
-
+function aflopendeVeilingMail(){
+	
+}
 
 ?>

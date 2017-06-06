@@ -29,7 +29,8 @@
             <a class="item" data-tab="second">Account gegevens</a>
             <a class="item" data-tab="third">Categorieën beheren</a>
             <a class="item" data-tab="fourth">Veilingen beheren</a>
-            <a class="item" data-tab="fifth">KPI's</a>
+            <a class="item" data-tab="fifth">Afgelopen veilingen</a>
+            <a class="item" data-tab="sixth">KPI's</a>
            
 
           </div>
@@ -74,10 +75,19 @@
             </form>
           </div>
 
+          <div class="ui bottom attached tab segment" data-tab="fifth">
+            <form method="post">
+                    <?php
+                      buttonAfgelopenVeilingen();
+                      tabelAfgelopenVeilingen();
+                    ?>
+            </form>
+          </div>
+
       
 
-          <div class="ui bottom attached tab segment" data-tab="fifth">
-             <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
+          <div class="ui bottom attached tab segment" data-tab="sixth">
+             <iframe width="1000" height="1000" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
 
   		  </div>

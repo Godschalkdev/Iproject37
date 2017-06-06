@@ -1,6 +1,7 @@
 <?php
 
 include '../db-util.php';
+include '../Controllers/mailController.php';
 
 $username = "admin";
 $passw = "Str00pW4f31";
@@ -397,9 +398,11 @@ function buttonAfgelopenVeilingen()
       { 
         $hoogsteBod = getHoogsteBod($row['object_nr']);
         $objectnr = $row['object_nr'];
+        $email = getEmail($hoogsteBod['username']);
+        print($email['emailaddress']);
 	   if(isset($_POST['knop'])){
 	        koperInObject($objectnr, $hoogsteBod['username']);
-	        //aflopendeVeilingMail();
+	        aflopendeVeilingKoperMail($email['emailaddress'], $row['title'], $hoogsteBod['username']);
 	        veilingSluiten($objectnr);
 	   }
 	}

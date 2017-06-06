@@ -356,6 +356,12 @@ function getAfgeslotenVeilingen(){
     return $data ->fetchAll();
 }
 
+function getEmail($username){
+  global $pdo;
+  $data = $pdo -> query("SELECT emailaddress FROM dbo.Users WHERE username = '$username'");
+  return $data -> fetchAll();
+}
+
 
 function getFeedback($param) {
   global $pdo;

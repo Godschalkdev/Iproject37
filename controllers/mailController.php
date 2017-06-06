@@ -16,8 +16,19 @@ $headers = 'From:noreply@yourwebsite.com' . "\r\n";
 mail($to, $subject, $message, $headers);
 }
 
-function aflopendeVeilingMail(){
-	
+function aflopendeVeilingKoperMail($emailaddress, $producttitel, $username){
+	$to = $emailaddress;
+	$subject = 'U heeft een veiling gewonnen';
+	$message='
+	Beste '.$username.',
+	Gefelicteerd! U heeft een veiling gewonnen!
+
+	U heeft het volgende product gewonnen: '.$producttitel.'
+
+	Klik op de link hieronder om feedback te geven:
+	';
+	$headers = 'From:noreply@yourwebsite.com' . "\r\n";
+	mail($to, $subject, $message, $headers);
 }
 
 ?>

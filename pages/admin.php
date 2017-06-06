@@ -35,7 +35,7 @@
 
           </div>
 
-          <div class="ui bottom attached tab segment active" data-tab="first">
+          <div class="ui bottom attached tab segment " data-tab="first">
             
             <form method="post"> 
             
@@ -75,7 +75,7 @@
             </form>
           </div>
 
-          <div class="ui bottom attached tab segment" data-tab="fifth">
+          <div class="ui bottom attached tab segment active" data-tab="fifth">
             <form method="post">
                     <?php
                       buttonAfgelopenVeilingen();

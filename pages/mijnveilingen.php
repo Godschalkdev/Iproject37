@@ -1,12 +1,13 @@
 <?php
 session_start();
-
-
-
-if ($_SESSION['loggedin'] != true)
-{
-  header("Location: ../index.php");
+require $_SERVER['DOCUMENT_ROOT']."/controllers/mijnVeilingenController.php";
+$_SESSION['usernaam'] = 'budgetmotorspares';
+$user = $_GET['user'];
+if (empty($user)) {
+	$user = $_SESSION['usernaam'];
 }
+
+//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,69 +32,45 @@ if ($_SESSION['loggedin'] != true)
 			<div class="maincontent">
 				<div class="ui container">
 					<div class = "ui raised segment">
-						<h1 class="ui niagara header">Mijn Veilingen</h1>
-						<div class="ui three column doubling stackable grid container">
-							<div class="column">
-								<div class="ui segment">
-									<img src="../images/kast.jpg" class="ui rounded medium image">
-									<div class="ui top left attached label large">
-										$ 400,-
-									</div>
-									<div class="ui buttons">
-										<button class="ui sand button">Bekijk Veiling</button>
-										<div class="or" data-text=""></div>
-										<button class="ui button">14:00:45</button>
-									</div>
-									<h3 class="niagara">Xbox One</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores, aliquam animi veritatis? Numquam facere sunt maiores harum quae dolores obcaecati neque cum, tempora laudantium, delectus a sapiente distinctio illum.</p>
-								</div>
-							</div>
-							<div class="column">
-								<div class="ui segment">
-									<img src="../images/xbox.jpg" class="ui rounded medium image">
-									<div class="ui top left attached label large">
-										$ 400,-
-									</div>
-									<div class="ui buttons">
-										<button class="ui sand button">Bekijk Veiling</button>
-										<div class="or" data-text=""></div>
-										<button class="ui button">14:00:45</button>
-									</div>
-									<h3 class="niagara">Xbox One</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores, aliquam animi veritatis? Numquam facere sunt maiores harum quae dolores obcaecati neque cum, tempora laudantium, delectus a sapiente distinctio illum.</p>
-								</div>
-							</div>
-							<div class="column">
-								<div class="ui segment">
-									<img src="../images/vazen.jpg" class="ui rounded medium image">
-									<div class="ui top left attached label large">
-										$ 400,-
-									</div>
-									<div class="ui buttons">
-										<button class="ui sand button">Bekijk Veiling</button>
-										<div class="or" data-text=""></div>
-										<button class="ui button">14:00:45</button>
-									</div>
-									<h3 class="niagara">Xbox One</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae maiores, aliquam animi veritatis? Numquam facere sunt maiores harum quae dolores obcaecati neque cum, tempora laudantium, delectus a sapiente distinctio illum.</p>
-								</div>
-							</div>
+						<h1 class="ui niagara header">Mijn EenmaalAndermaal</h1>
+						<div class="ui top attached tabular menu">
+						  <a class="item active" data-tab="first">Mijn Veilingen</a>
+						  <a class="item" data-tab="second">Reviews</a>
+						  <a class="item" data-tab="third">Biedingen</a>
 						</div>
-						<div class="ui divider"></div>
+						<div class="ui bottom attached tab segment" data-tab="first">
+							<?php printVeilingenUser($user); ?>
+						</div>
+						<div class="ui bottom attached tab segment" data-tab="second">
+							<?php printFeedback($user); ?>
+						</div>
+						<div class="ui bottom attached tab segment" data-tab="third">
+							<?php 
+								if ($user == $_SESSION['usernaam']) {
+									printGebodenproducten($user);
+								} else {
+									echo "U heeft geen toegang tot de biedingen van $user";
+								}  
+							?>
+						</div>
+					</div>
+					<div class="ui divider"></div>
 						<a href="../pages/nieuwproduct.php" class="ui sand huge button">
 	    				Nieuw product aanbieden
 						</a>
 					</div>
 				</div>
-			</div>
 		<?php
 		include 'html/footer.html';
 		?>
-		</div>
-	
+	</div>
 		<?php
 		include '../scripts/menuscript.html';
 		?>
-		
+		<script type="text/javascript">
+			$('.menu .item')
+			  .tab()
+			;
+		</script>
 	</body>
 </html>

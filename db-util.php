@@ -91,7 +91,7 @@ function getHoogsteBod($param){
  function Chk_UserAlreadyExist_email($emailaddress)
     {
       global $pdo;
-      $data = $pdo->prepare("SELECT username FROM Users WHERE username = :emailaddress");
+      $data = $pdo->prepare("SELECT emailaddress FROM [User] WHERE emailaddress = ?");
       $data->execute(array($emailaddress));
       $count = count($data->fetchAll());
       if ($count > 0) {
@@ -105,7 +105,7 @@ function getHoogsteBod($param){
  function Chk_UserAlreadyExist_gebruikersnaam($gebruikersnaam)
       {
         global $pdo;
-        $data = $pdo->prepare("SELECT username FROM Users WHERE username = ?");
+        $data = $pdo->prepare("SELECT username FROM [User] WHERE username = ?");
         $data->execute(array($gebruikersnaam));
         $count = count($data->fetchAll());
         if ($count > 0) {
@@ -231,15 +231,22 @@ function startBedragQuery($param) {
   return $data ->fetchAll();
 }
 
-function insertNieuwProduct(){
-  global $pdo; 
-  
-  $insert = $pdo ->query (
-    "INSERT INTO [object] (title, [description], starting_price, payment_method, payment_instructions, city, country, duration, shipping_cost, shipping_instructions) 
-    VALUES (productnaam, productbeschrijving, startprijs, betaalwijze, Betaalinstructies, stad, land, duurveiling, bezorgkosten, bezorginstructies),
-    INSERT INTO [file] ([filename]) 
-    VALUES (afbeelding[])"
-      );
+function insertNieuwObject(){
+    global $pdo;
+
+  $stmt = $pdo->prepare("INSERT INTO [User] (title, description, starting_price, payment_method, payment_instructions,city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, buyer, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
+  $stmt->execute(array($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price));
 }
 
+function getUserVeilingen($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM [Object] WHERE seller = '$param'");
+  return $data ->fetchAll();
+}
+
+function getUserVeilingenBieden($param) {
+  global $pdo;
+  $data = $pdo ->query("SELECT MAX(offer_amount) AS bod, Offer.object_nr, title FROM Offer JOIN [Object] ON [Object].object_nr = Offer.object_nr WHERE username = '$param' GROUP BY Offer.object_nr, title");
+  return $data ->fetchAll();
+}
 ?>

@@ -1,8 +1,9 @@
 <?php
 session_start();
 
-if (!$_SESSION['loggedin']) {
-	header($_SERVER['DOCUMENT_ROOT'].'pages/login.php')
+if (!$_SESSION['loggedin']){
+	header('location: http://www.eenmaalandermaal.dev/pages/login.php');
 }
+
 
 ?>

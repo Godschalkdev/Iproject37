@@ -1,4 +1,12 @@
 <?php 
+
+session_start();
+
+if ($_SESSION['loggedin'] == true)
+{
+  header("Location: ../index.php");
+};
+
  $success_message = "";
 require('../controllers/loginController.php');
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {

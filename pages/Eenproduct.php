@@ -1,7 +1,10 @@
 <?php
+
 	session_start();
+	//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+
 	require ('../controllers/eenproductController.php');
-	
+
 	if (chk_id($_GET['id'])) {
 		header('../index.php');
 	} else {
@@ -15,7 +18,7 @@
 			if ($_SESSION['naamuser'] == $user['username']) {
 				alert('U kan niet over uwzelf bieden');
 			} else {
-				doeBod($id, $_SESSION['naamuser'],$_POST['snelBod']);
+				doeBod($id, $_SESSION['naamuser'], $_POST['snelBod']);
 			}
 			unset($_POST['snelBod']);
 		}

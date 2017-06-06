@@ -11,6 +11,25 @@
 	background-color: rgba(150, 150, 150, 0.1);
 }
 
+.ui.product.segment {
+	max-width: 300px;
+	height: 380px;
+	display: inline-block;
+	margin: auto 20px auto 20px;
+}
+img.ui.image {
+	height: 180px !important;
+	margin: 0px;
+}
+
+h3.ui.niagara.header {
+	margin: 0px !important;
+}
+
+a.ui.button {
+	margin: 10px auto 5px auto;
+}
+
 .maincontent h1.ui.header {
 	font-size: 3em;
 }
@@ -27,6 +46,9 @@ a:hover {
 	color: #c49860 !important;
 }
 
+.maincontent h4.ui.header {
+	margin: 0px;
+}
 .maincontent img {
 	width: auto;
 	height: auto;

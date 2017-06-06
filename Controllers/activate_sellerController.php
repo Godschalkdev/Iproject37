@@ -4,7 +4,7 @@ include '../db-util.php';
 
 connectToDatabase();
 
-session_start();
+
 
 function register_seller(){
 	global $pdo;

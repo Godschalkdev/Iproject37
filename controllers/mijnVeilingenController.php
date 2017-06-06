@@ -6,7 +6,18 @@ connectToDatabase();
 
 
 function printFeedback($param) {
+$feedbacks = getFeedback($param);
 
+foreach ($feedbacks as $feedback) {
+	$html = <<<MYCONTENT
+		<div class="ui segment">
+			<i class="ui user icon"></i>$feedback[buyer_seller]  |  $feedback[date]  |  $feedback[title] | $feedback[feedback_type]
+			<div class="ui divider"></div>
+			$feedback[comment]
+		</div>
+MYCONTENT;
+	echo $html;
+	}
 }
 
 
@@ -49,10 +60,11 @@ $html = <<<MYCONTENT
           <a class="ui sand button" href="Eenproduct.php?id=$veiling[object_nr]">Bekijk Veiling</a> 
         <h3 class="ui niagara header">$veiling[title]</h3>
 MYCONTENT;
+	echo $html;
 	if (isset($veilingen['bod'])) {
-		echo $html;
 		echo "<h3 class=\"ui niagara header\">$veiling[title]</h3>";
-	}
+		}
+	echo "</div>";
 	}
 }
 ?>

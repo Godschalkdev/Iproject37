@@ -16,6 +16,9 @@ function processForm()
       $_SESSION['loggedin'] = 'true';
       $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
       $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
+      // if(checkUserisVerkoper($_SESSION['naamuser'])){
+      //   $_SESSION['verkoper'] = 'true';
+      // }
       header("Location: /index.php");
     } else {
        return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";

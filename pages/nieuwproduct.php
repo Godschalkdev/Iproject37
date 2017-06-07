@@ -11,6 +11,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 ?>
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -103,7 +104,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 								<div class="ui fluid file input action">
 						       
 						          	<input type="text" readonly>
-           							 <input type="file" id="afbeelding" name="afbeelding[]" autocomplete="off" multiple  style="display:none">
+           							 <input type="file" id="afbeelding" name="afbeelding[]" autocomplete="off" multiple="multiple"  style="display:none">
 
 						            <div class="ui button">
 						                Bestanden
@@ -405,9 +406,9 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   		$('.ui.form')
 	  		.form({
 	  			fields: {
-	  			  productnaam   		: 'empty',
-			      productbeschrijving   : 'empty',
-			      duurveiling 			: 'empty',
+	  			  titel  		: 'empty',
+			      beschrijving   : 'empty',
+			      dagen			: 'empty',
 			      startprijs			: 'empty',
 			      betaalwijze			: 'empty',
 			      afbeelding   			: 'empty',
@@ -441,3 +442,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 	</body>
 </html>
+
+
+

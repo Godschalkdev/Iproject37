@@ -3,7 +3,8 @@ error_reporting(0);
 include '../db-util.php';
 connectToDatabase();
 
-
+$adminUsername = "admin";
+$adminPassword = "Iproject37!";
 
 function processForm()
 {
@@ -46,7 +47,9 @@ function logout(){
  	{
  		echo "Gebruikers of wachtwoord is niet ingevuld!";
  	}
-
+  // else if( $_POST['username'] == $adminUsername && $_POST['password'] == $adminPassword){
+  //   header("./admin.php");
+  // }
  	else
  	{
  		$username = $_POST['username'];

@@ -32,7 +32,7 @@ if (empty($user)) {
 			<div class="maincontent">
 				<div class="ui container">
 					<div class = "ui raised segment">
-						<h1 class="ui niagara header">Mijn EenmaalAndermaal</h1>
+						<h1 class="ui niagara header">Mijn EenmaalAndermaal | <?php echo $_GET['user']; ?></h1>
 						<div class="ui top attached tabular menu">
 						  <a class="item active" data-tab="first">Mijn Veilingen</a>
 						  <a class="item" data-tab="second">Reviews</a>
@@ -42,7 +42,8 @@ if (empty($user)) {
 							<?php printVeilingenUser($user); ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="second">
-							<?php printFeedback($user); ?>
+							<?php printFeedback($user); 
+								  printFeedbackForm($user, $_SESSION['usernaam'])?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="third">
 							<?php 

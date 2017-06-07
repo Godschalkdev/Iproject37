@@ -16,6 +16,34 @@ $headers = 'From:noreply@yourwebsite.com' . "\r\n";
 mail($to, $subject, $message, $headers);
 }
 
+function aflopendeVeilingKoperMail($emailaddress, $producttitel, $username){
+	$to = $emailaddress;
+	$subject = 'U heeft een veiling gewonnen';
+	$message='
+	Beste '.$username.',
+	Gefelicteerd! U heeft een veiling gewonnen!
 
+	U heeft het volgende product gewonnen: '.$producttitel.'
+
+	Klik op de link hieronder om feedback te geven:
+	';
+	$headers = 'From:noreply@yourwebsite.com' . "\r\n";
+	mail($to, $subject, $message, $headers);
+}
+
+function aflopendeVeilingVerkoperMail($emailaddress, $producttitel, $username){
+	$to = $emailaddress;
+	$subject = 'U heeft een Product verkocht';
+	$message='
+	Beste '.$username.',
+	Gefelicteerd! U heeft een product verkocht!
+
+	U heeft het volgende product verkocht: '.$producttitel.'
+
+	Klik op de link hieronder om feedback te geven:
+	';
+	$headers = 'From:noreply@yourwebsite.com' . "\r\n";
+	mail($to, $subject, $message, $headers);
+}
 
 ?>

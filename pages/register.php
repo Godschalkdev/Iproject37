@@ -1,6 +1,9 @@
 <?php
+
 require('../controllers/registrerencontroller.php');
 $success_message = "";
+
+
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   $success_message = register_validation();
 }
@@ -19,7 +22,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 <body>
 	<?php 
-    	include 'menu.php';
+    	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
     	include 'html/sidebar.html';
   	?>
 	
@@ -496,7 +499,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 					    	<label>Ik wil een nieuwsbrief ontvangen</label>
 						</div>
 					</div>
-					<input type="submit" value="Submit" class="ui huge sand button">
+					<input type="submit" value="Registreer" class="ui huge sand button">
 					</div>
 				</form>		
 			</div>

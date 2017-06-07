@@ -1,41 +1,15 @@
 <?php
-session_start();
+
 require('../db-util.php');
 
 connectToDatabase();
 
 function printrubriek($param) {
-	$rows = getRubriek($param);
+	$veilingen = getRubriek($param);
 	echo "<option value=\"\">- selecteer een rubriek -</option>";
-	foreach ($rows as $row) {
-		echo "<option value=\"$row[heading_nr]\">$row[heading_name]</option>";
+	foreach ($veilingen as $veiling) {
+		echo "<option value=\"$veiling[heading_nr]\">$veiling[heading_name]</option>";
 	}
-}
-
-function printProducts($param) {
-	$rows = getProductsByHeader($param);
-
-	foreach($rows as $veiling){
-   $filename = getfile($veiling['object_nr']);
-   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
-$html = <<<MYCONTENT
-        <div class="column">
-          <div class="ui segment">
-            <img src="$filename[filename]" class="ui rounded medium image">
-            <div class="ui top left attached label huge">
-              € $hoogsteBod[hoogsteBod]
-            </div>
-            <div class="ui buttons">
-              <button class="ui sand button">Bekijk Veiling</button>
-              <div class="or" data-text=""></div>
-              <button class="ui button">14:00:45</button>
-            </div>
-            <h3 class="niagara">$veiling[title]</h3>
-          </div>
-        </div>
-MYCONTENT;
-echo $html; 
- }
 }
 
 
@@ -64,24 +38,28 @@ function printZoekSysteem(){
 
 function printProducten() {
 	if (!empty($_POST['hoofd']) && empty(getRubriek($_POST['hoofd']))) {
-		$rows = getProductsByHeader($_POST['hoofd']);
+		$veilingen = getProductsByHeader($_POST['hoofd']);
 }
  	if (!empty($_POST['sub']) && empty(getRubriek($_POST['sub']))) {
-		$rows = getProductsByHeader($_POST['sub']);
+		$veilingen = getProductsByHeader($_POST['sub']);
 }
 
 	if (!empty($_POST['rest']) && empty(getRubriek($_POST['rest']))) {
-		$rows = getProductsByHeader($_POST['rest']);
+		$veilingen = getProductsByHeader($_POST['rest']);
 }
 
-	if (!empty($rows)){
-		foreach ($rows as $row) {
-			$filename = getfile($row['object_nr']);
-   			if (!is_null(getHoogsteBod($row['object_nr']))) {
-   				$hoogsteBod = getHoogsteBod($row['object_nr']);
-   			} else {
-   				$hoogsteBod = $row['starting_price'];
-   			}
+	if (!empty($veilingen)){
+		foreach($veilingen as $veiling){
+		   $filename = getfile($veiling['object_nr']);
+		   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
+		  if (empty($hoogsteBod['hoogsteBod'])) {
+		    $start = getStartBedrag($veiling['object_nr']);
+		    if(!empty($start['starting_price'])) {
+		      $hoogsteBod['hoogsteBod'] = $start['starting_price'];
+		    } else {
+		      $hoogsteBod['hoogsteBod'] = "0.00";
+		    }
+		  }
 	
 $html = <<<MYCONTENT
         <div class="column">
@@ -90,18 +68,17 @@ $html = <<<MYCONTENT
             <div class="ui top left attached label huge">
               € $hoogsteBod[hoogsteBod]
             </div>
-            <div class="ui buttons">
-              <button class="ui sand button">Bekijk Veiling</button>
-              <div class="or" data-text=""></div>
-              <button class="ui button">14:00:45</button>
-            </div>
-            <h3 class="niagara">$row[title]</h3>
+              <a class="ui sand button" href="/pages/Eenproduct.php?id=$veiling[object_nr]" method="get">Bekijk Veiling</a>
+            <h3 class="niagara">$veiling[title]</h3>
           </div>
         </div>
 MYCONTENT;
-	echo $html;
+	echo $html; 
 		}
 	} 
 }
 
+function getStartBedrag($param){
+  return startBedragQuery($param);
+}
 ?>

@@ -1,11 +1,19 @@
 <?php
 
 include '../db-util.php';
+include '../Controllers/mailController.php';
 
 $username = "admin";
 $passw = "Str00pW4f31";
 
 connectToDatabase();
+
+// function getUsers(){
+// 	global $pdo;
+//     $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.Users");
+  
+//     return $stmt->fetch(PDO::FETCH_NUM);
+// }
 
 
 
@@ -17,14 +25,16 @@ function getUsers()
   	return $data->fetchAll();
 }	
 
-function getHeading()
+
+function getHeadingPaginanummers()
+
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Heading");
   	return $data->fetchAll();
 }
 
-function getVeilingen()
+function getVeilingenPaginanummers()
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Object");
@@ -32,8 +42,9 @@ function getVeilingen()
 }
 
 
-function removeUser()
+function removeUser($row)
 {
+
  global $pdo;
  $userData = getUsers();
  $user = $_POST['UTable'];
@@ -45,17 +56,20 @@ function removeUser()
  	$data->execute(array($user));
  }
 
+
+global $pdo;
+//$id = $_POST[$row[0]];
+ 
+$query = "DELETE FROM dbo.Users WHERE user_id = '$row'";
+$query->execute();
 }	
-	
+
 function showUsers()
 {
 	global $pdo;
 
-	$sql = "SELECT COUNT(user_id) FROM dbo.Users"; 
+	$nRijen = getAantalUsers(); 
 
-	$stmt = $pdo->query($sql);
-
-	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
  	$rijenPerPagina = 1000;
 
 	if($nRijen[0] == 0) 
@@ -76,9 +90,9 @@ function showUsers()
 
 	$sql = "SELECT * FROM  
             			(SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
-            			AS rownumber, username, firstname, lastname,  emailaddress FROM dbo.Users) 
+            			AS user_id, username, firstname, lastname,  emailaddress FROM dbo.Users) 
         				AS Temp 
-        				WHERE rownumber BETWEEN ? AND ?";
+        				WHERE user_id BETWEEN ? AND ?";
 
     $stmt2 = $pdo->prepare($sql);
    
@@ -98,21 +112,57 @@ function showUsers()
 	$params = array(&$laagRijNummer, &$hoogRijNummer);
 	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
 
-	 $nRijen = $stmt->rowCount();
+	//$nRijen = $stmt->rowCount();
 	
+
+
+
+ if(isset($_GET['param']) && $_GET['param']=="verwijder"){
+          $verwijder_id = (int) $_GET['id'];
+         $sql="DELETE FROM dbo.Users WHERE user_id='$verwijder_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Verwijderen gelukt";
+
+    } else {
+        echo "Verwijderen error";
+
+    }
+
+    }
+//aanpassesn
+     if(isset($_GET['param']) && $_GET['param']=="update"){
+         $update_id = $_GET['id'];
+         $update_user_id = $_GET['user_id'];
+         $update_heading_name = $_GET['heading_name'];
+         $update_heading_nr_parent = $_GET['heading_nr_parent'];
+         $sql="UPDATE dbo.Heading SET heading_nr = '$update_heading_nr', heading_name = '$update_heading_name', heading_nr_parent = '$update_heading_nr_parent' WHERE Heading_nr='$update_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Updaten gelukt";
+
+    } else {
+        echo "Updaten error";
+
+    }
+
+    }
+
 	print("<table border='1px'> 
 	        <tr>
-		        <td>user ID</td> 
-		        <td>username</td>
-		        <td>firstname</td>
-		        <td>lastname</td>
-		        <td>emailaddress</td>
+		        <td>Gebruikers ID</td> 
+		        <td>Gebruikersnaam</td>
+		        <td>Voornaam</td>
+		        <td>Achternaam</td>
+		        <td>Emailaddress</td>
 	        </tr>"); 
 
-		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
+		foreach($stmt2 as $row)
 	    { 
 	        print("
-				<tbody id='userTable' contentEditable='true'>
+				<tbody id='userTable'>
 	        	<tr>
 	        		<td>$row[0]</td> 
 	                <td>$row[1]</td> 
@@ -127,11 +177,22 @@ function showUsers()
 	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
 	                	</div>
 	                </td>
+
+	        		<td contentEditable='true'>$row[user_id]</td> 
+	                <td contentEditable='true'>$row[username]</td> 
+	                <td contentEditable='true'>$row[firstname]</td>
+	                <td contentEditable='true'>$row[lastname]</td>
+	                <td contentEditable='true'>$row[emailaddress]</td>
+
+	                <td><a href='?param=verwijder&amp;id={$row['user_id']}'>Verwijderen</a></td>
+	                <td><a href='?param=update&amp;id={$row['user_id']}&amp;user_id={$row['user_id']}&amp;username={$row['username']}&amp;firstname={$row['firstname']}&amp;lastname={$row['lastname']}&amp;emailaddress={$row['emailaddress']}'>Opslaan</a></td>
 	               </tr>
 	                </tbody>"); 
 	    } 
 	    print("</table>");
+
 }
+
 
 
 function showHeading()
@@ -186,28 +247,61 @@ function showHeading()
 
 	 $nRijen = $stmt->rowCount();
 	
+
+ if(isset($_GET['param']) && $_GET['param']=="verwijder"){
+          $verwijder_id = (int) $_GET['id'];
+         $sql="DELETE FROM dbo.Heading WHERE Heading_nr='$verwijder_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Verwijderen gelukt";
+
+    } else {
+        echo "Verwijderen error";
+
+    }
+
+    }
+
+     if(isset($_GET['param']) && $_GET['param']=="update"){
+         $update_id = $_GET['id'];
+         $update_heading_nr = $_GET['heading_nr'];
+         $update_heading_name = $_GET['heading_name'];
+         $update_heading_nr_parent = $_GET['heading_nr_parent'];
+         $sql="UPDATE dbo.Heading SET heading_nr = '$update_heading_nr', heading_name = '$update_heading_name', heading_nr_parent = '$update_heading_nr_parent' WHERE Heading_nr='$update_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Updaten gelukt";
+
+    } else {
+        echo "Updaten error";
+
+    }
+
+    }
+
+
 	print("<table border='1px'> 
 	        <tr>
-		        <td>Heading Nr</td> 
-		        <td>Heading name</td>
-		        <td>Heading parent</td>
+		      	<td>Rubriek Nr</td> 
+		        <td>Rubriek naam</td>
+		        <td>Rubriek nr parent</td>
 	        </tr>"); 
 
-		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
+		foreach($stmt2 as $row)
 	    { 
 	        print("
-				<tbody id='userTable' contentEditable='true'>
+				<tbody id='userTable' >
 	        	<tr>
-	        		<td>$row[0]</td> 
-	                <td>$row[1]</td> 
-	                <td>$row[2]</td>
-	                <td>
-	                	<div class='ui buttons'>
-	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
-	
-	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
-	                	</div>
-	                </td>
+	        		<td contentEditable='true' name='heading_nr'>$row[heading_nr]</td> 
+	                <td contentEditable='true' name='heading_name'>$row[heading_name]</td> 
+	                <td contentEditable='true' name='heading_nr'>$row[heading_nr_parent]</td>
+	                <td><a href='?param=verwijder&amp;id={$row['heading_nr']}'>Verwijderen</a></td>
+
+	                <td><a href='?param=update&amp;id={$row['heading_nr']}&amp;heading_nr={$row['heading_nr']}&amp;heading_name={$row['heading_name']}&amp;heading_nr_parent={$row['heading_nr_parent']}'>
+	                			  Update</a></td>
+
 	               </tr>
 	                </tbody>"); 
 	    } 
@@ -242,7 +336,7 @@ function showVeilingen()
 
 	$sql = "SELECT * FROM  
             			(SELECT ROW_NUMBER() OVER(ORDER BY object_nr) 
-            			AS rownumber, object_nr, title, seller FROM dbo.Object) 
+            			AS rownumber, object_nr, title, seller, buyer FROM dbo.Object) 
         				AS Temp 
         				WHERE rownumber BETWEEN ? AND ?";
 
@@ -266,80 +360,130 @@ function showVeilingen()
 
 	 $nRijen = $stmt->rowCount();
 	
-	print("<table border='1px'> 
-	        <tr>
-		        <td>Object Nr</td> 
-		        <td>Title</td>
-		        <td>Seller</td>
+ if(isset($_GET['param']) && $_GET['param']=="verwijder"){
+          $verwijder_id = (int) $_GET['id'];
+         $sql="DELETE FROM dbo.Object WHERE object_nr='$verwijder_id'";
+         $resultaat=$pdo->query($sql);
 
-	        </tr>"); 
-
-		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
-	    { 
-	        print("
-				<tbody id='userTable' contentEditable='true'>
-	        	<tr>
-	        		<td>$row[0]</td> 
-	                <td>$row[1]</td> 
-	                <td>$row[2]</td>
-	                <td>
-	                	<div class='ui buttons'>
-	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
-
-	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
-	                	</div>
-	                </td>
-	               </tr>
-	                </tbody>"); 
-	    } 
-	    print("</table>");
-}
 
 removeUser();
 
+    if ($resultaat){
+        echo "Verwijderen gelukt";
 
-/*
-function saveInput(){
-	$conn = connectToDatabase();
-	$data = getUsers();
-	foreach($data as $key)
+    } else {
+        echo "Verwijderen error";
 
-	if (isset($_POST['edit'])) {
-	$sql = "UPDATE Users 
-			SET username = $key[username],  
-				firstname = $key[firstname],
-				lastname = $key[lastname],
-				emailaddress = $key[emailaddress]
-			WHERE user_id = $key[user_id]";
 
-	$stmt = $conn->prepare($sql);
-	$stmt->execute();
+    }
 
-	echo $stmt->rowCount() . " records UPDATED successfully";
+    }
+
+     if(isset($_GET['param']) && $_GET['param']=="update"){
+         $update_id = $_GET['id'];
+         $update_object_nr = $_GET['object_nr'];
+         $update_title = $_GET['title'];
+         $update_seller = $_GET['seller'];
+         $update_buyer = $_GET['buyer'];
+         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller', buyer = '$update_buyer' WHERE object_nr='$update_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Updaten gelukt";
+
+    } else {
+        echo "Updaten error";
+
+    }
+
+    }
+
+	print("<table border='1px'> 
+	        <tr>
+		        <td>Object Nr</td> 
+		        <td>Titel</td>
+		        <td>Verkoper</td>
+		        <td>Koper</td>
+	        </tr>"); 
+
+
+			foreach($stmt2 as $row)
+	 	 {
+	        print("
+				<tbody id='userTable' >
+	        	<tr>
+	        		<td  contentEditable='true'>$row[object_nr]</td> 
+	                <td  contentEditable='true'>$row[title]</td> 
+	                <td  contentEditable='true'>$row[seller]</td>
+	                <td  contentEditable='true'>$row[buyer]</td>
+	                <td><a href='?param=verwijder&amp;id={$row['object_nr']}'>Verwijderen</a></td>
+
+	                <td><a href='?param=update&amp;id={$row['object_nr']}&amp;object_nr={$row['object_nr']}&amp;title={$row['title']}&amp;seller={$row['seller']}&amp;buyer={$row['buyer']}'>
+	                			  Update</a></td>
+	               </tr>
+	                   </tbody>"); 
+	  }
+	    
+
+	    print("</table>");
 }
+
+
+// tabblad 5 van Admin Page
+function buttonAfgelopenVeilingen()
+{
+  print("<div class='ui input'>
+        <input  type='submit' name='knop' method='POST' value='Mail versturen'>
+      </div>"); 
+
+	$rows =  getAfgelopenVeilingen();
+    foreach($rows as $row)
+      { 
+        $hoogsteBod = getHoogsteBod($row['object_nr']);
+        $objectnr = $row['object_nr'];
+        $email = getEmail($hoogsteBod['username']);
+        print($email['emailaddress']);
+	   if(isset($_POST['knop'])){
+	        koperInObject($objectnr, $hoogsteBod['username']);
+	        aflopendeVeilingKoperMail($email['emailaddress'], $row['title'], $hoogsteBod['username']);
+	        veilingSluiten($objectnr);
+	   }
+	}
 }
-*/
 
+function tabelKoppenAfgelopenVeilingen(){
+	  print("<br/><br/>
+      <table border='1px'> 
+          <tr>
+            <td>Object nummer</td> 
+            <td>Titel</td>
+            <td>Koper</td>
+            <td>Verkoper</td>
+            
+          </tr>"); 
+}
 
-//if(isset($_POST('remove')))
-// {
-
-// }
-
-
-// function saveUsers()
-// {
-// 	$dom = new DomDocument();
-// 	$dom->loadHTML('admin.php');
-// 	$xpath = new DOMXPath($dom);
-
-// 	$arr = array();
-// 	$arr = array_filter(array_map('trim',$arr));
-// 	foreach ($xpath->query('//tbody[@id="userTable"]/tr/td') as $node) 
-// 	{
-// 	    $arr[] = $node->nodeValue;
-// 	}
-// 	print_r($arr);
-
-// }
+function tabelAfgelopenVeilingen(){
+  $rows =  getAfgelopenVeilingen();
+  	if (!empty($rows)) {
+  		tabelKoppenAfgelopenVeilingen();
+	  	foreach($rows as $row)
+	      { 
+	        $hoogsteBod = getHoogsteBod($row['object_nr']) ;
+	          print("
+	        <tbody id='userTable'>
+	            <tr>
+	              <td>$row[object_nr]</td> 
+	                  <td>$row[title]</td> 
+	                  <td>$hoogsteBod[username]</td>
+	                  <td>$row[seller]</td>
+	                 </tr>
+	                  </tbody>"); 
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen aflopende veilingen.";
+  	}
+}
+?>
 

@@ -7,6 +7,7 @@
 	<?php 
     include 'html/mainhead.html';
     include '../Controllers/adminController.php';
+    include '../Controllers/zoekenController.php';
   ?>
   	<link rel="stylesheet" type="text/css" href="/stylecss/login.css">
 </head>
@@ -15,7 +16,7 @@
 
  	<?php 
     	include 'html/sidebar.html';
-      include 'menu.php';
+      include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
   	?>
     
   	<div class="maincontent">
@@ -24,32 +25,39 @@
  	 			  <h1 class="ui niagara header">Admin</h1>
           <h3 class="ui dividing header"></h3>
  	 			  <div class="ui top attached tabular menu">
-            <a class="active item" data-tab="first">Account gegevens</a>
-            <a class="item" data-tab="second">Categorieën beheren</a>
-            <a class="item" data-tab="third">Veilingen beheren</a>
-            <a class="item" data-tab="fourth">KPI's</a>
+            <a class="active item" data-tab="first">Zoeken</a>
+            <a class="item" data-tab="second">Account gegevens</a>
+            <a class="item" data-tab="third">Categorieën beheren</a>
+            <a class="item" data-tab="fourth">Veilingen beheren</a>
+            <a class="item" data-tab="fifth">Afgelopen veilingen</a>
+            <a class="item" data-tab="sixth">KPI's</a>
+           
 
           </div>
 
-          <div>
-            <form action="zoekenController.php" method='GET'>
-              <input type='text' name='zoeken' placeholder='Zoeken'> 
-              <input type='submit' name='knop' value='Zoeken' class='button '>
-
+          <div class="ui bottom attached tab segment " data-tab="first">
+            
+            <form method="post"> 
+            
+            <?php 
+              searchBar();
+            ?>
+        
             </form>   
+
           </div>
 
-          <div class="ui bottom attached tab segment active" data-tab="first">
+          <div class="ui bottom attached tab segment " data-tab="second">
             <form method="post">
                     <?php
                       showUsers();
-
+                     // testUsers();
                     //  saveInput();
                     ?>  
             </form>
           </div>
 
-          <div class="ui bottom attached tab segment" data-tab="second">
+          <div class="ui bottom attached tab segment" data-tab="third">
               <form method="post">
                     <?php
                       showHeading();
@@ -58,7 +66,7 @@
             </form>
           </div>
 
-          <div class="ui bottom attached tab segment" data-tab="third">
+          <div class="ui bottom attached tab segment" data-tab="fourth">
             <form method="post">
                     <?php
                       showVeilingen();
@@ -67,10 +75,19 @@
             </form>
           </div>
 
+          <div class="ui bottom attached tab segment active" data-tab="fifth">
+            <form method="post">
+                    <?php
+                      buttonAfgelopenVeilingen();
+                      tabelAfgelopenVeilingen();
+                    ?>
+            </form>
+          </div>
+
       
 
-          <div class="ui bottom attached tab segment" data-tab="fourth">
-             <iframe width="800" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
+          <div class="ui bottom attached tab segment" data-tab="sixth">
+             <iframe width="1000" height="1000" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
 
   		  </div>

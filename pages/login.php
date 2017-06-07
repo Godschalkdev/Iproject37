@@ -1,4 +1,12 @@
 <?php 
+
+session_start();
+
+if ($_SESSION['loggedin'] == true)
+{
+  header("Location: ../index.php");
+};
+
  $success_message = "";
 require('../controllers/loginController.php');
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
@@ -23,7 +31,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 <body>
 
   <?php 
-    include 'menu.php';
+    include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
     include 'html/sidebar.html';
   ?>
   <div class="pusher">

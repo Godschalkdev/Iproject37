@@ -1,3 +1,16 @@
+<?php
+require ('../Controllers/nieuwproductController.php');
+include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+$success_message = "";
+
+
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+  $success_message = nieuwProduct_validatie();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -7,34 +20,40 @@
 		<?php 
 			include 'html/mainhead.html';	
 		?>
-		<link rel="stylesheet" type="text/css" href="/stylecss/nieuwproduct.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/extrapaginas.css">
 	</head>
 	
 	<body>
 	
 		<?php 
-			require ('../Controllers/nieuwproductController.php');
-			include 'menu.php';
+			
+			include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 			include 'html/sidebar.html';
-		?>
+		?> 
 
 		<div class="pusher">
 		<div class="maincontent">
 			<div class="ui container">
 				<div class = "ui raised segment">
 					<h1 class="ui niagara header">Nieuw product aanbieden</h1>
-					<form  method="POST" class="ui big register form">
+					<?php if (!is_array($success_message)){echo $success_message;$success_message = "";} ?>
+					<form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method="post" class="ui big register form">
 						<h3 class="ui dividing header">Productgegevens</h3>
 						
-							
+							<div class="required field">
+								<label>Categorie</label>
+								<div class="three fields">
+							</div>
+							</div>
 							<div class="two fields">
 								<div class="required ten wide field">
 								<label>Product</label>
-									<input type="text" name="productnaam" placeholder="Productnaam">
+									<input type="text" name='titel' placeholder="Productnaam">
+									<?php chk_InErrorArray("titel")?>
 								</div>
 								<div class="required six wide field">
 									<label>Duur veiling</label>
-									<select class="ui dropdown">
+									<select class="ui dropdown" name="dagen">
 										<option value="">Dagen</option>
 										<option value="1">1</option>
 										<option value="3">3</option>
@@ -42,12 +61,14 @@
 										<option value="7">7</option>
 										<option value="10">10</option>
 									</select>
+									<?php chk_InErrorArray("dagen")?>
 								</div>
 							</div>
 							<div class="three fields">
 								<div class="required field">
 									<label>Prijs</label>
 									<input type="text" name="startprijs" placeholder="Start prijs">
+									<?php chk_InErrorArray("startprijs")?>
 								</div>
 								<div class="required field">
 									<label>Betaalwijze</label>
@@ -57,19 +78,21 @@
 							    		<option value="creditcard">Creditcard</option>
 							    		<option value="acceptgiro">Accept Giro</option>
 									</select>
+									<?php chk_InErrorArray("betaalwijze")?>
 								</div>
 								<div class="field">
 									<label>Betaalinstructies</label>
 									<input type="text" name="betaalinstructies" placeholder="Betaal instructies">
+									<?php chk_InErrorArray("betaalinstructies")?>
 								</div>
 							</div>
-							<div class="required field">
-								<label>Categorie</label>
-							</div>
+						
 							<div class="field">
 								<label>Beschijving</label>
-								<textarea rows="2"></textarea>
+								<textarea rows="2" name="beschrijving"></textarea>
+								<?php chk_InErrorArray("beschrijving")?>
 							</div>
+
 							
 					
 
@@ -81,6 +104,7 @@
 						       
 						          	<input type="text" readonly>
            							 <input type="file" id="afbeelding" name="afbeelding[]" autocomplete="off" multiple  style="display:none">
+
 						            <div class="ui button">
 						                Bestanden
 						            </div>
@@ -93,10 +117,12 @@
 							<div class="six wide field">
 								<label>Bezorg kosten</label>
 								<input type="text" name="bezorgkosten" placeholder="Bezorg kosten">
+								<?php chk_InErrorArray("bezorgkosten")?>
 							</div>
 							<div class="ten wide field">
 						      	<label>Bezorg instructies</label>
 						      	<input type="text" name="bezorginstructies" placeholder="Bezorg instructies">
+						      	<?php chk_InErrorArray("bezorginstructies")?>
 							</div>
 						</div>
 
@@ -105,6 +131,7 @@
 							<div class="required field">
 								<label>Stad</label>
 								<input type="text" name="stad" placeholder="Stad">
+								<?php chk_InErrorArray("stad")?>
 							</div>
 							<div class="required field">
 						      	<label>Land</label>
@@ -353,6 +380,7 @@
 								    <option value="zm"><i class="zm flag"></i>Zambia</option>
 								    <option value="zw"><i class="zw flag"></i>Zimbabwe</option>
 								</select>
+								<?php chk_InErrorArray("land")?>
 							</div>
 						</div>
 

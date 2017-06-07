@@ -308,13 +308,28 @@ global $pdo;
 // Querys voor admin pagina
 
 // Geeft aantal gebruikers terug
-function getAantalUsers()
+function getAantalGebruikers()
 {
   global $pdo;
   $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.Users");
   
   return $stmt->fetch(PDO::FETCH_NUM);
 } 
+
+function getAantalVeilingen(){
+    global $pdo;
+  $stmt = $pdo->query("SELECT COUNT(object_nr) FROM dbo.Object");
+  
+  return $stmt->fetch(PDO::FETCH_NUM);
+}
+
+function getAantalCategorieen(){
+    global $pdo;
+  $stmt = $pdo->query("SELECT COUNT(heading_nr) FROM dbo.Heading");
+  
+  return $stmt->fetch(PDO::FETCH_NUM);
+}
+
 
 
 // Geeft alle afgelopen veilingen terug
@@ -327,6 +342,72 @@ function getAfgelopenVeilingen(){
        //AND CAST(GETDATE() AS TIME >= duration_end_time)"; 
     return $data ->fetchAll();
 }
+
+
+function getVeilingenAdmin($laagRijNummer, $hoogRijNummer){
+  global $pdo;
+
+  $stmt = $pdo ->prepare("SELECT * FROM  
+                  (SELECT ROW_NUMBER() OVER(ORDER BY object_nr) 
+                  AS rownumber, object_nr, title, seller, buyer FROM dbo.Object) 
+                AS Temp 
+                WHERE rownumber BETWEEN ? AND ?");
+  $stmt->execute(array($laagRijNummer, $hoogRijNummer));
+  //$data = $pdo -> query("SELECT object_nr, title, seller, buyer FROM dbo.Object ORDER BY object_nr");
+
+  return $stmt -> fetchAll();
+}
+
+function getCategorieenAdmin($laagRijNummer, $hoogRijNummer){
+  global $pdo;
+  $stmt = $pdo -> prepare("SELECT * FROM  
+                  (SELECT ROW_NUMBER() OVER(ORDER BY heading_nr) 
+                  AS rownumber, heading_nr, heading_name, heading_nr_parent FROM dbo.Heading) 
+                AS Temp 
+                WHERE rownumber BETWEEN ? AND ?");
+
+  $stmt->execute(array($laagRijNummer, $hoogRijNummer));
+  return $stmt ->fetchAll();
+}
+
+function getGebruikersAdmin($laagRijNummer, $hoogRijNummer){
+  global $pdo;
+  $stmt = $pdo -> prepare("SELECT * FROM  
+                  (SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
+                  AS rownumber, user_id, username, firstname, lastname, emailaddress FROM dbo.Users) 
+                AS Temp 
+                WHERE rownumber BETWEEN ? AND ?");
+
+  $stmt->execute(array($laagRijNummer, $hoogRijNummer));
+  return $stmt ->fetchAll();
+}
+
+// delete
+function deleteVeilingAdmin($verwijder_id){
+    global $pdo;
+
+  $stmt = $pdo -> prepare("DELETE FROM dbo.Object WHERE object_nr='$verwijder_id'");
+
+  return $stmt ->execute();
+}
+
+function deleteGebruikerAdmin($verwijder_id){
+    global $pdo;
+
+  $stmt = $pdo -> prepare("DELETE FROM dbo.Users WHERE user_id='$verwijder_id'");
+
+  return $stmt ->execute();
+}
+
+function deleteCategorieAdmin($verwijder_id){
+    global $pdo;
+
+  $stmt = $pdo -> prepare("DELETE FROM dbo.Heading WHERE heading_nr='$verwijder_id'");
+
+  return $stmt ->execute();
+}
+
+// update
 
 function koperInObject($object_nr, $username){
     global $pdo;
@@ -359,7 +440,7 @@ function getAfgeslotenVeilingen(){
 function getEmail($username){
   global $pdo;
   $data = $pdo -> query("SELECT emailaddress FROM dbo.Users WHERE username = '$username'");
-  return $data -> fetchAll();
+  return $data -> fetch();
 }
 
 
@@ -374,5 +455,49 @@ function getFeedbackBeschikbaar($user, $logger) {
   global $pdo;
   $data = $pdo ->query("SELECT * FROM [Object] WHERE seller = '$user' AND buyer = '$logger'");
   return $data ->fetchAll();
+}
+
+// zoeken
+
+function adminZoekenGebruiker($zoekinput){
+  global $pdo;
+ 
+
+  $stmt = $pdo -> query("SELECT user_id, username, firstname, lastname, emailaddress FROM dbo.Users
+                     WHERE user_id LIKE '%".$zoekinput."%'
+                        OR username LIKE '%".$zoekinput."%'
+                        OR firstname LIKE '%".$zoekinput."%'
+                        OR lastname LIKE '%".$zoekinput."%'
+                        OR emailaddress LIKE '%".$zoekinput."%'");
+ 
+
+  return $stmt ->fetchAll();
+}
+
+function adminZoekenCategorie($zoekinput){
+  global $pdo;
+  $zoekinput = $_POST['zoeken'];
+
+  $stmt = $pdo -> query("SELECT heading_nr, heading_name, heading_nr_parent FROM dbo.Heading
+               WHERE heading_nr LIKE '%".$zoekinput."%'
+                  OR heading_name LIKE '%".$zoekinput."%'
+                  OR heading_nr_parent LIKE '%".$zoekinput."%'");
+ 
+
+  return $stmt ->fetchAll();
+}
+
+function adminZoekenVeiling($zoekinput){
+  global $pdo;
+  $zoekinput = $_POST['zoeken'];
+
+  $stmt = $pdo -> query("SELECT object_nr, title, seller, buyer FROM dbo.Object
+               WHERE object_nr LIKE '%".$zoekinput."%'
+                  OR title LIKE '%".$zoekinput."%'
+                  OR seller LIKE '%".$zoekinput."%'
+                  OR buyer LIKE '%".$zoekinput."%'");
+ 
+
+  return $stmt ->fetchAll();
 }
 ?>

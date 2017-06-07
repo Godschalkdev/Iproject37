@@ -7,7 +7,6 @@
 	<?php 
     include 'html/mainhead.html';
     include '../Controllers/adminController.php';
-    include '../Controllers/zoekenController.php';
   ?>
   	<link rel="stylesheet" type="text/css" href="/stylecss/login.css">
 </head>
@@ -35,24 +34,22 @@
 
           </div>
 
-          <div class="ui bottom attached tab segment " data-tab="first">
+          <div class="ui bottom attached tab segment active" data-tab="first">
             
             <form method="post"> 
             
             <?php 
-              searchBar();
+              zoekBalkAdmin();
             ?>
         
             </form>   
 
           </div>
 
-          <div class="ui bottom attached tab segment " data-tab="second">
+          <div class="ui bottom attached tab segment" data-tab="second">
             <form method="post">
                     <?php
-                      showUsers();
-                     // testUsers();
-                    //  saveInput();
+                      tabelGebruikers(getGebruikersAdmin(meerderePaginasAdminLaag(), meerderePaginasAdminHoog()), getAantalGebruikers());
                     ?>  
             </form>
           </div>
@@ -60,8 +57,7 @@
           <div class="ui bottom attached tab segment" data-tab="third">
               <form method="post">
                     <?php
-                      showHeading();
-                    //  saveInput();
+                      tabelCategorieen(getCategorieenAdmin(meerderePaginasAdminLaag(), meerderePaginasAdminHoog()), getAantalCategorieen());
                     ?>
             </form>
           </div>
@@ -69,13 +65,12 @@
           <div class="ui bottom attached tab segment" data-tab="fourth">
             <form method="post">
                     <?php
-                      showVeilingen();
-                    //  saveInput();
+                      tabelVeilingen(getVeilingenAdmin(meerderePaginasAdminLaag(), meerderePaginasAdminHoog()), getAantalVeilingen());
                     ?>
             </form>
           </div>
 
-          <div class="ui bottom attached tab segment active" data-tab="fifth">
+          <div class="ui bottom attached tab segment" data-tab="fifth">
             <form method="post">
                     <?php
                       buttonAfgelopenVeilingen();

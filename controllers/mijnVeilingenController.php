@@ -13,7 +13,7 @@ function printFeedback($param) {
 		foreach ($feedbacks as $feedback) {
 		$html = <<<MYCONTENT
 			<div class="ui segment">
-				<i class="ui user icon"></i>$feedback[buyer_seller]  |  $feedback[date]  |  $feedback[title] | $feedback[feedback_type]
+				<i class="ui user icon"></i>$feedback[soort_gebruiker]  |  $feedback[dag]  |  $feedback[commentaar] | $feedback[feedbacksoort]
 				<div class="ui divider"></div>
 				$feedback[comment]
 			</div>
@@ -32,7 +32,7 @@ function printFeedbackForm($user, $logger) {
 			<form class="ui form" method="POST" action="">
 				<div class="fields">
 					<div class="field">
-						<select class="ui dropdown" name="title">
+						<select class="ui dropdown" name="titel">
 							<option value="">Positief</option>
 						</select>
 					</div>
@@ -72,28 +72,28 @@ function printGebodenproducten($param) {
 
 function printVeilingen($param) {
 	foreach ($param as $veiling) {
-	   $filename = getfile($veiling['object_nr']);
-	   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
+	   $filenaam = getfile($veiling['voorwerpnummer']);
+	   $hoogsteBod = getHoogsteBod($veiling['voorwerpnummer']);
 	  if (empty($hoogsteBod['hoogsteBod'])) {
-	    $start = getStartBedrag($veiling['object_nr']);
-	    if(!empty($start['starting_price'])) {
-	      $hoogsteBod['hoogsteBod'] = $start['starting_price'];
+	    $start = getStartBedrag($veiling['voorwerpnummer']);
+	    if(!empty($start['startprijs'])) {
+	      $hoogsteBod['hoogsteBod'] = $start['startprijs'];
 	    } else {
 	      $hoogsteBod['hoogsteBod'] = "0.00";
 	    }
 	  }
 $html = <<<MYCONTENT
       <div class="ui product segment">
-        <img src="$filename[filename]" class="ui rounded medium image">
+        <img src="$filenaam[filenaam]" class="ui rounded medium image">
         <div class="ui top left attached label huge">
           €$hoogsteBod[hoogsteBod]
         </div>
-          <a class="ui sand button" href="Eenproduct.php?id=$veiling[object_nr]">Bekijk Veiling</a> 
-        <h3 class="ui niagara header">$veiling[title]</h3>
+          <a class="ui sand button" href="Eenproduct.php?id=$veiling[voorwerpnummer]">Bekijk Veiling</a> 
+        <h3 class="ui niagara header">$veiling[titel]</h3>
 MYCONTENT;
 	echo $html;
 	if (isset($veilingen['bod'])) {
-		echo "<h3 class=\"ui niagara header\">$veiling[title]</h3>";
+		echo "<h3 class=\"ui niagara header\">$veiling[titel]</h3>";
 		}
 	echo "</div>";
 	}

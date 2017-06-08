@@ -35,7 +35,7 @@ function register_validation()
     $activated_yes_or_no = 'no';
     if(addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no,  $activated_yes_or_no, $activation_code)){
       sendUserVerification($emailaddress, $activation_code, $password, $username);
-      return "<h1 style=\"color:green;\">Registratie doorgestuurd, verifieer uw account door uw mail te controleren.</h1>";
+      return "<h1 style=\"color:green;\">Registratie doorgestuurd, verifieer uw account door uw mail te controleren. </h1>";
     }
   }
   else{

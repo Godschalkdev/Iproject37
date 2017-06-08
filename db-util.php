@@ -311,7 +311,7 @@ global $pdo;
 function getAantalGebruikers()
 {
   global $pdo;
-  $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.Users");
+  $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.User");
   
   return $stmt->fetch(PDO::FETCH_NUM);
 } 
@@ -374,7 +374,7 @@ function getGebruikersAdmin($laagRijNummer, $hoogRijNummer){
   global $pdo;
   $stmt = $pdo -> prepare("SELECT * FROM  
                   (SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
-                  AS rownumber, user_id, username, firstname, lastname, emailaddress FROM dbo.Users) 
+                  AS rownumber, user_id, username, firstname, lastname, emailaddress FROM dbo.User) 
                 AS Temp 
                 WHERE rownumber BETWEEN ? AND ?");
 
@@ -394,7 +394,7 @@ function deleteVeilingAdmin($verwijder_id){
 function deleteGebruikerAdmin($verwijder_id){
     global $pdo;
 
-  $stmt = $pdo -> prepare("DELETE FROM dbo.Users WHERE user_id='$verwijder_id'");
+  $stmt = $pdo -> prepare("DELETE FROM dbo.User WHERE user_id='$verwijder_id'");
 
   return $stmt ->execute();
 }
@@ -439,7 +439,7 @@ function getAfgeslotenVeilingen(){
 
 function getEmail($username){
   global $pdo;
-  $data = $pdo -> query("SELECT emailaddress FROM dbo.Users WHERE username = '$username'");
+  $data = $pdo -> query("SELECT emailaddress FROM dbo.User WHERE username = '$username'");
   return $data -> fetch();
 }
 
@@ -462,8 +462,8 @@ function getFeedbackBeschikbaar($user, $logger) {
 function adminZoekenGebruiker($zoekinput){
   global $pdo;
  
-
-  $stmt = $pdo -> query("SELECT user_id, username, firstname, lastname, emailaddress FROM dbo.Users
+  $zoekinput = $_POST['zoeken'];
+  $stmt = $pdo -> query("SELECT user_id, username, firstname, lastname, emailaddress FROM dbo.User
                      WHERE user_id LIKE '%".$zoekinput."%'
                         OR username LIKE '%".$zoekinput."%'
                         OR firstname LIKE '%".$zoekinput."%'

@@ -22,12 +22,12 @@ function printIndexVeilingen($param){
   }
   
   foreach($veilingen as $veiling){
-   $filename = getfile($veiling['object_nr']);
-   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
+   $filename = getfile($veiling['voorwerpnummer']);
+   $hoogsteBod = getHoogsteBod($veiling['voorwerpnummer']);
   if (empty($hoogsteBod['hoogsteBod'])) {
-    $start = getStartBedrag($veiling['object_nr']);
-    if(!empty($start['starting_price'])) {
-      $hoogsteBod['hoogsteBod'] = $start['starting_price'];
+    $start = getStartBedrag($veiling['voorwerpnummer']);
+    if(!empty($start['startprijs'])) {
+      $hoogsteBod['hoogsteBod'] = $start['startprijs'];
     } else {
       $hoogsteBod['hoogsteBod'] = "0.00";
     }
@@ -35,12 +35,12 @@ function printIndexVeilingen($param){
 $html = <<<MYCONTENT
         <div class="column">
           <div class="ui product segment">
-            <img src="$filename[filename]" class="ui rounded medium image">
+            <img src="$filename[filenaam]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
               € $hoogsteBod[hoogsteBod]
             </div>
-              <a class="ui sand button" href="pages/Eenproduct.php?id=$veiling[object_nr]">Bekijk Veiling</a>
-            <h3 class="niagara">$veiling[title]</h3>
+              <a class="ui sand button" href="pages/Eenproduct.php?id=$veiling[voorwerpnummer]">Bekijk Veiling</a>
+            <h3 class="niagara">$veiling[titel]</h3>
           </div>
         </div>
 MYCONTENT;

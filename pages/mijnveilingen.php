@@ -1,7 +1,7 @@
 <?php
 session_start();
 require $_SERVER['DOCUMENT_ROOT']."/controllers/mijnVeilingenController.php";
-$_SESSION['usernaam'] = 'budgetmotorspares';
+
 $user = $_GET['user'];
 if (empty($user)) {
 	$user = $_SESSION['usernaam'];

@@ -14,7 +14,7 @@ function printAllFiles($param) {
     <li>
         <input type="radio" id="slide$counter" name="slide" checked>
         <label for="slide$counter"></label>
-        <img src="$file[filename]" alt="Panel $counter">
+        <img src="$file[filenaam]" alt="Panel $counter">
     </li>
 CONTENT;
   echo $item;
@@ -31,12 +31,12 @@ function printVergelijkbareVeilingen($param){
 	$veilingen = getVergelijkbareVeilingen($param);
 
   foreach($veilingen as $veiling){
-   $filename = getfile($veiling['object_nr']);
-   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
+   $filename = getfile($veiling['voorwerpnummer']);
+   $hoogsteBod = getHoogsteBod($veiling['voorwerpnummer']);
   if (empty($hoogsteBod['hoogsteBod'])) {
-    $start = getStartBedrag($veiling['object_nr']);
-    if(!empty($start['starting_price'])) {
-      $hoogsteBod['hoogsteBod'] = $start['starting_price'];
+    $start = getStartBedrag($veiling['voorwerpnummer']);
+    if(!empty($start['startprijs'])) {
+      $hoogsteBod['hoogsteBod'] = $start['startprijs'];
     } else {
       $hoogsteBod['hoogsteBod'] = "0.00";
     }
@@ -44,12 +44,12 @@ function printVergelijkbareVeilingen($param){
 $html = <<<MYCONTENT
         <div class="column">
           <div class="ui object segment">
-            <img src="$filename[filename]" class="ui rounded medium image">
+            <img src="$filename[filenaam]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
               € $hoogsteBod[hoogsteBod]
             </div>
-              <a class="ui sand button" href="Eenproduct.php?id=$veiling[object_nr]">Bekijk Veiling</a> 
-            <h3 class="niagara">$veiling[title]</h3>
+              <a class="ui sand button" href="Eenproduct.php?id=$veiling[voorwerpnummer]">Bekijk Veiling</a> 
+            <h3 class="niagara">$veiling[titel]</h3>
           </div>
         </div>
 MYCONTENT;
@@ -62,13 +62,13 @@ $boden = getBiedingen($param);
 
   echo "<div class=\"ui list\">";
 foreach ($boden as $bod) {
-  $time = substr("$bod[time]", 0, -8);
+  $time = substr("$bod[tijdstip]", 0, -8);
 $html = <<<CONTENT
     <div class="item">
       <i class="ui user icon"></i>
       <div class="content">
-        <div class="header">€ $bod[offer_amount]</div>
-        <a href=mijnVeilingen.php?user=$bod[username] class=" sand description">$bod[username] ($bod[date]  $time)</a>
+        <div class="header">€ $bod[bodbedrag]</div>
+        <div class="description">$bod[gebruikersnaam] ($bod[dag]  $time)</div>
       </div>
     </div>
 CONTENT;
@@ -139,13 +139,13 @@ function minimaalBod($gebruikerverhoging, $minimaalVerhoging) {
 function getEndDateTimeDiff($param) {
   $object = getObject($param);
 
-  $date = strtotime($object['duration_end_date']." ".$object['duration_end_time']);
+  $date = strtotime($object['looptijd_einde_dag']." ".$object['looptijd_einde_tijdstip']);
   return $date - time();
 }
 
 function chk_id($param) {
   $object = getObject($param);
-  if (empty($object['object_nr'])) {
+  if (empty($object['voorwerpnummer'])) {
     return true;
   }
   return false;

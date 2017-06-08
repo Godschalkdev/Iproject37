@@ -1,6 +1,7 @@
 <?php
 require '../db-util.php';
 connectToDatabase();
+
 function printFeedback($param) {
 	$feedbacks = getFeedback($param);
 	if (empty($feedbacks)) {
@@ -63,6 +64,7 @@ MYCONTENT;
 	echo $html;
 	}
 }
+
 function filledFormSubmit() {
 	if (isset($_POST['objectnr']) && isset($_POST['beoordeling'])) {
 		$buyer_seller = buyerOfSeller($_SESSION['usernaam'], $_POST['objectnr']);

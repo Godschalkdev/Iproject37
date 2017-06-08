@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+
 	require ('../controllers/eenproductController.php');
 	if (chk_id($_GET['id'])) {
 		header('../index.php');

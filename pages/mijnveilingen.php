@@ -1,13 +1,17 @@
 <?php
 session_start();
+include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 require $_SERVER['DOCUMENT_ROOT']."/controllers/mijnVeilingenController.php";
-$_SESSION['usernaam'] = 'budgetmotorspares';
+$_SESSION['usernaam'] = 'credenzadellacrema';
+if (!isset($_GET['user'])) {
 $user = $_GET['user'];
 if (empty($user)) {
 	$user = $_SESSION['usernaam'];
+} else {
+	$user = $_GET['user'];
 }
-
-//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+	
+	filledFormSubmit();
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,18 +36,20 @@ if (empty($user)) {
 			<div class="maincontent">
 				<div class="ui container">
 					<div class = "ui raised segment">
-						<h1 class="ui niagara header">Mijn EenmaalAndermaal | <?php echo $_GET['user']; ?></h1>
+						<h1 class="ui niagara header">Mijn EenmaalAndermaal | <?php echo $user; ?></h1>
 						<div class="ui top attached tabular menu">
 						  <a class="item active" data-tab="first">Mijn Veilingen</a>
 						  <a class="item" data-tab="second">Reviews</a>
 						  <a class="item" data-tab="third">Biedingen</a>
 						</div>
-						<div class="ui bottom attached tab segment" data-tab="first">
+						<div class="ui bottom attached tab segment active" data-tab="first">
 							<?php printVeilingenUser($user); ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="second">
-							<?php printFeedback($user); 
-								  printFeedbackForm($user, $_SESSION['usernaam'])?>
+							<?php 
+								  printFeedback($user); 
+								  printFeedbackForm($user, $_SESSION['usernaam'])
+								  ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="third">
 							<?php 

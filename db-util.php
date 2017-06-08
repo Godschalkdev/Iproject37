@@ -128,13 +128,13 @@ if(isset($_GET['emailaddress']) && !empty($_GET['emailaddress']) && isset($_GET[
     $emailaddress = $_GET['emailaddress']; // Set email variable
     $activation_code = $_GET['activation_code']; // Set hash variable
                  
-    $data = $pdo->prepare("SELECT emailaddress, activatiecode, geactiveerd_ja_of_nee FROM [user] WHERE emailaddress = ? AND activatiecode = ? AND geactiveerd_ja_of_nee = 'nee' ");
+    $data = $pdo->prepare("SELECT emailadres, activatiecode, geactiveerd_ja_of_nee FROM Gebruiker WHERE emailadres = ? AND activatiecode = ? AND geactiveerd_ja_of_nee = 'nee'");
     $data->execute(array($emailaddress, $activation_code));
     $count = count($data->fetchAll());
                  
     if($count > 0){
         // We have a match, activate the account
-      $updateActive = $pdo->prepare("UPDATE [User] SET geactiveerd_ja_of_nee ='ja' WHERE emailadres = ? AND activatiecode = ? AND geactiveerd_ja_of_nee = 'nee'");
+      $updateActive = $pdo->prepare("UPDATE Gebruiker SET geactiveerd_ja_of_nee ='ja' WHERE emailadres = ? AND activatiecode = ? AND geactiveerd_ja_of_nee = 'nee'");
         $updateActive->execute(array($emailaddress, $activation_code));
         echo 'Je account is geactiveerd, je kunt nu inloggen <a href="http://www.eenmaalandermaal.dev/pages/login.php">Hier!</a></div>';
     }else{
@@ -241,7 +241,7 @@ function startBedragQuery($param) {
 
 function getUserVeilingen($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Voorwerp WHERE seller = '$param'");
+  $data = $pdo ->query("SELECT * FROM Voorwerp WHERE verkoper = '$param'");
   return $data ->fetchAll();
 }
 

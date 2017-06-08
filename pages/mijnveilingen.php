@@ -2,11 +2,11 @@
 session_start();
 include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 require $_SERVER['DOCUMENT_ROOT']."/controllers/mijnVeilingenController.php";
-$_SESSION['usernaam'] = 'credenzadellacrema';
-if (!isset($_GET['user'])) {
+if (!empty($_GET['user'])) {
 $user = $_GET['user'];
+}
 if (empty($user)) {
-	$user = $_SESSION['usernaam'];
+	$user = $_SESSION['naamuser'];
 } else {
 	$user = $_GET['user'];
 }

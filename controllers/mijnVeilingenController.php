@@ -10,17 +10,17 @@ function printFeedback($param) {
 		echo "<div class=\"ui segment\">$param heeft nog geen feedback ontvangen</div>";
 	} else {
 		foreach ($feedbacks as $feedback) {
-			if ($feedback['buyer_seller'] == 'buyer') {
-				$persoon = $feedback['buyer'];
+			if ($feedback['soort_gebruiker'] == 'koper') {
+				$persoon = $feedback['koper'];
 			} else {
-				$persoon = $feedback['seller'];
+				$persoon = $feedback['verkoper'];
 			}
-			$html = <<<MYCONTENT
-				<div class="ui segment">
-					<i class="ui user icon"></i><a href=mijnVeilingen.php?user=$persoon>$persoon</a>  |  $feedback[date]  |  $feedback[title] | $feedback[feedback_type]
-					<div class="ui divider"></div>
-					$feedback[comment]
-				</div>
+		$html = <<<MYCONTENT
+			<div class="ui segment">
+				<i class="ui user icon"></i>$feedback[soort_gebruiker]  |  $feedback[dag]  |  $feedback[commentaar] | $feedback[feedbacksoort]
+				<div class="ui divider"></div>
+				$feedback[commentaar]
+			</div>
 MYCONTENT;
 		if ($persoon == $param) {
 			# code...
@@ -36,7 +36,7 @@ function printFeedbackForm($user, $logger) {
 	$titles = "";
 	if (!empty($objecten)) {
 		foreach ($objecten as $object) {
-			$titles .= "<option value=\"$object[object_nr]\">$object[title]</option>";
+			$titles .= "<option value=\"$object[voorwerpnummer]\">$object[titel]</option>";
 		}
 		$html = <<<MYCONTENT
 		<div class="ui segment">
@@ -97,28 +97,28 @@ function printGebodenproducten($param) {
 
 function printVeilingen($param) {
 	foreach ($param as $veiling) {
-	   $filename = getfile($veiling['object_nr']);
-	   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
+	   $filenaam = getfile($veiling['voorwerpnummer']);
+	   $hoogsteBod = getHoogsteBod($veiling['voorwerpnummer']);
 	  if (empty($hoogsteBod['hoogsteBod'])) {
-	    $start = getStartBedrag($veiling['object_nr']);
-	    if(!empty($start['starting_price'])) {
-	      $hoogsteBod['hoogsteBod'] = $start['starting_price'];
+	    $start = getStartBedrag($veiling['voorwerpnummer']);
+	    if(!empty($start['startprijs'])) {
+	      $hoogsteBod['hoogsteBod'] = $start['startprijs'];
 	    } else {
 	      $hoogsteBod['hoogsteBod'] = "0.00";
 	    }
 	  }
 $html = <<<MYCONTENT
       <div class="ui product segment">
-        <img src="$filename[filename]" class="ui rounded medium image">
+        <img src="$filenaam[filenaam]" class="ui rounded medium image">
         <div class="ui top left attached label huge">
           €$hoogsteBod[hoogsteBod]
         </div>
-          <a class="ui sand button" href="Eenproduct.php?id=$veiling[object_nr]">Bekijk Veiling</a> 
-        <h3 class="ui niagara header">$veiling[title]</h3>
+          <a class="ui sand button" href="Eenproduct.php?id=$veiling[voorwerpnummer]">Bekijk Veiling</a> 
+        <h3 class="ui niagara header">$veiling[titel]</h3>
 MYCONTENT;
 	echo $html;
 	if (isset($veilingen['bod'])) {
-		echo "<h3 class=\"ui niagara header\">$veiling[title]</h3>";
+		echo "<h3 class=\"ui niagara header\">$veiling[titel]</h3>";
 		}
 	echo "</div>";
 	}

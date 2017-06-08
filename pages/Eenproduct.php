@@ -54,11 +54,11 @@
 					<div class="ui grid">
 						<div class="ui eight wide column">
 							<h2 class="ui dividing sand header">
-								<?php echo "$object[title]"; ?>
+								<?php echo "$object[titel]"; ?>
 							</h2>
 							<?php printAllFiles($id) ?>
 							<div class="ui segment">
-								<?php echo "$object[description]"; ?>
+								<?php echo "$object[beschrijving]"; ?>
 							</div>
 						</div>
 						<div class="ui eight wide column">

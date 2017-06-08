@@ -31,7 +31,7 @@ function register_validation()
     $seller_yes_or_no =   'no';
     $generatedCode    =   md5(rand(0,1000));
     $activation_code  =   $generatedCode;
-    $registration_date =  GETDATE(); 
+    $registration_date =  '2016-06-06'; 
     $activated_yes_or_no = 'no';
     if(addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no,  $activated_yes_or_no, $activation_code)){
       sendUserVerification($emailaddress, $activation_code, $password, $username);

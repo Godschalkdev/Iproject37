@@ -4,9 +4,10 @@ include '../db-util.php';
 include '../Controllers/mailController.php';
 
 $username = "admin";
-$passw = "Str00pW4f31";
+$passw = "Iproject37!";
 
 connectToDatabase();
+
 
 // function getUsers(){
 // 	global $pdo;
@@ -15,7 +16,19 @@ connectToDatabase();
 //     return $stmt->fetch(PDO::FETCH_NUM);
 // }
 
+
+
+function getUsers()
+{
+	global $pdo;
+	$data = $pdo->query("SELECT * from dbo.Users");
+	
+  	return $data->fetchAll();
+}	
+
+
 function getHeadingPaginanummers()
+
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Heading");
@@ -33,6 +46,18 @@ function getVeilingenPaginanummers()
 function removeUser($row)
 {
 
+ global $pdo;
+ $userData = getUsers();
+ $user = $_POST['UTable'];
+ 
+
+ if(isset($_POST['remove']))
+ {
+ 	$data = $pdo->prepare("DELETE from dbo.Users where user_id= ?");
+ 	$data->execute(array($user));
+ }
+
+
 global $pdo;
 //$id = $_POST[$row[0]];
  
@@ -46,6 +71,10 @@ function showUsers()
 
 	$nRijen = getAantalUsers(); 
 
+function meerderePaginasAantalRijen($nrijen){
+	$nRijen = $nrijen;
+
+
  	$rijenPerPagina = 1000;
 
 	if($nRijen[0] == 0) 
@@ -62,18 +91,9 @@ function showUsers()
 	    } 
 	    echo "<br/><br/>"; 
 	}
-
-
-	$sql = "SELECT * FROM  
-            			(SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
-            			AS user_id, username, firstname, lastname,  emailaddress FROM dbo.Users) 
-        				AS Temp 
-        				WHERE user_id BETWEEN ? AND ?";
-
-    $stmt2 = $pdo->prepare($sql);
-   
-  
-
+  }
+function meerderePaginasAdminLaag(){
+	$rijenPerPagina = 1000;
 	if(isset($_GET['paginaNummer'])) 
 	{ 
 	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
@@ -84,36 +104,52 @@ function showUsers()
 	    $laagRijNummer = 1; 
 	    $hoogRijNummer = $rijenPerPagina; 
 	}
+	//$params = array(&$laagRijNummer, &$hoogRijNummer);
+	//$database->execute(array($laagRijNummer, $hoogRijNummer));
+	return $laagRijNummer;
+}
 
-	$params = array(&$laagRijNummer, &$hoogRijNummer);
-	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
+function meerderePaginasAdminHoog(){
+	$rijenPerPagina = 1000;
+	if(isset($_GET['paginaNummer'])) 
+	{ 
+	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
+	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
+	} 
+	else 
+	{ 
+	    $laagRijNummer = 1; 
+	    $hoogRijNummer = $rijenPerPagina; 
+	}
+	//$params = array(&$laagRijNummer, &$hoogRijNummer);
+	//$database->execute(array($laagRijNummer, $hoogRijNummer));
+	return $hoogRijNummer;
+}
 
-	//$nRijen = $stmt->rowCount();
-	
+function deleteAdmin($param){
 
+		 if(isset($_GET['param']) && $_GET['param']=="verwijder"){
+		          $verwijder_id = (int) $_GET['id'];
+		    $sql= $param;
+		    //print($sql);
+		    if ($sql){
+		        echo "Verwijderen gelukt";
+		    } else {
+		        echo "Verwijderen error";
 
-
- if(isset($_GET['param']) && $_GET['param']=="verwijder"){
-          $verwijder_id = (int) $_GET['id'];
-         $sql="DELETE FROM dbo.Users WHERE user_id='$verwijder_id'";
-         $resultaat=$pdo->query($sql);
-
-    if ($resultaat){
-        echo "Verwijderen gelukt";
-
-    } else {
-        echo "Verwijderen error";
+	    }
 
     }
+}
 
-    }
-//aanpassesn
+function updateAdmin($param){
      if(isset($_GET['param']) && $_GET['param']=="update"){
          $update_id = $_GET['id'];
-         $update_user_id = $_GET['user_id'];
-         $update_heading_name = $_GET['heading_name'];
-         $update_heading_nr_parent = $_GET['heading_nr_parent'];
-         $sql="UPDATE dbo.Heading SET heading_nr = '$update_heading_nr', heading_name = '$update_heading_name', heading_nr_parent = '$update_heading_nr_parent' WHERE Heading_nr='$update_id'";
+         $update_object_nr = $_GET['object_nr'];
+         $update_title = $_GET['title'];
+         $update_seller = $_GET['seller'];
+         $update_buyer = $_GET['buyer'];
+         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller', buyer = '$update_buyer' WHERE object_nr='$update_id'";
          $resultaat=$pdo->query($sql);
 
     if ($resultaat){
@@ -125,7 +161,57 @@ function showUsers()
     }
 
     }
+}
+	
+// tabblad 1 van Admin Page - Zoeken
 
+function zoekBalkAdmin(){
+
+	print("<select name='database' class='ui search dropdown' method='POST'>
+			  <option onchange='this.form.submit()'> Zoeken in </option>
+              <option value='gebruiker' method='POST' onchange='this.form.submit()'> Account gegevens </option>
+              <option value='categorie' method='POST' onchange='this.form.submit()'> Categorieën </option>
+              <option value='veiling' method='POST' onchange='this.form.submit()'> Veilingen </option>
+            </select>
+            <div class='ui input'>
+				<input placeholder='Zoeken' type='text' name='zoeken' value='' method='POST'>
+				<input  type='submit' name='knop' method='REQUEST'>
+			</div><br/><br/>"); 
+
+if(isset($_POST['database'])){
+    $select1 = $_POST['database'];
+    switch ($select1) {
+        case 'gebruiker':
+        	if(isset($_REQUEST['knop']) ) {
+        		$zoekinput = $_POST['zoeken'];
+        		 $zoekresultaten = adminZoekenGebruiker($zoekinput);
+           		 tabelGebruikers($zoekresultaten,getAantalGebruikers());
+       		 }
+            break;
+        case 'categorie':
+	        if(isset($_REQUEST['knop']) ) {
+	        	$zoekinput = $_POST['zoeken'];
+	        	 $zoekresultaten = adminZoekenCategorie($zoekinput);
+	            tabelCategorieen($zoekresultaten, getAantalCategorieen());
+	        }
+            break;
+        case 'veiling':
+	        if(isset($_REQUEST['knop']) ) {
+	        	$zoekinput = $_POST['zoeken'];
+	        	$zoekresultaten = adminZoekenVeiling($zoekinput, getAantalVeilingen());
+	           tabelVeilingen($zoekresultaten);
+	       }
+            break;
+        default :
+        	break;
+    }
+}
+
+}
+
+// tabblad 2 van Admin Page - Account gegevens beheren
+
+function tabelKoppenGebruikers(){
 	print("<table border='1px'> 
 	        <tr>
 		        <td>Gebruikers ID</td> 
@@ -134,12 +220,34 @@ function showUsers()
 		        <td>Achternaam</td>
 		        <td>Emailaddress</td>
 	        </tr>"); 
+}
 
-		foreach($stmt2 as $row)
-	    { 
+function tabelGebruikers($database, $aantalRijen){
+	meerderePaginasAantalRijen($aantalRijen);
+  $rows =  $database;
+  	if (!empty($rows)) {
+  		tabelKoppenGebruikers();
+	  	foreach($rows as $row)
+	      { 
+	      	$id = $row['user_id'];
+	      	
 	        print("
 				<tbody id='userTable'>
 	        	<tr>
+	        		<td>$row[0]</td> 
+	                <td>$row[1]</td> 
+	                <td>$row[2]</td>
+	                <td>$row[3]</td>
+	                <td>$row[4]</td>
+	                <td>
+	                	<div class='ui buttons'>
+	                	<input type='hidden' name='UTable' value='$row[0]'/>
+	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	                		<input type='submit' name='email' value='Mailen' class='ui button two'>Mailen</button>
+	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
+	                	</div>
+	                </td>
+
 	        		<td contentEditable='true'>$row[user_id]</td> 
 	                <td contentEditable='true'>$row[username]</td> 
 	                <td contentEditable='true'>$row[firstname]</td>
@@ -150,109 +258,33 @@ function showUsers()
 	                <td><a href='?param=update&amp;id={$row['user_id']}&amp;user_id={$row['user_id']}&amp;username={$row['username']}&amp;firstname={$row['firstname']}&amp;lastname={$row['lastname']}&amp;emailaddress={$row['emailaddress']}'>Opslaan</a></td>
 	               </tr>
 	                </tbody>"); 
-	    } 
-	    print("</table>");
-
+	      } 
+	     // deleteAdmin(deleteGebruikerAdmin($id));
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen gebruikers.";
+  	}
 }
 
+// tabblad 3 van Admin Page - Categorieen beheren
 
-
-function showHeading()
-{
-	global $pdo;
-
-	$sql = "SELECT COUNT(heading_nr) FROM dbo.Heading"; 
-
-	$stmt = $pdo->query($sql);
-
-	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
- 	$rijenPerPagina = 1000;
-	if($nRijen[0] == 0) 
-	{ 
-	    echo "No rows returned."; 
-	} 
-	else 
-	{     
-	    $nPagina = ceil($nRijen[0]/$rijenPerPagina); 
-	    for($i = 1; $i<=$nPagina; $i++) 
-	    { 
-	        $paginaNummer = "?paginaNummer=$i"; 
-	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
-	    } 
-	    echo "<br/><br/>"; 
-	}
-
-
-	$sql = "SELECT * FROM  
-            			(SELECT ROW_NUMBER() OVER(ORDER BY heading_nr) 
-            			AS rownumber, heading_nr, heading_name, heading_nr_parent FROM dbo.Heading) 
-        				AS Temp 
-        				WHERE rownumber BETWEEN ? AND ?";
-
-    $stmt2 = $pdo->prepare($sql);
-   
-  
-
-	if(isset($_GET['paginaNummer'])) 
-	{ 
-	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
-	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
-	} 
-	else 
-	{ 
-	    $laagRijNummer = 1; 
-	    $hoogRijNummer = $rijenPerPagina; 
-	}
-
-	$params = array(&$laagRijNummer, &$hoogRijNummer);
-	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
-
-	 $nRijen = $stmt->rowCount();
-	
-
- if(isset($_GET['param']) && $_GET['param']=="verwijder"){
-          $verwijder_id = (int) $_GET['id'];
-         $sql="DELETE FROM dbo.Heading WHERE Heading_nr='$verwijder_id'";
-         $resultaat=$pdo->query($sql);
-
-    if ($resultaat){
-        echo "Verwijderen gelukt";
-
-    } else {
-        echo "Verwijderen error";
-
-    }
-
-    }
-
-     if(isset($_GET['param']) && $_GET['param']=="update"){
-         $update_id = $_GET['id'];
-         $update_heading_nr = $_GET['heading_nr'];
-         $update_heading_name = $_GET['heading_name'];
-         $update_heading_nr_parent = $_GET['heading_nr_parent'];
-         $sql="UPDATE dbo.Heading SET heading_nr = '$update_heading_nr', heading_name = '$update_heading_name', heading_nr_parent = '$update_heading_nr_parent' WHERE Heading_nr='$update_id'";
-         $resultaat=$pdo->query($sql);
-
-    if ($resultaat){
-        echo "Updaten gelukt";
-
-    } else {
-        echo "Updaten error";
-
-    }
-
-    }
-
-
+function tabelKoppenCategorieen(){
 	print("<table border='1px'> 
 	        <tr>
 		      	<td>Rubriek Nr</td> 
 		        <td>Rubriek naam</td>
 		        <td>Rubriek nr parent</td>
-	        </tr>"); 
+	        </tr>");
+}
 
-		foreach($stmt2 as $row)
-	    { 
+function tabelCategorieen($database, $aantalRijen){
+	meerderePaginasAantalRijen($aantalRijen);
+  $rows =  $database;
+  	if (!empty($rows)) {
+  		tabelKoppenCategorieen();
+	  	foreach($rows as $row)
+	      { 
+	      	//deleteAdmin(deleteCategorieAdmin($row['heading_nr']));
 	        print("
 				<tbody id='userTable' >
 	        	<tr>
@@ -265,10 +297,14 @@ function showHeading()
 	                			  Update</a></td>
 
 	               </tr>
-	                </tbody>"); 
-	    } 
-	    print("</table>");
+	                </tbody>");
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen categorieën.";
+  	}
 }
+
 
 function showVeilingen()
 {
@@ -327,11 +363,15 @@ function showVeilingen()
          $sql="DELETE FROM dbo.Object WHERE object_nr='$verwijder_id'";
          $resultaat=$pdo->query($sql);
 
+
+removeUser();
+
     if ($resultaat){
         echo "Verwijderen gelukt";
 
     } else {
         echo "Verwijderen error";
+
 
     }
 
@@ -355,7 +395,10 @@ function showVeilingen()
     }
 
     }
+// tabblad 4 van Admin Page - Veilingen beheren
 
+
+function tabelKoppenVeilingen(){
 	print("<table border='1px'> 
 	        <tr>
 		        <td>Object Nr</td> 
@@ -363,30 +406,43 @@ function showVeilingen()
 		        <td>Verkoper</td>
 		        <td>Koper</td>
 	        </tr>"); 
+}
 
-
-			foreach($stmt2 as $row)
-	 	 {
-	        print("
+function tabelVeilingen($database, $aantalRijen){
+  meerderePaginasAantalRijen($aantalRijen);
+  $rows =  $database;
+  	if (!empty($rows)) {
+  		tabelKoppenVeilingen();
+	  	foreach($rows as $row)
+	      { 
+	      	//deleteAdmin(deleteVeilingAdmin($row['object_nr']));
+	          print("
 				<tbody id='userTable' >
 	        	<tr>
 	        		<td  contentEditable='true'>$row[object_nr]</td> 
 	                <td  contentEditable='true'>$row[title]</td> 
 	                <td  contentEditable='true'>$row[seller]</td>
 	                <td  contentEditable='true'>$row[buyer]</td>
+
 	                <td><a href='?param=verwijder&amp;id={$row['object_nr']}'>Verwijderen</a></td>
 
 	                <td><a href='?param=update&amp;id={$row['object_nr']}&amp;object_nr={$row['object_nr']}&amp;title={$row['title']}&amp;seller={$row['seller']}&amp;buyer={$row['buyer']}'>
 	                			  Update</a></td>
 	               </tr>
 	                   </tbody>"); 
-	  }
-	    
-
-	    print("</table>");
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen veilingen.";
+  	}
 }
 
+
+
 // tabblad 5 van Admin Page
+
+// tabblad 5 van Admin Page - afgelopen veilingen en mailen
+
 function buttonAfgelopenVeilingen()
 {
   print("<div class='ui input'>
@@ -398,11 +454,17 @@ function buttonAfgelopenVeilingen()
       { 
         $hoogsteBod = getHoogsteBod($row['object_nr']);
         $objectnr = $row['object_nr'];
-        $email = getEmail($hoogsteBod['username']);
-        print($email['emailaddress']);
+        
+        $hoogsteBieder = $hoogsteBod['username'];
+        $emailKoper = getEmail($hoogsteBieder);
+
+        $verkoper = $row['seller'];
+        $emailVerkoper = getEmail($verkoper);
+
 	   if(isset($_POST['knop'])){
 	        koperInObject($objectnr, $hoogsteBod['username']);
-	        aflopendeVeilingKoperMail($email['emailaddress'], $row['title'], $hoogsteBod['username']);
+	        aflopendeVeilingKoperMail($emailKoper['emailaddress'], $row['title'], $hoogsteBod['username']);
+	        aflopendeVeilingVerkoperMail($emailVerkoper[0], $row['title'], $hoogsteBod['username']);
 	        veilingSluiten($objectnr);
 	   }
 	}
@@ -442,4 +504,9 @@ function tabelAfgelopenVeilingen(){
   			echo "</br></br>Er zijn geen aflopende veilingen.";
   	}
 }
+
 ?>
+
+
+
+

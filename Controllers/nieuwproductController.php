@@ -4,7 +4,7 @@ require ('../db-util.php');
 
 connectToDatabase();
 $Errors                         = array();
-$requiredFields                 = array('title', 'beschrijving', 'startprijs', 'betaalwijze', 'betaalinstructies', 'stad', 'land', 'dagen', 'bezorgkosten', 'bezorginstructies');
+$requiredFields                 = array('titel', 'beschrijving', 'startprijs', 'betaalwijze', 'betaalinstructies', 'stad', 'land', 'dagen', 'bezorgkosten', 'bezorginstructies');
 
 function nieuwProduct_validatie()
 {
@@ -15,7 +15,7 @@ function nieuwProduct_validatie()
     $description        		=	$_POST['beschrijving'];
     $starting_price         	=	$_POST['startprijs'];
     $payment_method  			=	$_POST['betaalwijze'];
-    $payment_instructions   	=	$_POST['betaalinstructies'];
+    $payment_instructions   	=	$_POST['betaalinstructies']; 
     $city        				=	$_POST['stad'];
     $country             		=	$_POST['land'];
     $duration         			=	$_POST['dagen'];
@@ -24,13 +24,13 @@ function nieuwProduct_validatie()
     $shipping_costs             =	$_POST['bezorgkosten'];
     $shipping_instructions   	=	$_POST['bezorginstructies'];
     $seller     				=	$_SESSION['naamuser'];
-    $date 						= 	strtotime('+$duration, day');
+    $date 						= 	strtotime("+".$duration." days");
     $duration_end_date      	=	date('Y-m-d', $date);
     $duration_end_time        	=	$duration_start_time;
     $auction_closed 			=   0; 
-    $filename					=	$_POST['afbeelding[]'];
     $lowest_heading_nr			=	'4352';
-    if(addNewObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed)){
+  if(addNewObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed)){
+  	
       return "<h1 style=\"color:green;\">Nieuw product toegevoegd</h1>";
     }
   }
@@ -39,6 +39,31 @@ function nieuwProduct_validatie()
 }
 }
 
+
+function uploadFileToFtp(){
+
+$ftp_server = "ftp.iproject.icasites.nl";
+$ftp_username   = "iproject37";
+$ftp_password   =  "6JYc6Lj4";
+
+$conn_id = ftp_connect($ftp_server) or die("could not connect to $ftp_server");
+
+
+$remote_file_path = "/pics/";
+
+$valid_formats = array("jpg", "png", "gif", "zip", "bmp");
+
+foreach($_FILES['afbeelding']['name'] as $key => $name ){
+    $file_name = $key.$_FILES['afbeelding']['name'][$key];
+    $file_size =$_FILES['afbeelding']['size'][$key];
+    $file_tmp =$_FILES['afbeelding']['tmp_name'][$key];
+    $file_type=$_FILES['afbeelding']['type'][$key];
+
+    ftp_put($conn_id, $remote_file_path, $file_name, FTP_ASCII);
+}
+}
+
+
 function isValidForm()
 {
   global $requiredFields;
@@ -46,37 +71,6 @@ function isValidForm()
 }
 
 
-function printrubriek($param) {
-	$veilingen = getRubriek($param);
-	echo "<option value=\"\">- selecteer een rubriek -</option>";
-	foreach ($veilingen as $veiling) {
-		echo "<option value=\"$veiling[heading_nr]\">$veiling[heading_name]</option>";
-	}
-}
-
-function printZoekSysteem(){
-	
-	echo "<div class=\"six wide field\"> <select name=\"hoofd\" class=\"ui search dropdown\" id=\"hoofd\" onchange=\"this.form.submit()\">";
-	echo "<option value=\"$_POST[hoofd]\"></option>";
-	printrubriek('-1');
-	echo "</select></div>";
-	
-	if (!empty($_POST['hoofd']) && !empty(getRubriek($_POST['hoofd']))) {
-	echo "<div class=\"six wide field\"> <select name=\"sub\" class=\"ui search dropdown\" id=\"sub\" onchange=\"this.form.submit()\">";
-	echo "<option value=\"$_POST[sub]\"></option>";
-	printrubriek($_POST['hoofd']);
-	echo "</select></div>";
-
-	} 
-
-	if (!empty($_POST['sub']) && !empty(getRubriek($_POST['sub']))) {
-	echo "<div class=\"six wide field\"> <select name=\"rest\" class=\"ui search dropdown\" id=\"rest\" onchange=\"this.form.submit()\">";
-	echo "<option value=\"$_POST[rest]\"></option>";
-	printrubriek($_POST['sub']);
-	echo "</select></div>";
-
-	} 
-}
 
 function getheader(){
 	
@@ -93,7 +87,7 @@ return $headingnr;
 function addNewObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed){
 
 	if(insertNieuwObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed)){
-		echo 'product toegevoegd'; 
+		return true;
 		// $object_nr = getObjectnummer($title, $duration_start_date, $duration_start_time, $seller);
 
 		// if(insertNieuwFiles($object_nr,$filename) && insertNieuwObject_in_Heading($object_nr, $lowest_heading_nr)){
@@ -103,7 +97,7 @@ function addNewObject($title, $description, $starting_price, $payment_method, $p
 		// 	echo 'object niet gevonden'; 
 		// }
 	} else{ 
-		echo 'product niet toegevoegd'; 
+		return false;
 	}
 }
 

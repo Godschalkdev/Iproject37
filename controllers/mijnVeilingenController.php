@@ -23,7 +23,6 @@ function printFeedback($param) {
 			</div>
 MYCONTENT;
 		if ($persoon == $param) {
-			# code...
 		} else {
 			echo $html;
 		}

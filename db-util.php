@@ -54,7 +54,7 @@ function getfile($voorwerpnummer) {
 function getBijzondereVeilingen(){
 
   global $pdo;
-  $data = $pdo->query("SELECT TOP 3 b.voorwerpnummer, titel, beschrijving, startprijs, MAX(bodbedrag) as hoogsteBod, CAST(((100 / (b.startprijs+1)) * (max(f.bodbedrag) - b.startprijs)) as NUMERIC(12,2)) as percentageVerschil FROM Voorwerp as b Inner JOIN Offer as f On b.voorwerpnummer = f.voorwerpnummer Group by titel, beschrijving, startprijs, b.voorwerpnummer ORDER BY percentageVerschil desc");
+  $data = $pdo->query("SELECT TOP 3 b.voorwerpnummer, titel, beschrijving, startprijs, MAX(bodbedrag) as hoogsteBod, CAST(((100 / (b.startprijs+1)) * (max(f.bodbedrag) - b.startprijs)) as NUMERIC(12,2)) as percentageVerschil FROM Voorwerp as b Inner JOIN Bod as f On b.voorwerpnummer = f.voorwerpnummer Group by titel, beschrijving, startprijs, b.voorwerpnummer ORDER BY percentageVerschil desc");
   return $data->fetchAll();
 }
 
@@ -182,7 +182,7 @@ function getRubriek($param) {
 
 function getProductsByHeader($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Voorwerp JOIN Voorwerp_in_Heading ON Voorwerp.voorwerpnummer = Voorwerp_in_Rubriek.voorwerpnummer WHERE rubriek_op_laagste_niveau = $param");
+  $data = $pdo ->query("SELECT * FROM Voorwerp JOIN Voorwerp_in_Rubriek ON Voorwerp.voorwerpnummer = Voorwerp_in_Rubriek.voorwerpnummer WHERE rubriek_op_laagste_niveau = $param");
 
   return $data ->fetchAll();
 }

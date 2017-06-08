@@ -48,7 +48,7 @@ if (empty($user)) {
 						<div class="ui bottom attached tab segment" data-tab="second">
 							<?php 
 								  printFeedback($user); 
-								  printFeedbackForm($user, $_SESSION['usernaam'])
+								  printFeedbackForm($user, $_SESSION['usernaam']);
 								  ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="third">

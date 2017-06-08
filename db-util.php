@@ -18,17 +18,17 @@ catch(PDOexeption $e){
 }
 
 //Functies voor het inloggen
- function Chk_LoginDetails($username, $plaintextpassword)
+ function Chk_LoginDetails($gebruikersnaam, $plaintextpassword)
     {
       global $pdo;
-      $data = $pdo->prepare("SELECT username, password, emailaddress FROM [User] WHERE username = ? AND activated_yes_or_no = 'yes' ");
-      $data->execute(array($username));
+      $data = $pdo->prepare("SELECT gebruikersnaam, wachtwoord, emailadres FROM Gebruiker WHERE gebruikersnaam = ? AND geactiveerd_ja_of_nee = 'ja' ");
+      $data->execute(array($gebruikersnaam));
 
       $datas = $data->fetch();
       $count = count($datas);
       if ($count > 0) {
-        if (password_verify($plaintextpassword, $datas["password"])) {
-          return array($datas["username"],$datas["emailaddress"]);
+        if (password_verify($plaintextpassword, $datas["wachtwoord"])) {
+          return array($datas["gebruikersnaam"],$datas["emailadres"]);
         } else {
           return false;
         }}
@@ -40,31 +40,31 @@ catch(PDOexeption $e){
 //Functies voor de index pagina
 function getPopulaireVeilingen(){
 global $pdo;
-  $data = $pdo->query("SELECT TOP 3 title, description, max(offer_amount) as hoogsteBod,count(offer_amount) as totaleOffers, b.object_nr FROM Object b inner join Offer f ON b.object_nr = f.object_nr GROUP BY title, description, b.object_nr ORDER BY TotaleOffers desc");
+  $data = $pdo->query("SELECT TOP 3 titel, beschrijving, max(bodbedrag) as hoogsteBod,count(bodbedrag) as totaleOffers, b.voorwerpnummer FROM Voorwerp b inner join Bod f ON b.voorwerpnummer = f.voorwerpnummer GROUP BY titel, beschrijving, b.voorwerpnummer ORDER BY TotaleOffers desc");
   return $data->fetchAll();
   
 }
 
-function getfile($objectnummer) {
+function getfile($voorwerpnummer) {
   global $pdo;
-    $data = $pdo->query("SELECT * FROM [File] WHERE object_nr = $objectnummer");
+    $data = $pdo->query("SELECT TOP 4 * FROM Bestand WHERE voorwerpnummer = $voorwerpnummer");
   return $data->fetch();
 }
 
 function getBijzondereVeilingen(){
 
   global $pdo;
-  $data = $pdo->query("SELECT TOP 3 b.object_nr, title, description, starting_price, MAX(offer_amount) as hoogsteBod, CAST(((100 / (b.starting_price+1)) * (max(f.offer_amount) - b.starting_price)) as NUMERIC(12,2)) as percentageVerschil FROM Object as b Inner JOIN Offer as f On b.object_nr = f.object_nr Group by title, description, starting_price, b.object_nr ORDER BY percentageVerschil desc");
+  $data = $pdo->query("SELECT TOP 3 b.voorwerpnummer, titel, beschrijving, startprijs, MAX(bodbedrag) as hoogsteBod, CAST(((100 / (b.startprijs+1)) * (max(f.bodbedrag) - b.startprijs)) as NUMERIC(12,2)) as percentageVerschil FROM Voorwerp as b Inner JOIN Offer as f On b.voorwerpnummer = f.voorwerpnummer Group by titel, beschrijving, startprijs, b.voorwerpnummer ORDER BY percentageVerschil desc");
   return $data->fetchAll();
 }
 
 
 function getKoopjes(){
 global $pdo; 
-$data = $pdo ->query("SELECT TOP 3  b.object_nr, title, description, starting_price ,MAX(offer_amount) as hoogsteBod, count(offer_amount) as totaleOffers 
-FROM Object b INNER JOIN Offer f on b.object_nr = f.object_nr 
-GROUP BY starting_price, title, description , b.object_nr
-having starting_price <= 100 AND ((100 / (b.starting_price+1)) * (max(f.offer_amount) - b.starting_price)) < 100
+$data = $pdo ->query("SELECT TOP 3  b.voorwerpnummer, titel, beschrijving, startprijs ,MAX(bodbedrag) as hoogsteBod, count(bodbedrag) as totaleOffers 
+FROM Voorwerp b INNER JOIN Bod f on b.voorwerpnummer = f.voorwerpnummer 
+GROUP BY startprijs, titel, beschrijving , b.voorwerpnummer
+having startprijs <= 100 AND ((100 / (b.startprijs+1)) * (max(f.bodbedrag) - b.startprijs)) < 100
 ORDER BY totaleOffers desc");
 return $data -> fetchAll();
 }
@@ -72,18 +72,18 @@ return $data -> fetchAll();
 function getNieuweVeilingen(){
 
   global $pdo; 
-  $data = $pdo ->query("SELECT top 3 Object.object_nr, duration_start_date, duration_start_time, title
-                        FROM Object
-                        ORDER BY duration_start_date desc, duration_start_time desc"); 
+  $data = $pdo ->query("SELECT top 3 Voorwerp.voorwerpnummer, looptijd_einde_dag, looptijd_einde_tijdstip, titel
+                        FROM Voorwerp
+                        ORDER BY looptijd_einde_dag desc, looptijd_einde_tijdstip desc"); 
   return $data -> fetchAll();
 }
 
 function getHoogsteBod($param){
   global $pdo;
-  $data = $pdo ->query("SELECT TOP 1 MAX(offer_amount) as hoogsteBod, username
-                        FROM Offer
-                        WHERE object_nr = $param
-                        GROUP BY username
+  $data = $pdo ->query("SELECT TOP 1 MAX(bodbedrag) as hoogsteBod, gebruikersnaam
+                        FROM Bod
+                        WHERE voorwerpnummer = $param
+                        GROUP BY gebruikersnaam
                         ORDER BY hoogsteBod DESC");
   return $data->fetch();
   }
@@ -92,11 +92,11 @@ function getHoogsteBod($param){
 
 //Functies op nieuwe gebruikers te registreren
 
- function Chk_UserAlreadyExist_email($emailaddress)
+ function Chk_UserAlreadyExist_email($emailadres)
     {
       global $pdo;
-      $data = $pdo->prepare("SELECT emailaddress FROM [User] WHERE emailaddress = ?");
-      $data->execute(array($emailaddress));
+      $data = $pdo->prepare("SELECT emailadres FROM Gebruiker WHERE emailadres = ?");
+      $data->execute(array($emailadres));
       $count = count($data->fetchAll());
       if ($count > 0) {
         return true;
@@ -109,7 +109,7 @@ function getHoogsteBod($param){
  function Chk_UserAlreadyExist_gebruikersnaam($gebruikersnaam)
       {
         global $pdo;
-        $data = $pdo->prepare("SELECT username FROM [User] WHERE username = ?");
+        $data = $pdo->prepare("SELECT gebruikersnaam FROM Gebruiker WHERE gebruikersnaam = ?");
         $data->execute(array($gebruikersnaam));
         $count = count($data->fetchAll());
         if ($count > 0) {
@@ -128,13 +128,13 @@ if(isset($_GET['emailaddress']) && !empty($_GET['emailaddress']) && isset($_GET[
     $emailaddress = $_GET['emailaddress']; // Set email variable
     $activation_code = $_GET['activation_code']; // Set hash variable
                  
-    $data = $pdo->prepare("SELECT emailaddress, activation_code, activated_yes_or_no FROM [user] WHERE emailaddress = ? AND activation_code = ? AND activated_yes_or_no = 'no' ");
+    $data = $pdo->prepare("SELECT emailaddress, activatiecode, geactiveerd_ja_of_nee FROM [user] WHERE emailaddress = ? AND activatiecode = ? AND geactiveerd_ja_of_nee = 'nee' ");
     $data->execute(array($emailaddress, $activation_code));
     $count = count($data->fetchAll());
                  
     if($count > 0){
         // We have a match, activate the account
-      $updateActive = $pdo->prepare("UPDATE [User] SET activated_yes_or_no ='yes' WHERE emailaddress = ? AND activation_code = ? AND activated_yes_or_no = 'no'");
+      $updateActive = $pdo->prepare("UPDATE [User] SET geactiveerd_ja_of_nee ='ja' WHERE emailadres = ? AND activatiecode = ? AND geactiveerd_ja_of_nee = 'nee'");
         $updateActive->execute(array($emailaddress, $activation_code));
         echo 'Je account is geactiveerd, je kunt nu inloggen <a href="http://www.eenmaalandermaal.dev/pages/login.php">Hier!</a></div>';
     }else{
@@ -150,13 +150,13 @@ if(isset($_GET['emailaddress']) && !empty($_GET['emailaddress']) && isset($_GET[
 
 
 
-function addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no,$activated_yes_or_no, $activation_code) {
+function addNewUser($gebruikersnaam, $voornaam,$achternaam,$adresregel_1,$adresregel_2, $postcode, $plaatsnaam, $land, $geboortedag, $emailadres, $wachtwoord, $vraagnummer, $antwoordtekst, $verkoper_ja_of_nee,$geactiveerd_ja_of_nee, $activatiecode) {
               
                 try{ 
                   global $pdo;
     
-                $stmt = $pdo->prepare("INSERT INTO [User] (username, firstname, lastname, addressfield_1, addressfield_2, ZIP_code, city, country, birthday, emailaddress, password, question_nr, answer, seller_yes_or_no, activated_yes_or_no, activation_code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
-                $stmt->execute(array($username, $firstname, $lastname, $address_field1, $address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no, $activated_yes_or_no, $activation_code));
+                $stmt = $pdo->prepare("INSERT INTO Gebruiker (gebruikersnaam, voornaam, achternaam, adresregel_1, adresregel_2, postcode, plaatsnaam, land, geboortedag, emailadres, wachtwoord, vraagnummer, antwoordtekst, verkoper_ja_of_nee, geactiveerd_ja_of_nee, activatiecode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
+                $stmt->execute(array($gebruikersnaam, $voornaam, $achternaam, $adresregel_1, $adresregel_2, $postcode, $plaatsnaam, $land, $geboortedag, $emailadres, $wachtwoord, $vraagnummer, $antwoordtekst, $verkoper_ja_of_nee, $geactiveerd_ja_of_nee, $activatiecode));
 }
       catch(PDOexeption $e){
           echo $e->getMessage();
@@ -176,13 +176,13 @@ function hashpassword($cleartextpassword){
 
 function getRubriek($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * from heading where heading_nr_parent = $param");
+  $data = $pdo ->query("SELECT * from Rubriek where rubriek = $param");
   return $data ->fetchAll(); 
 }
 
 function getProductsByHeader($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $param");
+  $data = $pdo ->query("SELECT * FROM Voorwerp JOIN Voorwerp_in_Heading ON Voorwerp.voorwerpnummer = Voorwerp_in_Rubriek.voorwerpnummer WHERE rubriek_op_laagste_niveau = $param");
 
   return $data ->fetchAll();
 }
@@ -191,50 +191,50 @@ function getProductsByHeader($param) {
 function getVergelijkbareVeilingen($param) {
   global $pdo;
   $heading_nr = getObjectRubriek($param);
-  $data = $pdo ->query("SELECT TOP 3 * FROM Object JOIN Object_in_Heading ON Object.object_nr = Object_in_Heading.object_nr WHERE lowest_heading_nr = $heading_nr[lowest_heading_nr] AND Object.object_nr != $param");
+  $data = $pdo ->query("SELECT TOP 3 * FROM Voorwerp JOIN Voorwerp_in_Rubriek ON Voorwerp.voorwerpnummer = Voorwerp_in_Rubriek.voorwerpnummer WHERE rubriek_op_laagste_niveau = $heading_nr[rubriek_op_laagste_niveau] AND Voorwerp.voorwerpnummer != $param");
 
   return $data ->fetchAll();
 }
 
 function getObjectRubriek($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT lowest_heading_nr FROM Object_in_Heading WHERE object_nr = $param");
+  $data = $pdo ->query("SELECT rubriek_op_laagste_niveau FROM Voorwerp_in_Rubriek WHERE voorwerpnummer = $param");
 
   return $data ->fetch();
 }
 
 function getAllFiles($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT filename FROM [File] WHERE object_nr = $param");
+  $data = $pdo ->query("SELECT TOP 4 filenaam FROM Bestand WHERE voorwerpnummer = $param");
 
   return $data ->fetchAll();  
 }
 
 function getObject($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Object WHERE object_nr = $param");
+  $data = $pdo ->query("SELECT * FROM Voorwerp WHERE voorwerpnummer = $param");
 
   return $data ->fetch();
 }
 
 function getBiedingen($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT TOP 5 * FROM Offer WHERE object_nr = $param ORDER BY offer_amount DESC");
+  $data = $pdo ->query("SELECT TOP 5 * FROM Bod WHERE voorwerpnummer = $param ORDER BY bodbedrag DESC");
 
   return $data ->fetchAll(); 
 }
 
 function bodQuery($objectnr, $amount, $username) {
   global $pdo;
-  $data = $pdo->prepare("INSERT INTO Offer VALUES (?,?,?,GETDATE(),CONVERT (time, SYSDATETIME()))");
+  $data = $pdo->prepare("INSERT INTO Bod VALUES (?,?,?,GETDATE(),CONVERT (time, SYSDATETIME()))");
   $data->execute(array($objectnr, $amount, $username));
 }
 
 function startBedragQuery($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT starting_price
-                       FROM [Object]
-                       WHERE object_nr = $param");
+  $data = $pdo ->query("SELECT startprijs
+                       FROM Voorwerp
+                       WHERE voorwerpnummer = $param");
 
   return $data ->fetchAll();
 }
@@ -242,8 +242,8 @@ function startBedragQuery($param) {
 function insertNieuwObject(){
     global $pdo;
 
-  $stmt = $pdo->prepare("INSERT INTO [User] (title, description, starting_price, payment_method, payment_instructions,city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, buyer, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
-  $stmt->execute(array($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price));
+  $stmt = $pdo->prepare("INSERT INTO Gebruiker (titel, beschrijving, startprijs, betalingswijze, betalingsinstructie, city, country, duration, duration_start_date, duration_start_time, shipping_costs, shipping_instructions, seller, buyer, duration_end_date, duration_end_time, auction_closed, selling_price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") ;
+  $stmt->execute(array($titel, $beschrijving, $startprijs, $betalingswijze, $betalingsinstructie,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $buyer, $duration_end_date, $duration_end_time, $auction_closed, $selling_price));
 }
 
 function getUserVeilingen($param) {
@@ -254,19 +254,19 @@ function getUserVeilingen($param) {
 
 function getUserVeilingenBieden($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT MAX(offer_amount) AS bod, Offer.object_nr, title FROM Offer JOIN [Object] ON [Object].object_nr = Offer.object_nr WHERE username = '$param' GROUP BY Offer.object_nr, title");
+  $data = $pdo ->query("SELECT MAX(bodbedrag) AS bod, Bod.voorwerpnummer, titel FROM Bod JOIN [Object] ON [Object].voorwerpnummer = Bod.voorwerpnummer WHERE username = '$param' GROUP BY Bod.voorwerpnummer, titel");
   return $data ->fetchAll();
 }
 
 
 
-function insertNieuwFiles($object_nr, $filename){
+function insertNieuwFiles($voorwerpnummer, $filename){
   try {
 global $pdo;
 foreach ([$filename]['name'] as $file)
     {    
-$data = $pdo->prepare("INSERT INTO [File] (filename, object_nr) VALUES (?,?)") ;
-$data->execute(array($file, $object_nr));
+$data = $pdo->prepare("INSERT INTO [File] (filename, voorwerpnummer) VALUES (?,?)") ;
+$data->execute(array($file, $voorwerpnummer));
 
 }
 }
@@ -280,12 +280,12 @@ $data->execute(array($file, $object_nr));
 
 
 
-function insertNieuwObject_in_Heading($object_nr, $lowest_heading_nr){
+function insertNieuwObject_in_Heading($voorwerpnummer, $lowest_heading_nr){
 try {
 global $pdo;
 
-$data = $pdo->prepare("INSERT INTO [Object_in_Heading] (object_nr, lowest_heading_nr) VALUES (?,?)") ;
-$data->execute(array($object_nr, $lowest_heading_nr));
+$data = $pdo->prepare("INSERT INTO [Object_in_Heading] (voorwerpnummer, lowest_heading_nr) VALUES (?,?)") ;
+$data->execute(array($voorwerpnummer, $lowest_heading_nr));
 
 }
       catch(PDOexeption $e){
@@ -295,11 +295,11 @@ $data->execute(array($object_nr, $lowest_heading_nr));
                 return true;
  }
 
-function getObjectnummer($title, $duration_start_date, $duration_start_time, $seller){
+function getObjectnummer($titel, $duration_start_date, $duration_start_time, $seller){
 global $pdo;
   
-  $data = $pdo->prepare("SELECT object_nr FROM [Object] WHERE title = ? AND duration_start_date = ? AND duration_start_time = ? AND seller = ?");
-  $data->execute(array($title, $duration_start_date, $duration_start_time, $seller));
+  $data = $pdo->prepare("SELECT voorwerpnummer FROM [Object] WHERE titel = ? AND duration_start_date = ? AND duration_start_time = ? AND seller = ?");
+  $data->execute(array($titel, $duration_start_date, $duration_start_time, $seller));
   return $data;
 
 }
@@ -321,35 +321,35 @@ function getAantalUsers()
 function getAfgelopenVeilingen(){
   global $pdo;
 
-  $data = $pdo ->query("SELECT object_nr, title, buyer, seller FROM dbo.Object
+  $data = $pdo ->query("SELECT voorwerpnummer, titel, buyer, seller FROM dbo.Object
       WHERE  auction_closed = 0 AND CAST(GETDATE() AS DATE) >= duration_end_date ");
       //AND CAST(GETDATE() AS TIME) >= duration_end_time";
        //AND CAST(GETDATE() AS TIME >= duration_end_time)"; 
     return $data ->fetchAll();
 }
 
-function koperInObject($object_nr, $username){
+function koperInObject($voorwerpnummer, $username){
     global $pdo;
       
     $stmt = $pdo->prepare("UPDATE [Object] 
                           SET buyer = (?)
-                          WHERE object_nr = '$object_nr'");
+                          WHERE voorwerpnummer = '$voorwerpnummer'");
     $stmt ->execute(array($username));
 }
 
-function veilingSluiten($object_nr){
+function veilingSluiten($voorwerpnummer){
     global $pdo;
       
     $stmt = $pdo->prepare("UPDATE [Object] 
                           SET auction_closed = 1
-                          WHERE object_nr = '$object_nr'");
+                          WHERE voorwerpnummer = '$voorwerpnummer'");
     $stmt ->execute(array());
 }
 
 function getAfgeslotenVeilingen(){
     global $pdo;
 
-  $data = $pdo ->query("SELECT object_nr, title, buyer, seller FROM dbo.Object
+  $data = $pdo ->query("SELECT voorwerpnummer, titel, buyer, seller FROM dbo.Object
       WHERE  auction_closed = 1");
       //AND CAST(GETDATE() AS TIME) >= duration_end_time";
        //AND CAST(GETDATE() AS TIME >= duration_end_time)"; 
@@ -365,14 +365,32 @@ function getEmail($username){
 
 function getFeedback($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Feedback JOIN Object ON Object.object_nr = Feedback.object_nr WHERE seller = '$param'");
+  $data = $pdo ->query("SELECT * FROM Feedback JOIN Object ON Object.voorwerpnummer = Feedback.voorwerpnummer WHERE seller = '$param' or buyer = '$param'");
   return $data ->fetchAll();
 }
 
 
-function getFeedbackBeschikbaar($user, $logger) {
+function getFeedbackBeschikbaar($seller, $buyer) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM [Object] WHERE seller = '$user' AND buyer = '$logger'");
+  $data = $pdo ->query("SELECT * FROM [Object] WHERE (seller = '$seller' AND buyer = '$buyer') OR (seller = '$buyer' AND buyer = '$seller')");
   return $data ->fetchAll();
+}
+
+function insertFeedback($voorwerpnummer, $type, $comment, $writer) {
+  global $pdo;
+  $stmt = $pdo->prepare("INSERT INTO Feedback VALUES (?,?,GETDATE(),?,GETDATE(),?)") ;
+  $stmt ->execute(array($voorwerpnummer, $writer, $type, $comment));
+}
+
+function buyerOfseller($user, $voorwerpnummer) {
+  global $pdo;
+  $data = $pdo ->query("SELECT * FROM [Object] WHERE voorwerpnummer = $voorwerpnummer");
+  $data = $data ->fetch();
+
+  if ($data['buyer'] == $user) {
+    return 'buyer';
+  } else {
+    return 'seller';
+  }
 }
 ?>

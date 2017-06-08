@@ -1,7 +1,7 @@
 <?php
 
 	session_start();
-	//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+	include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 
 	require ('../controllers/eenproductController.php');
 

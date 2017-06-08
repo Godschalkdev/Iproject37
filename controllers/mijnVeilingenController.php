@@ -4,51 +4,76 @@ require '../db-util.php';
 connectToDatabase();
 
 
-
 function printFeedback($param) {
 	$feedbacks = getFeedback($param);
-	if (empty($feedback)) {
-		echo "$param heeft nog geen feedback ontvangen";
+	if (empty($feedbacks)) {
+		echo "<div class=\"ui segment\">$param heeft nog geen feedback ontvangen</div>";
 	} else {
 		foreach ($feedbacks as $feedback) {
-		$html = <<<MYCONTENT
-			<div class="ui segment">
-				<i class="ui user icon"></i>$feedback[buyer_seller]  |  $feedback[date]  |  $feedback[title] | $feedback[feedback_type]
-				<div class="ui divider"></div>
-				$feedback[comment]
-			</div>
+			if ($feedback['buyer_seller'] == 'buyer') {
+				$persoon = $feedback['buyer'];
+			} else {
+				$persoon = $feedback['seller'];
+			}
+			$html = <<<MYCONTENT
+				<div class="ui segment">
+					<i class="ui user icon"></i><a href=mijnVeilingen.php?user=$persoon>$persoon</a>  |  $feedback[date]  |  $feedback[title] | $feedback[feedback_type]
+					<div class="ui divider"></div>
+					$feedback[comment]
+				</div>
 MYCONTENT;
-		echo $html;
+		if ($persoon == $param) {
+			# code...
+		} else {
+			echo $html;
+		}
 		}
 	}
 }
 
 function printFeedbackForm($user, $logger) {
-	$object = getFeedbackBeschikbaar($user, $logger);
-	//if (!empty(getFeedbackBeschikbaar($user, $logger))) {
+	$objecten = getFeedbackBeschikbaar($user, $logger);
+	$titles = "";
+	if (!empty($objecten)) {
+		foreach ($objecten as $object) {
+			$titles .= "<option value=\"$object[object_nr]\">$object[title]</option>";
+		}
 		$html = <<<MYCONTENT
 		<div class="ui segment">
-			<h4 class="ui header">Geef uw feedback over het kopen bij $user</h4>
+			<h4 class="ui header">Geef uw feedback over het handelen met $user</h4>
 			<form class="ui form" method="POST" action="">
 				<div class="fields">
 					<div class="field">
-						<select class="ui dropdown" name="title">
-							<option value="">Positief</option>
+						<select class="ui dropdown" name="objectnr">
+							<option value="">- Selecteer Voorwerp -</option>
+							$titles
 						</select>
 					</div>
 					<div class="field">
 						<select class="ui dropdown" name="beoordeling">
-							<option value="Positief">Positief</option>
-							<option value="Neutraal">Neutraal</option>
-							<option value="Negatief">Negatief</option>
+							<option value="positive">Positief</option>
+							<option value="neutral">Neutraal</option>
+							<option value="negative">Negatief</option>
 						</select>
 					</div>
 				</div>
+				<div class="field">
+					<input type="text" rows="2" name="comment">
+					</input>
+				</div>
+				<input type="submit" class="ui sand button" value="Verstuur"></input>
 			</form>
 		</div>
 MYCONTENT;
 	echo $html;
-	//}
+	}
+}
+
+function filledFormSubmit() {
+	if (isset($_POST['objectnr']) && isset($_POST['beoordeling'])) {
+		$buyer_seller = buyerOfSeller($_SESSION['usernaam'], $_POST['objectnr']);
+		insertFeedback($_POST['objectnr'], $_POST['beoordeling'], $_POST['comment'], $buyer_seller);
+	}
 }
 
 

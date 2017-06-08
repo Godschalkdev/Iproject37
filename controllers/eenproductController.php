@@ -68,7 +68,7 @@ $html = <<<CONTENT
       <i class="ui user icon"></i>
       <div class="content">
         <div class="header">€ $bod[offer_amount]</div>
-        <div class="description">$bod[username] ($bod[date]  $time)</div>
+        <a href=mijnVeilingen.php?user=$bod[username] class=" sand description">$bod[username] ($bod[date]  $time)</a>
       </div>
     </div>
 CONTENT;

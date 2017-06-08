@@ -15,12 +15,12 @@
 
  	<?php 
     	include 'html/sidebar.html';
-    	include 'html/menu.html';
+    	include 'menu.php';
 
-    	// // v test for $_SESSION, verwijderen voor eind v
-    	// $_SESSION['username'] = "I-Projectgroep 37";
-    	// $_SESSION['emailaddress'] = "[email@mail.com]";
-    	// // ^
+    	// v test for $_SESSION, verwijderen voor eind v
+    	$_SESSION['username'] = "Mahoda";
+    	$_SESSION['emailaddress'] = "eenmaalandermaalofficial@gmail.com";
+    	// ^
   	?>
 <div class="pusher">
   	<div class="maincontent">
@@ -28,18 +28,8 @@
  	 		<div class="ui raised segment">
  	 		<h1 class="ui niagara header">Registreren als verkoper</h1>
  	 		<?php 
- 	 			if(isset($_POST['submit'])) { 
-			    	register_seller(); 
-			    }
 
- 	 			// // v print test tijdelijk v
- 	 		 //    echo "<pre>";
- 	 		 //    print_r($_SESSION);
-    		// 	print_r($_POST);
-    		// 	echo "</pre>"; 
-    		// 	// ^
-
-    		// 	printSellers();
+ 	 		verwerkInfo();
     			
     		?>
  	 		<form method="post" action="../pages/activate_seller.php" class="ui big form">
@@ -86,8 +76,8 @@
 				    </div>
 				    <div class="field">
 				      	<div class="ui radio checkbox">
-					        <input type="radio" name="controleoptie" value="post">
-					        <label>Post</label>
+					        <input type="radio" name="controleoptie" value="email">
+					        <label>Email</label>
 				      	</div>
 				    </div>
 			  	</div>
@@ -95,11 +85,6 @@
 			  	<div class="field">
 			      	<label>Creditcardnummer</label>
 			      	<input type="text" name="creditcardnummer" placeholder="Vul hier uw creditcardnummer in">
-			    </div>
-		    	<h4 class="ui dividing header">Valideren</h4>
-		    	<div class="two wide field">
-			      	<label>Activatiecode</label>
-			      	<input type="text" name="activatiecode">
 			    </div>
 			    <input type="submit" name="submit" value="Activeren" class="ui huge sand button">
 			</form>

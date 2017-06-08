@@ -2,12 +2,9 @@
 require ('../Controllers/nieuwproductController.php');
 include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 $success_message = "";
-
-
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   $success_message = nieuwProduct_validatie();
 }
-
 ?>
 
 
@@ -424,12 +421,10 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		    $(e.target).parent().find('input:file').click();
 		  })
 		;
-
 		$('input:file', '.ui.file.input')
 		  .on('change', function(e) {
 		    var file = $(e.target);
 		    var name = '';
-
 		    for (var i=0; i<e.target.files.length; i++) {
 		      name += e.target.files[i].name + ', ';
 		    }
@@ -442,6 +437,3 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		
 	</body>
 </html>
-
-
-

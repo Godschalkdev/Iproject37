@@ -1,17 +1,13 @@
 <?php
-
 	session_start();
-	//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
-
+	include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 	require ('../controllers/eenproductController.php');
-
 	if (chk_id($_GET['id'])) {
 		header('../index.php');
 	} else {
 		$object = getObject($_GET['id']);
 		$id = $_GET['id'];
 	}
-
 	if (isset($_POST['snelBod']) && getEndDateTimeDiff($id) > 0) {
 		if(CHK_bod($_POST['snelBod'], $id)){
 			$user = hoogsteBodUser($id);
@@ -54,11 +50,11 @@
 					<div class="ui grid">
 						<div class="ui eight wide column">
 							<h2 class="ui dividing sand header">
-								<?php echo "$object[title]"; ?>
+								<?php echo "$object[titel]"; ?>
 							</h2>
 							<?php printAllFiles($id) ?>
 							<div class="ui segment">
-								<?php echo "$object[description]"; ?>
+								<?php echo "$object[beschrijving]"; ?>
 							</div>
 						</div>
 						<div class="ui eight wide column">

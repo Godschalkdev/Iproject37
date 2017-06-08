@@ -2,7 +2,7 @@
 
 include '../db-util.php';
 include '../Controllers/mailController.php';
-include '../scripts/adminScript.html';
+//include '../scripts/adminScript.html';
 
 $gebruikersnaam = "admin";
 $passw = "Iproject37!";
@@ -144,43 +144,6 @@ if(isset($_POST['database'])){
 
 }
 
-// function toevoegenAdmin(){
-
-// 	print("<select name='database' class='ui search dropdown' method='POST'>
-// 			  <option onchange='this.form.submit()'> Toevoegen in </option>
-//               <option value='categorie' method='POST' onchange='this.form.submit()'> Categorieën </option>
-//               <option value='veiling' method='POST' onchange='this.form.submit()'> Veilingen </option>
-//             </select>
-//             <div class='ui input'>
-// 				<input  type='submit' name='knopToevoegen' method='REQUEST'>
-// 			</div><br/><br/>"); 
-
-// if(isset($_POST['database'])){
-//     $select = $_POST['database'];
-//     switch ($select) {
-//         case 'categorie':
-// 	        if(isset($_REQUEST['knopToevoegen']) ) {
-// 	        	print("categorie");
-// 	        	 toevoegenGebruikerAdmin();
-// 	        }
-//             break;
-//         case 'veiling':
-// 	        if(isset($_REQUEST['knopToevoegen']) ) {
-// 	        	print("veiling");
-
-// 	       }
-//             break;
-//         default :
-//         	break;
-//     }
-// }
-
-// }
-
-// function toevoegenGebruikerAdmin(){
-
-// }
-
 // tabblad 2 van Admin Page - Account gegevens beheren
 
 function tabelKoppenGebruikers(){
@@ -200,20 +163,20 @@ function tabelGebruikers($database, $aantalRijen){
 	meerderePaginasAantalRijen($aantalRijen);
 
 	// verwijderen krijg ik niet aan de gang in een aparte functie
-		 if(isset($_GET['param']) && $_GET['param']=="verwijderGebruiker"){
-		          $verwijder_id = (int) $_GET['id'];
-		         $sql="DELETE FROM dbo.Gebruiker WHERE gebruiker_id='$verwijder_id'";
-		         $resultaat=$pdo->query($sql);
+	 if(isset($_GET['param']) && $_GET['param']=="verwijderGebruiker"){
+	          $verwijder_id = (int) $_GET['id'];
+	         $sql="DELETE FROM dbo.Gebruiker WHERE gebruiker_id='$verwijder_id'";
+	         $resultaat=$pdo->query($sql);
 
-		    if ($resultaat){
-		        echo "Verwijderen gelukt";
+	    if ($resultaat){
+	        echo "Verwijderen gelukt";
 
-		    } else {
-		        echo "Verwijderen error";
+	    } else {
+	        echo "Verwijderen error";
 
-		    }
+	    }
 
-		    }
+	    }
 
   $rows =  $database;
   	if (!empty($rows)) {
@@ -232,7 +195,7 @@ function tabelGebruikers($database, $aantalRijen){
 	                <td contentEditable='true'>$row[emailadres]</td>
 
 	                <td><a href='?param=verwijderGebruiker&amp;id={$row['gebruiker_id']}'>Verwijderen</a></td>
-	                <td><a href='?param=update&amp;id={$row['gebruiker_id']}&amp;gebruiker_id={$row['gebruiker_id']}&amp;gebruikersnaam={$row['gebruikersnaam']}&amp;voornaam={$row['voornaam']}&amp;achternaam={$row['achternaam']}&amp;emailadres={$row['emailadres']}'>Opslaan</a></td>
+	                <td><a href='?param=update&amp;id={$row['gebruiker_id']}&amp;gebruiker_id={$row['gebruiker_id']}&amp;gebruikersnaam={$row['gebruikersnaam']}&amp;voornaam={$row['voornaam']}&amp;achternaam={$row['achternaam']}&amp;emailadres={$row['emailadres']}'>Update</a></td>
 	               </tr>
 	                </tbody>"); 
 	      } 
@@ -261,7 +224,7 @@ function tabelCategorieen($database, $aantalRijen){
 // verwijderen krijg ik niet aan de gang in een aparte functie
 	 if(isset($_GET['param']) && $_GET['param']=="verwijderCategorie"){
 	          $verwijder_id = (int) $_GET['id'];
-	         $sql="DELETE FROM dbo.Heading WHERE rubrieknummer='$verwijder_id'";
+	         $sql="DELETE FROM dbo.Rubriek WHERE rubrieknummer='$verwijder_id'";
 	         $resultaat=$pdo->query($sql);
 
 	    if ($resultaat){
@@ -286,7 +249,7 @@ function tabelCategorieen($database, $aantalRijen){
 	        	<tr>
 	        		<td contentEditable='true' name='rubrieknummer'>$row[rubrieknummer]</td> 
 	                <td contentEditable='true' name='rubrieknaam'>$row[rubrieknaam]</td> 
-	                <td contentEditable='true' name='rubrieknummer'>$row[rubriek]</td>
+	                <td contentEditable='true' name='rubriek'>$row[rubriek]</td>
 	                <td><a href='?param=verwijderCategorie&amp;id={$row['rubrieknummer']}'>Verwijderen</a></td>
 
 	                <td><a href='?param=update&amp;id={$row['rubrieknummer']}&amp;rubrieknummer={$row['rubrieknummer']}&amp;rubrieknaam={$row['rubrieknaam']}&amp;rubriek={$row['rubriek']}'>

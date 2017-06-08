@@ -8,7 +8,7 @@ require ($_SERVER['DOCUMENT_ROOT'] .'/controllers/menuController.php');
         <span class="Eenmaal">Eenmaal</span>Andermaal
       </h4>
 
-		<a href="http://iproject37.icasites.nl" class="item">
+		<a href="http://eenmaalandermaal.dev" class="item">
 			<i class="large white home icon"></i>
 		</a>
 		<a id="toggle" class="item">
@@ -37,3 +37,4 @@ require ($_SERVER['DOCUMENT_ROOT'] .'/controllers/menuController.php');
 		</div>
 	</div>
 </div>
+

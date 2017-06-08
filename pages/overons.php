@@ -4,10 +4,12 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Over ons</title>
-		<link rel="stylesheet" type="text/css" href="/stylecss/overons.css">
+		<link rel="stylesheet" type="text/css" href="/stylecss/extrapaginas.css">
+
 		<?php 
 			include 'html/mainhead.html';
 		?>
+
 	</head>
 	
 	<body>
@@ -24,7 +26,10 @@
 
 					<h3 class="ui dividing header"></h3>
 					
-        				<h3 class="ui dividing header">Eenmaalandermaal</h3>
+        				<h3 class="ui dividing header">iConcepts</h3>
+
+        				<p>iConcepts is een bedrijf dat betrouwbaarheid hoog in het vaandel heeft staan. </p>
+
 						<h3 class="ui dividing header">Het Team</h3>			
 
 				</div>

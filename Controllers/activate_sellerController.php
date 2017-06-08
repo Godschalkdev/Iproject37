@@ -4,7 +4,7 @@ include '../db-util.php';
 
 connectToDatabase();
 
-session_start();
+
 
 function verwerkInfo(){
 
@@ -34,14 +34,14 @@ function verwerkInfo(){
 function register_seller(){
 	global $pdo;
 
-	$username = $_SESSION['username'];
-	$email = $_SESSION['emailaddress'];
+	$username = $_SESSION['naamuser'];
+	$email = $_SESSION['emailuser'];
 	$bank = $_POST['bank'];
 	$rekeningnummer = $_POST['rekeningnummer'];
 	$controleoptie = $_POST['controleoptie'];
 	$creditcardnummer = $_POST['creditcardnummer'];
 
-	if (!null == ($_POST['rekeningnummer'] || $_POST['creditcardnummer']) ) {
+	if (!empty($_POST['rekeningnummer'] && !empty($_POST['creditcardnummer'])) ) {
 
 		$query = $pdo -> query("UPDATE dbo.Gebruiker 
 				SET verkoper_ja_of_nee = 'ja' 

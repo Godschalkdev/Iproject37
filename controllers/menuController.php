@@ -1,11 +1,11 @@
 <?php 
-session_start();
 
+session_start();
 
 function printUserOptionLoggedIn(){	
 $html = <<<MYCONTENT
         <div class="header">User</div>
-			  		<a href="http://iproject37.icasites.nl/pages/mijnveilingen.php" class="item">Mijn veilingen</a>
+			  		<a href="http://www.eenmaalandermaal.dev/pages/mijnveilingen.php" class="item">Mijn veilingen</a>
 			  		<div class="ui divider"></div>
 			  		<a href="http://www.eenmaalandermaal.dev/pages/logout.php" class="item">Log out</a>
 MYCONTENT;

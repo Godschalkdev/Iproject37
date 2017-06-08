@@ -1,30 +1,41 @@
 <?php
 
 include '../db-util.php';
+include '../Controllers/mailController.php';
 
 $username = "admin";
-$passw = "Str00pW4f31";
+$passw = "Iproject37!";
 
 connectToDatabase();
+
+
+// function getUsers(){
+// 	global $pdo;
+//     $stmt = $pdo->query("SELECT COUNT(user_id) FROM dbo.Users");
+  
+//     return $stmt->fetch(PDO::FETCH_NUM);
+// }
 
 
 
 function getUsers()
 {
 	global $pdo;
-	$data = $pdo->query("SELECT top 10 * from dbo.Users");
+	$data = $pdo->query("SELECT * from dbo.Users");
 	
-  	return $data->fetchAll(PDO::FETCH_ASSOC);
+  	return $data->fetchAll();
 }	
 
-function getHeading()
+
+function getHeadingPaginanummers()
+
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Heading");
   	return $data->fetchAll();
 }
 
-function getVeilingen()
+function getVeilingenPaginanummers()
 {
 	global $pdo;
 	$data = $pdo->query("SELECT * from dbo.Object");
@@ -32,23 +43,38 @@ function getVeilingen()
 }
 
 
-function removeUser()
+function removeUser($row)
 {
+
  global $pdo;
  $userData = getUsers();
- $data = $pdo->query("DELETE from dbo.Users where user_id='".$_POST['UTable']."' " );
+ $user = $_POST['UTable'];
+ 
 
+ if(isset($_POST['remove']))
+ {
+ 	$data = $pdo->prepare("DELETE from dbo.Users where user_id= ?");
+ 	$data->execute(array($user));
+ }
+
+
+global $pdo;
+//$id = $_POST[$row[0]];
+ 
+$query = "DELETE FROM dbo.Users WHERE user_id = '$row'";
+$query->execute();
 }	
-	
+
 function showUsers()
 {
 	global $pdo;
 
-	$sql = "SELECT COUNT(user_id) FROM dbo.Users"; 
+	$nRijen = getAantalUsers(); 
 
-	$stmt = $pdo->query($sql);
+function meerderePaginasAantalRijen($nrijen){
+	$nRijen = $nrijen;
 
-	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
+
  	$rijenPerPagina = 1000;
 
 	if($nRijen[0] == 0) 
@@ -65,18 +91,9 @@ function showUsers()
 	    } 
 	    echo "<br/><br/>"; 
 	}
-
-
-	$sql = "SELECT * FROM  
-            			(SELECT ROW_NUMBER() OVER(ORDER BY user_id) 
-            			AS rownumber, username, firstname, lastname,  emailaddress FROM dbo.Users) 
-        				AS Temp 
-        				WHERE rownumber BETWEEN ? AND ?";
-
-    $stmt2 = $pdo->prepare($sql);
-   
-  
-
+  }
+function meerderePaginasAdminLaag(){
+	$rijenPerPagina = 1000;
 	if(isset($_GET['paginaNummer'])) 
 	{ 
 	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
@@ -87,25 +104,135 @@ function showUsers()
 	    $laagRijNummer = 1; 
 	    $hoogRijNummer = $rijenPerPagina; 
 	}
+	//$params = array(&$laagRijNummer, &$hoogRijNummer);
+	//$database->execute(array($laagRijNummer, $hoogRijNummer));
+	return $laagRijNummer;
+}
 
-	$params = array(&$laagRijNummer, &$hoogRijNummer);
-	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
+function meerderePaginasAdminHoog(){
+	$rijenPerPagina = 1000;
+	if(isset($_GET['paginaNummer'])) 
+	{ 
+	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
+	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
+	} 
+	else 
+	{ 
+	    $laagRijNummer = 1; 
+	    $hoogRijNummer = $rijenPerPagina; 
+	}
+	//$params = array(&$laagRijNummer, &$hoogRijNummer);
+	//$database->execute(array($laagRijNummer, $hoogRijNummer));
+	return $hoogRijNummer;
+}
 
-	 $nRijen = $stmt->rowCount();
+function deleteAdmin($param){
+
+		 if(isset($_GET['param']) && $_GET['param']=="verwijder"){
+		          $verwijder_id = (int) $_GET['id'];
+		    $sql= $param;
+		    //print($sql);
+		    if ($sql){
+		        echo "Verwijderen gelukt";
+		    } else {
+		        echo "Verwijderen error";
+
+	    }
+
+    }
+}
+
+function updateAdmin($param){
+     if(isset($_GET['param']) && $_GET['param']=="update"){
+         $update_id = $_GET['id'];
+         $update_object_nr = $_GET['object_nr'];
+         $update_title = $_GET['title'];
+         $update_seller = $_GET['seller'];
+         $update_buyer = $_GET['buyer'];
+         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller', buyer = '$update_buyer' WHERE object_nr='$update_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Updaten gelukt";
+
+    } else {
+        echo "Updaten error";
+
+    }
+
+    }
+}
 	
+// tabblad 1 van Admin Page - Zoeken
+
+function zoekBalkAdmin(){
+
+	print("<select name='database' class='ui search dropdown' method='POST'>
+			  <option onchange='this.form.submit()'> Zoeken in </option>
+              <option value='gebruiker' method='POST' onchange='this.form.submit()'> Account gegevens </option>
+              <option value='categorie' method='POST' onchange='this.form.submit()'> Categorieën </option>
+              <option value='veiling' method='POST' onchange='this.form.submit()'> Veilingen </option>
+            </select>
+            <div class='ui input'>
+				<input placeholder='Zoeken' type='text' name='zoeken' value='' method='POST'>
+				<input  type='submit' name='knop' method='REQUEST'>
+			</div><br/><br/>"); 
+
+if(isset($_POST['database'])){
+    $select1 = $_POST['database'];
+    switch ($select1) {
+        case 'gebruiker':
+        	if(isset($_REQUEST['knop']) ) {
+        		$zoekinput = $_POST['zoeken'];
+        		 $zoekresultaten = adminZoekenGebruiker($zoekinput);
+           		 tabelGebruikers($zoekresultaten,getAantalGebruikers());
+       		 }
+            break;
+        case 'categorie':
+	        if(isset($_REQUEST['knop']) ) {
+	        	$zoekinput = $_POST['zoeken'];
+	        	 $zoekresultaten = adminZoekenCategorie($zoekinput);
+	            tabelCategorieen($zoekresultaten, getAantalCategorieen());
+	        }
+            break;
+        case 'veiling':
+	        if(isset($_REQUEST['knop']) ) {
+	        	$zoekinput = $_POST['zoeken'];
+	        	$zoekresultaten = adminZoekenVeiling($zoekinput, getAantalVeilingen());
+	           tabelVeilingen($zoekresultaten);
+	       }
+            break;
+        default :
+        	break;
+    }
+}
+
+}
+
+// tabblad 2 van Admin Page - Account gegevens beheren
+
+function tabelKoppenGebruikers(){
 	print("<table border='1px'> 
 	        <tr>
-		        <td>user ID</td> 
-		        <td>username</td>
-		        <td>firstname</td>
-		        <td>lastname</td>
-		        <td>emailaddress</td>
+		        <td>Gebruikers ID</td> 
+		        <td>Gebruikersnaam</td>
+		        <td>Voornaam</td>
+		        <td>Achternaam</td>
+		        <td>Emailaddress</td>
 	        </tr>"); 
+}
 
-		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
-	    { 
+function tabelGebruikers($database, $aantalRijen){
+	meerderePaginasAantalRijen($aantalRijen);
+  $rows =  $database;
+  	if (!empty($rows)) {
+  		tabelKoppenGebruikers();
+	  	foreach($rows as $row)
+	      { 
+	      	$id = $row['user_id'];
+	      	
 	        print("
-				<tbody id='userTable' contentEditable='true'>
+				<tbody id='userTable'>
 	        	<tr>
 	        		<td>$row[0]</td> 
 	                <td>$row[1]</td> 
@@ -117,95 +244,67 @@ function showUsers()
 	                	<input type='hidden' name='UTable' value='$row[0]'/>
 	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
 	                		<input type='submit' name='email' value='Mailen' class='ui button two'>Mailen</button>
-	                		<input type='submit' name'=remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
-	                	</div>
-	                </td>
-	               </tr>
-	                </tbody>"); 
-	    } 
-	    print("</table>");
-}
-
-
-function showHeading()
-{
-	global $pdo;
-
-	$sql = "SELECT COUNT(heading_nr) FROM dbo.Heading"; 
-
-	$stmt = $pdo->query($sql);
-
-	$nRijen = $stmt->fetch(PDO::FETCH_NUM);
- 	$rijenPerPagina = 1000;
-	if($nRijen[0] == 0) 
-	{ 
-	    echo "No rows returned."; 
-	} 
-	else 
-	{     
-	    $nPagina = ceil($nRijen[0]/$rijenPerPagina); 
-	    for($i = 1; $i<=$nPagina; $i++) 
-	    { 
-	        $paginaNummer = "?paginaNummer=$i"; 
-	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
-	    } 
-	    echo "<br/><br/>"; 
-	}
-
-
-	$sql = "SELECT * FROM  
-            			(SELECT ROW_NUMBER() OVER(ORDER BY heading_nr) 
-            			AS rownumber, heading_nr, heading_name, heading_nr_parent FROM dbo.Heading) 
-        				AS Temp 
-        				WHERE rownumber BETWEEN ? AND ?";
-
-    $stmt2 = $pdo->prepare($sql);
-   
-  
-
-	if(isset($_GET['paginaNummer'])) 
-	{ 
-	    $hoogRijNummer = $_GET['paginaNummer'] * $rijenPerPagina; 
-	    $laagRijNummer = $hoogRijNummer - $rijenPerPagina + 1; 
-	} 
-	else 
-	{ 
-	    $laagRijNummer = 1; 
-	    $hoogRijNummer = $rijenPerPagina; 
-	}
-
-	$params = array(&$laagRijNummer, &$hoogRijNummer);
-	$stmt2->execute(array($laagRijNummer, $hoogRijNummer));
-
-	 $nRijen = $stmt->rowCount();
-	
-	print("<table border='1px'> 
-	        <tr>
-		        <td>Heading Nr</td> 
-		        <td>Heading name</td>
-		        <td>Heading parent</td>
-	        </tr>"); 
-
-		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
-	    { 
-	        print("
-				<tbody id='userTable' contentEditable='true'>
-	        	<tr>
-	        		<td>$row[0]</td> 
-	                <td>$row[1]</td> 
-	                <td>$row[2]</td>
-	                <td>
-	                	<div class='ui buttons'>
-	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
-	
 	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
 	                	</div>
 	                </td>
+
+	        		<td contentEditable='true'>$row[user_id]</td> 
+	                <td contentEditable='true'>$row[username]</td> 
+	                <td contentEditable='true'>$row[firstname]</td>
+	                <td contentEditable='true'>$row[lastname]</td>
+	                <td contentEditable='true'>$row[emailaddress]</td>
+
+	                <td><a href='?param=verwijder&amp;id={$row['user_id']}'>Verwijderen</a></td>
+	                <td><a href='?param=update&amp;id={$row['user_id']}&amp;user_id={$row['user_id']}&amp;username={$row['username']}&amp;firstname={$row['firstname']}&amp;lastname={$row['lastname']}&amp;emailaddress={$row['emailaddress']}'>Opslaan</a></td>
 	               </tr>
 	                </tbody>"); 
-	    } 
-	    print("</table>");
+	      } 
+	     // deleteAdmin(deleteGebruikerAdmin($id));
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen gebruikers.";
+  	}
 }
+
+// tabblad 3 van Admin Page - Categorieen beheren
+
+function tabelKoppenCategorieen(){
+	print("<table border='1px'> 
+	        <tr>
+		      	<td>Rubriek Nr</td> 
+		        <td>Rubriek naam</td>
+		        <td>Rubriek nr parent</td>
+	        </tr>");
+}
+
+function tabelCategorieen($database, $aantalRijen){
+	meerderePaginasAantalRijen($aantalRijen);
+  $rows =  $database;
+  	if (!empty($rows)) {
+  		tabelKoppenCategorieen();
+	  	foreach($rows as $row)
+	      { 
+	      	//deleteAdmin(deleteCategorieAdmin($row['heading_nr']));
+	        print("
+				<tbody id='userTable' >
+	        	<tr>
+	        		<td contentEditable='true' name='heading_nr'>$row[heading_nr]</td> 
+	                <td contentEditable='true' name='heading_name'>$row[heading_name]</td> 
+	                <td contentEditable='true' name='heading_nr'>$row[heading_nr_parent]</td>
+	                <td><a href='?param=verwijder&amp;id={$row['heading_nr']}'>Verwijderen</a></td>
+
+	                <td><a href='?param=update&amp;id={$row['heading_nr']}&amp;heading_nr={$row['heading_nr']}&amp;heading_name={$row['heading_name']}&amp;heading_nr_parent={$row['heading_nr_parent']}'>
+	                			  Update</a></td>
+
+	               </tr>
+	                </tbody>");
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen categorieën.";
+  	}
+}
+
 
 function showVeilingen()
 {
@@ -235,7 +334,7 @@ function showVeilingen()
 
 	$sql = "SELECT * FROM  
             			(SELECT ROW_NUMBER() OVER(ORDER BY object_nr) 
-            			AS rownumber, object_nr, title, seller FROM dbo.Object) 
+            			AS rownumber, object_nr, title, seller, buyer FROM dbo.Object) 
         				AS Temp 
         				WHERE rownumber BETWEEN ? AND ?";
 
@@ -259,88 +358,155 @@ function showVeilingen()
 
 	 $nRijen = $stmt->rowCount();
 	
+ if(isset($_GET['param']) && $_GET['param']=="verwijder"){
+          $verwijder_id = (int) $_GET['id'];
+         $sql="DELETE FROM dbo.Object WHERE object_nr='$verwijder_id'";
+         $resultaat=$pdo->query($sql);
+
+
+removeUser();
+
+    if ($resultaat){
+        echo "Verwijderen gelukt";
+
+    } else {
+        echo "Verwijderen error";
+
+
+    }
+
+    }
+
+     if(isset($_GET['param']) && $_GET['param']=="update"){
+         $update_id = $_GET['id'];
+         $update_object_nr = $_GET['object_nr'];
+         $update_title = $_GET['title'];
+         $update_seller = $_GET['seller'];
+         $update_buyer = $_GET['buyer'];
+         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller', buyer = '$update_buyer' WHERE object_nr='$update_id'";
+         $resultaat=$pdo->query($sql);
+
+    if ($resultaat){
+        echo "Updaten gelukt";
+
+    } else {
+        echo "Updaten error";
+
+    }
+
+    }
+// tabblad 4 van Admin Page - Veilingen beheren
+
+
+function tabelKoppenVeilingen(){
 	print("<table border='1px'> 
 	        <tr>
 		        <td>Object Nr</td> 
-		        <td>Title</td>
-		        <td>Seller</td>
-
+		        <td>Titel</td>
+		        <td>Verkoper</td>
+		        <td>Koper</td>
 	        </tr>"); 
+}
 
-		while($row = $stmt2->fetch(PDO::FETCH_NUM) ) 
-	    { 
-	        print("
-				<tbody id='userTable' contentEditable='true'>
+function tabelVeilingen($database, $aantalRijen){
+  meerderePaginasAantalRijen($aantalRijen);
+  $rows =  $database;
+  	if (!empty($rows)) {
+  		tabelKoppenVeilingen();
+	  	foreach($rows as $row)
+	      { 
+	      	//deleteAdmin(deleteVeilingAdmin($row['object_nr']));
+	          print("
+				<tbody id='userTable' >
 	        	<tr>
-	        		<td>$row[0]</td> 
-	                <td>$row[1]</td> 
-	                <td>$row[2]</td>
-	                <td>
-	                	<div class='ui buttons'>
-	                		<input type='submit' name='edit' value='Opslaan' class='ui button one'>Opslaan</button>
+	        		<td  contentEditable='true'>$row[object_nr]</td> 
+	                <td  contentEditable='true'>$row[title]</td> 
+	                <td  contentEditable='true'>$row[seller]</td>
+	                <td  contentEditable='true'>$row[buyer]</td>
 
-	                		<input type='submit' name='remove' value='Verwijderen' class='ui button three'>Verwijderen</button>
-	                	</div>
-	                </td>
+	                <td><a href='?param=verwijder&amp;id={$row['object_nr']}'>Verwijderen</a></td>
+
+	                <td><a href='?param=update&amp;id={$row['object_nr']}&amp;object_nr={$row['object_nr']}&amp;title={$row['title']}&amp;seller={$row['seller']}&amp;buyer={$row['buyer']}'>
+	                			  Update</a></td>
 	               </tr>
-	                </tbody>"); 
-	    } 
-	    print("</table>");
+	                   </tbody>"); 
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen veilingen.";
+  	}
 }
 
 
 
+// tabblad 5 van Admin Page
 
-/*
-function saveInput(){
-	$conn = connectToDatabase();
-	$data = getUsers();
-	foreach($data as $key)
+// tabblad 5 van Admin Page - afgelopen veilingen en mailen
 
-	if (isset($_POST['edit'])) {
-	$sql = "UPDATE Users 
-			SET username = $key[username],  
-				firstname = $key[firstname],
-				lastname = $key[lastname],
-				emailaddress = $key[emailaddress]
-			WHERE user_id = $key[user_id]";
+function buttonAfgelopenVeilingen()
+{
+  print("<div class='ui input'>
+        <input  type='submit' name='knop' method='POST' value='Mail versturen'>
+      </div>"); 
 
-	$stmt = $conn->prepare($sql);
-	$stmt->execute();
+	$rows =  getAfgelopenVeilingen();
+    foreach($rows as $row)
+      { 
+        $hoogsteBod = getHoogsteBod($row['object_nr']);
+        $objectnr = $row['object_nr'];
+        
+        $hoogsteBieder = $hoogsteBod['username'];
+        $emailKoper = getEmail($hoogsteBieder);
 
-	echo $stmt->rowCount() . " records UPDATED successfully";
+        $verkoper = $row['seller'];
+        $emailVerkoper = getEmail($verkoper);
+
+	   if(isset($_POST['knop'])){
+	        koperInObject($objectnr, $hoogsteBod['username']);
+	        aflopendeVeilingKoperMail($emailKoper['emailaddress'], $row['title'], $hoogsteBod['username']);
+	        aflopendeVeilingVerkoperMail($emailVerkoper[0], $row['title'], $hoogsteBod['username']);
+	        veilingSluiten($objectnr);
+	   }
+	}
 }
+
+function tabelKoppenAfgelopenVeilingen(){
+	  print("<br/><br/>
+      <table border='1px'> 
+          <tr>
+            <td>Object nummer</td> 
+            <td>Titel</td>
+            <td>Koper</td>
+            <td>Verkoper</td>
+            
+          </tr>"); 
 }
-*/
 
-
-//if(isset($_POST('remove')))
-// {
-
-// }
-
-
-// function saveUsers()
-// {
-// 	$dom = new DomDocument();
-// 	$dom->loadHTML('admin.php');
-// 	$xpath = new DOMXPath($dom);
-
-// 	$arr = array();
-// 	$arr = array_filter(array_map('trim',$arr));
-// 	foreach ($xpath->query('//tbody[@id="userTable"]/tr/td') as $node) 
-// 	{
-// 	    $arr[] = $node->nodeValue;
-// 	}
-// 	print_r($arr);
-
-// }
-
-<<<<<<< HEAD
-// saveUsers();
-=======
-// saveUsers();
-
+function tabelAfgelopenVeilingen(){
+  $rows =  getAfgelopenVeilingen();
+  	if (!empty($rows)) {
+  		tabelKoppenAfgelopenVeilingen();
+	  	foreach($rows as $row)
+	      { 
+	        $hoogsteBod = getHoogsteBod($row['object_nr']) ;
+	          print("
+	        <tbody id='userTable'>
+	            <tr>
+	              <td>$row[object_nr]</td> 
+	                  <td>$row[title]</td> 
+	                  <td>$hoogsteBod[username]</td>
+	                  <td>$row[seller]</td>
+	                 </tr>
+	                  </tbody>"); 
+	      } 
+	      print("</table>");
+	  	} else {
+  			echo "</br></br>Er zijn geen aflopende veilingen.";
+  	}
+}
 
 ?>
->>>>>>> f19888fbfcd593dd32760b75bd123d1d764d2723
+
+
+
+

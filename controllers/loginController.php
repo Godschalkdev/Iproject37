@@ -1,10 +1,10 @@
 <?php
-
-session_start();
+error_reporting(0);
 include '../db-util.php';
 connectToDatabase();
 
-
+$adminUsername = "admin";
+$adminPassword = "Iproject37!";
 
 function processForm()
 {
@@ -13,10 +13,13 @@ function processForm()
   if (!empty( $_POST["username"]) && !empty( $_POST["password"])) {
     $Chk_LoginDetailsReturn = Chk_LoginDetails($_POST["username"],$_POST["password"]);
     if($Chk_LoginDetailsReturn == true){
-
+      session_start();
       $_SESSION['loggedin'] = 'true';
       $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
       $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
+      // if(checkUserisVerkoper($_SESSION['naamuser'])){
+      //   $_SESSION['verkoper'] = 'true';
+      // }
       header("Location: /index.php");
     } else {
        return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
@@ -44,7 +47,9 @@ function logout(){
  	{
  		echo "Gebruikers of wachtwoord is niet ingevuld!";
  	}
-
+  // else if( $_POST['username'] == $adminUsername && $_POST['password'] == $adminPassword){
+  //   header("./admin.php");
+  // }
  	else
  	{
  		$username = $_POST['username'];

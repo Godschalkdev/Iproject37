@@ -15,7 +15,7 @@
 
  	<?php 
     	include 'html/sidebar.html';
-    	include 'menu.php';
+    	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 
     	// v test for $_SESSION, verwijderen voor eind v
     	$_SESSION['username'] = "Mahoda";
@@ -39,11 +39,11 @@
   			<div class="two fields">
 			   	<div class="field">
 			      	<label>Gebruikersnaam</label>
-			      		<h3 class="ui grey header"><?php echo $_SESSION['username'] ?></h3>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['naamuser'] ?></h3>
 			    	</div>
 			   		<div class="field">
 			      		<label>Email</label>
-			      		<h3 class="ui grey header"><?php echo $_SESSION['emailaddress'] ?></h3>
+			      		<h3 class="ui grey header"><?php echo $_SESSION['emailuser'] ?></h3>
 			    	</div>
 			</div>
 

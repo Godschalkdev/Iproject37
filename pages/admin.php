@@ -1,17 +1,10 @@
-<?php
-    if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    }
-    else
-    {
-        session_destroy();
-        session_start(); 
-    }
-if ($_SESSION['admin4'] != true){
-  print("404 Error! Page not found");
+<!-- <?php
+session_destroy();
+session_start();
+if ($_SESSION['admin'] != true){
+   print("404 Error! Page not found");
 }
-?>
+?> -->
 
 <!DOCTYPE html>
 <html>
@@ -37,6 +30,9 @@ if ($_SESSION['admin4'] != true){
  	 	  <div class="ui container">
  	 		 <div class="ui raised segment">
  	 			  <h1 class="ui niagara header">Admin</h1>
+            <a href="../pages/admin.php" class="ui sand medium button">
+             Pagina Verversen
+            </a>
           <h3 class="ui dividing header"></h3>
  	 			  <div class="ui top attached tabular menu">
             <a class="active item" data-tab="first">Zoeken</a>
@@ -44,8 +40,7 @@ if ($_SESSION['admin4'] != true){
             <a class="item" data-tab="third">Categorieën beheren</a>
             <a class="item" data-tab="fourth">Veilingen beheren</a>
             <a class="item" data-tab="fifth">Afgelopen veilingen</a>
-     <!--     <a class="item" data-tab="sixth">Toevoegen aan website</a> -->
-            <a class="item" data-tab="seventh">KPI's</a>
+            <a class="item" data-tab="sixth">KPI's</a>
            
 
           </div>
@@ -95,15 +90,7 @@ if ($_SESSION['admin4'] != true){
             </form>
           </div>
 
-<!--           <div class="ui bottom attached tab segment" data-tab="sixth">
-            <form method="post">
-                    <?php
-                   //   toevoegenAdmin();
-                    ?>
-            </form>
-          </div> -->
-
-          <div class="ui bottom attached tab segment" data-tab="seventh">
+          <div class="ui bottom attached tab segment" data-tab="sixth">
              <iframe width="1000" height="1000" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
           </div>
 

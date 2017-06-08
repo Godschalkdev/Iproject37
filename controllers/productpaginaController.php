@@ -1,9 +1,6 @@
 <?php
-
 require('../db-util.php');
-
 connectToDatabase();
-
 function printrubriek($param) {
 	$veilingen = getRubriek($param);
 	echo "<option value=\"\">- selecteer een rubriek -</option>";
@@ -11,8 +8,6 @@ function printrubriek($param) {
 		echo "<option value=\"$veiling[rubrieknummer]\">$veiling[rubrieknaam]</option>";
 	}
 }
-
-
 function printZoekSysteem(){
 	
 	echo "<div class=\"six wide field\"> <select name=\"hoofd\" class=\"ui search dropdown\" id=\"hoofd\" onchange=\"this.form.submit()\">";
@@ -26,7 +21,6 @@ function printZoekSysteem(){
 	printrubriek($_POST['hoofd']);
 	echo "</select></div>";
 	} 
-
 	if (!empty($_POST['sub']) && !empty(getRubriek($_POST['sub']))) {
 	echo "<div class=\"six wide field\"> <select name=\"rest\" class=\"ui search dropdown\" id=\"rest\" onchange=\"this.form.submit()\">";
 	echo "<option value=\"$_POST[rest]\"></option>";
@@ -35,7 +29,6 @@ function printZoekSysteem(){
 	} 
 	echo "<a href=\"html/resetfilter.php\" class=\"ui large sand button\"/>Reset</a>";
 }
-
 function printProducten() {
 	if (!empty($_POST['hoofd']) && empty(getRubriek($_POST['hoofd']))) {
 		$veilingen = getProductsByHeader($_POST['hoofd']);
@@ -43,11 +36,9 @@ function printProducten() {
  	if (!empty($_POST['sub']) && empty(getRubriek($_POST['sub']))) {
 		$veilingen = getProductsByHeader($_POST['sub']);
 }
-
 	if (!empty($_POST['rest']) && empty(getRubriek($_POST['rest']))) {
 		$veilingen = getProductsByHeader($_POST['rest']);
 }
-
 	if (!empty($veilingen)){
 		foreach($veilingen as $veiling){
 		   $filename = getfile($veiling['voorwerpnummer']);
@@ -77,7 +68,6 @@ MYCONTENT;
 		}
 	} 
 }
-
 function getStartBedrag($param){
   return startBedragQuery($param);
 }

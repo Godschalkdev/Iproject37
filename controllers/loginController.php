@@ -3,7 +3,7 @@ error_reporting(0);
 include '../db-util.php';
 connectToDatabase();
 
-$adminUsername = "admin";
+$adminUsername = "admin4";
 
 function processForm()
 {
@@ -17,7 +17,7 @@ function processForm()
       $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
       $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
       if($Chk_LoginDetailsReturn[0] == $adminUsername){
-        $_SESSION['admin4'] = 'true';
+        $_SESSION['admin'] = 'true';
       }
       header("Location: /index.php");
     } else {

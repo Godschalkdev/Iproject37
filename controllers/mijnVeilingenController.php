@@ -1,8 +1,6 @@
 <?php
 require '../db-util.php';
-
 connectToDatabase();
-
 
 function printFeedback($param) {
 	$feedbacks = getFeedback($param);
@@ -29,7 +27,6 @@ MYCONTENT;
 		}
 	}
 }
-
 function printFeedbackForm($user, $logger) {
 	$objecten = getFeedbackBeschikbaar($user, $logger);
 	$titles = "";
@@ -74,8 +71,6 @@ function filledFormSubmit() {
 		insertFeedback($_POST['objectnr'], $_POST['beoordeling'], $_POST['comment'], $buyer_seller);
 	}
 }
-
-
 function printVeilingenUser($param) {
 	$veilingen = getUserVeilingen($param);
 	if (empty($veilingen)) {
@@ -84,16 +79,13 @@ function printVeilingenUser($param) {
 		printVeilingen($veilingen);
 	}
 }
-
 function getStartBedrag($param){
   return startBedragQuery($param);
 }
-
 function printGebodenproducten($param) {
 	$veilingen = getUserVeilingenBieden($param);
 	printVeilingen($veilingen);
 }
-
 function printVeilingen($param) {
 	foreach ($param as $veiling) {
 	   $filenaam = getfile($veiling['voorwerpnummer']);

@@ -28,11 +28,11 @@ function register_validation()
     $password         =   hashpassword($_POST['wachtwoord']);
     $question_nr      =   $_POST['vraag'];
     $answer           =   $_POST['antwoord'];
-    $seller_yes_or_no =   'no';
+    $seller_yes_or_no =   'nee';
     $generatedCode    =   md5(rand(0,1000));
     $activation_code  =   $generatedCode;
     $registration_date =  '2016-06-06'; 
-    $activated_yes_or_no = 'no';
+    $activated_yes_or_no = 'nee';
     if(addNewUser($username, $firstname,$lastname,$address_field1,$address_field2, $ZIP_code, $city, $country, $birthday, $emailaddress, $password, $question_nr, $answer, $seller_yes_or_no,  $activated_yes_or_no, $activation_code)){
       sendUserVerification($emailaddress, $activation_code, $password, $username);
       return "<h1 style=\"color:green;\">Registratie doorgestuurd, verifieer uw account door uw mail te controleren. </h1>";

@@ -3,7 +3,8 @@ session_start();
 include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 require $_SERVER['DOCUMENT_ROOT']."/controllers/mijnVeilingenController.php";
 if (!empty($_GET['user'])) {
-	$user = $_GET['user'];
+$user = $_GET['user'];
+
 }
 if (empty($user)) {
 	$user = $_SESSION['naamuser'];

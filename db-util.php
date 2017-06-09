@@ -275,15 +275,17 @@ $data->execute(array($title, $description, $starting_price, $payment_method, $pa
 
 
 
-function insertNieuwFiles($object_nr, $filename){
+function insertNieuwFile($object_nr, $filename){
+  
+
+  $newFilename = "http://iproject37.icasites.nl/uploads/".$filename;
   try {
 global $pdo;
-foreach ([$filename]['name'] as $file)
-    {    
-$data = $pdo->prepare("INSERT INTO [File] (filename, object_nr) VALUES (?,?)") ;
-$data->execute(array($file, $object_nr));
 
-}
+$data = $pdo->prepare("INSERT INTO [File] (filename, object_nr) VALUES (?,?)") ;
+$data->execute(array($newFilename, $object_nr));
+
+
 }
       catch(PDOexeption $e){
           echo $e->getMessage();
@@ -299,7 +301,7 @@ function insertNieuwObject_in_Heading($object_nr, $lowest_heading_nr){
 try {
 global $pdo;
 
-$data = $pdo->prepare("INSERT INTO [Object_in_Heading] (object_nr, lowest_heading_nr) VALUES (?,?)") ;
+$data = $pdo->prepare("INSERT INTO [Object_in_Heading] (object_nr, lowest_heading_nr) VALUES (?,CAST(? AS INT))") ;
 $data->execute(array($object_nr, $lowest_heading_nr));
 
 }
@@ -315,7 +317,8 @@ global $pdo;
   
   $data = $pdo->prepare("SELECT object_nr FROM [Object] WHERE title = ? AND duration_start_date = ? AND duration_start_time = ? AND seller = ?");
   $data->execute(array($title, $duration_start_date, $duration_start_time, $seller));
-  return $data;
+
+  return $data->fetch();
 
 }
 

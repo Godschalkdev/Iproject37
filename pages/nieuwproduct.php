@@ -3,12 +3,22 @@ require ('../Controllers/nieuwproductController.php');
 include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 $success_message = "";
 
-
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-  $success_message = nieuwProduct_validatie();
+  $success_message = nieuwProduct_validatie($_SESSION['rubriek']);
 }
 
+if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
+	$_SESSION['rubriek'] = getRubriekNummer();
+}
+
+
 ?>
+
+<?php 
+
+
+?>
+
 
 
 
@@ -25,7 +35,12 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	</head>
 	
 	<body>
-	
+	<?php
+//Show message
+if(isset($msg)){
+	echo "<h3 style=\"color:red\">{".$msg."}</h3>\n";
+}
+?>
 		<?php 
 			
 			include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
@@ -38,14 +53,19 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 				<div class = "ui raised segment">
 					<h1 class="ui niagara header">Nieuw product aanbieden</h1>
 					<?php if (!is_array($success_message)){echo $success_message;$success_message = "";} ?>
-					<form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method="post" class="ui big register form">
-						<h3 class="ui dividing header">Productgegevens</h3>
-						
-							<div class="required field">
+					<form action="" method="GET" class="ui form">
+					<div class="required field">
 								<label>Categorie</label>
 								<div class="three fields">
+								<?php printZoekSysteem(); ?>
 							</div>
 							</div>
+					
+					</form>
+					<form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method="post" class="ui big register form" enctype="multipart/form-data">
+						<h3 class="ui dividing header">Productgegevens></h3>
+						
+							
 							<div class="two fields">
 								<div class="required ten wide field">
 								<label>Product</label>
@@ -103,8 +123,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 								<label>Kies 1 of meerdere afbeelding. (maximaal 4)</label>
 								<div class="ui fluid file input action">
 						       
-						          	<input type="text" readonly>
-           							 <input type="file" id="afbeelding" name="afbeelding[]" autocomplete="off" multiple="multiple"  style="display:none">
+						          	<input type="text"/>
+           								<input type="file" id="file" name="files[]" autocomplete="off" multiple="multiple"  style="display:none" />
 
 						            <div class="ui button">
 						                Bestanden

@@ -34,6 +34,7 @@ function printZoekSysteem(){
 	echo "</select></div>";
 	} 
 	echo "<a href=\"html/resetfilter.php\" class=\"ui large sand button\"/>Reset</a>";
+	
 }
 
 function printProducten() {

@@ -1,25 +1,92 @@
 
 <?php
-$ftp_server = "ftp.iproject.icasites.nl";
-$ftp_username   = "iproject37";
-$ftp_password   =  "6JYc6Lj4";
+$valid_file = true;
+$max_file_size = 2024000;
+$valid_formats = array("jpg","jpeg","JPG", "png", "gif", "bmp");
 
-$remote_file_path = "/pics/";
-$file_fake = "sometext.txt";
-// setup of connection
-$conn_id = ftp_connect($ftp_server) or die("could not connect to $ftp_server");
 
-if(@ftp_login($conn_id, $ftp_username, $ftp_password)){
 
-  echo "connected as $ftp_username@$ftp_server\n";
+for($i=0; $i < 4; $i++){
 
- if(ftp_put($conn_id, $remote_file_path, $file_fake, FTP_ASCII)){
-    	echo "succes upload";
-}
-}
-else
+if(isset($_FILES['photo']['name'][$i]))
 {
-  echo "could not connect as $ftp_username\n";
+	
+
+	if(!$_FILES['photo']['error'][$i])
+	{
+		
+		$new_file_name = strtolower($_FILES['photo']['name'][$i]);
+		$ext = pathinfo($_FILES['photo']['name'][$i], PATHINFO_EXTENSION); 
+
+		if($_FILES['photo']['size'][$i] > $max_file_size )
+		{
+			$valid_file = false;
+			$msg = 'Oops!  Je bestand is te groot';
+		}
+
+		elseif(!in_array($ext, $valid_formats)){
+			$valid_file = false; 
+			$msg = 'Oops! geen geldige bestand';
+		}
+		
+		//if the file has passed the test
+		elseif($valid_file)
+		{	
+			
+			
+			
+			$uniq_file_name = getGeneratedFilename($_FILES['photo']['name'][$i]);
+			//move it to where we want it to be
+			move_uploaded_file($_FILES['photo']['tmp_name'][$i], "..\uploads\ ".$uniq_file_name);
+			
+			$msg = 'WAT MOOI!  HET IS GELUKT.';
+
+			
+		}
+	
+	//if there is an error...
+	}
+		else
+	{
+		//set that to be the returned msg
+		$msg = 'Ooops!  DAT GING FOUT:  '.$_FILES['photo']['error'][$i];
+	}
+
+}
+}
+
+
+
+function getGeneratedFilename($name){
+$uniq = base_convert(uniqid(), 16, 10);
+$newName = $uniq."_".$name;
+return $newName;
 }
 
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TESTPAGE</title>
+
+</head>
+<body>
+
+	<?php
+//Show message
+if(isset($msg)){
+	echo "<h3 style=\"color:red\">{".$msg."}</h3>\n";
+}
+?>
+
+<form action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> method="post" enctype="multipart/form-data" >
+	Your Photo: <input type="file" name="photo[]" size="25" multiple="multiple"  />
+	<input type="submit" name="submit" value="Submit" />
+</form>
+
+
+
+</body>
+
+</html>

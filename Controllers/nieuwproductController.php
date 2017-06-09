@@ -6,32 +6,41 @@ connectToDatabase();
 $Errors                         = array();
 $requiredFields                 = array('titel', 'beschrijving', 'startprijs', 'betaalwijze', 'betaalinstructies', 'stad', 'land', 'dagen', 'bezorgkosten', 'bezorginstructies');
 
-function nieuwProduct_validatie()
+function nieuwProduct_validatie($param)
 {
   global $Errors;
+  
 
   if (isValidForm()) { 
-    $title        				=	$_POST['titel'];
-    $description        		=	$_POST['beschrijving'];
-    $starting_price         	=	$_POST['startprijs'];
-    $payment_method  			=	$_POST['betaalwijze'];
-    $payment_instructions   	=	$_POST['betaalinstructies']; 
-    $city        				=	$_POST['stad'];
-    $country             		=	$_POST['land'];
-    $duration         			=	$_POST['dagen'];
-    $duration_start_date        =  	date('Y-m-d');
-    $duration_start_time        =  	date("H:i:s");
-    $shipping_costs             =	$_POST['bezorgkosten'];
-    $shipping_instructions   	=	$_POST['bezorginstructies'];
-    $seller     				=	$_SESSION['naamuser'];
-    $date 						= 	strtotime("+".$duration." days");
-    $duration_end_date      	=	date('Y-m-d', $date);
-    $duration_end_time        	=	$duration_start_time;
-    $auction_closed 			=   0; 
-    $lowest_heading_nr			=	'4352';
+    $title        				  =	       $_POST['titel'];
+    $description        		=	       $_POST['beschrijving'];
+    $starting_price         =	       $_POST['startprijs'];
+    $payment_method  			  =	       $_POST['betaalwijze'];
+    $payment_instructions   =	       $_POST['betaalinstructies']; 
+    $city        				    =	       $_POST['stad'];
+    $country             		=	       $_POST['land'];
+    $duration         			=	       $_POST['dagen'];
+    $duration_start_date    =  	     date('Y-m-d');
+    $duration_start_time    =  	     date("H:i:s");
+    $shipping_costs         =	       $_POST['bezorgkosten'];
+    $shipping_instructions  =	       $_POST['bezorginstructies'];
+    $seller     				    =	       $_SESSION['naamuser'];
+    $date 						      = 	     strtotime("+".$duration." days");
+    $duration_end_date      =	       date('Y-m-d', $date);
+    $duration_end_time      =	       $duration_start_time;
+    $auction_closed 			  =        0; 
+    $lowest_heading_nr      =        $param;
   if(addNewObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed)){
-  	
-      return "<h1 style=\"color:green;\">Nieuw product toegevoegd</h1>";
+    
+    $object_nr = getObjectnummer($title, $duration_start_date, $duration_start_time, $seller);
+    $filename = uploadFile($object_nr['object_nr']);
+    insertNieuwObject_in_Heading($object_nr['object_nr'], $lowest_heading_nr);
+        if(!empty(getObject($object_nr['object_nr'],$_FILES['files']))){
+
+
+      return "<h1 style=\"color:green;\">Nieuw product toegevoegd".getRubriekNummer()."</h1>";
+
+    }
     }
   }
   else{
@@ -40,29 +49,107 @@ function nieuwProduct_validatie()
 }
 
 
-function uploadFileToFtp(){
+function uploadFile($object){
+$valid_file = true;
+$max_file_size = 2024000;
+$valid_formats = array("jpg","jpeg","JPG", "png", "gif", "bmp");
 
-$ftp_server = "ftp.iproject.icasites.nl";
-$ftp_username   = "iproject37";
-$ftp_password   =  "6JYc6Lj4";
+for($i=0; $i < 4; $i++){
 
-$conn_id = ftp_connect($ftp_server) or die("could not connect to $ftp_server");
+if(isset($_FILES['files']['name'][$i]))
+{
+  
 
+  if(!$_FILES['files']['error'][$i])
+  {
+    
+    $new_file_name = strtolower($_FILES['files']['name'][$i]);
+    $ext = pathinfo($_FILES['files']['name'][$i], PATHINFO_EXTENSION); 
 
-$remote_file_path = "/pics/";
+    if($_FILES['files']['size'][$i] > $max_file_size )
+    {
+      $valid_file = false;
+      $msg = 'Oops!  Je bestand is te groot';
+    }
 
-$valid_formats = array("jpg", "png", "gif", "zip", "bmp");
+    elseif(!in_array($ext, $valid_formats)){
+      $valid_file = false; 
+      $msg = 'Oops! geen geldige bestand';
+    }
+    
+    //if the file has passed the test
+    elseif($valid_file)
+    { 
+      
+      
+      
+      $uniq_file_name = getGeneratedFilename($_FILES['files']['name'][$i]);
+      //move it to where we want it to be
+      move_uploaded_file($_FILES['files']['tmp_name'][$i], "..\uploads\ ".$uniq_file_name);
+      insertNieuwFile($object, $uniq_file_name);
+      $msg = 'WAT MOOI!  HET IS GELUKT.';
+      
+      
+    }
+  
+  //if there is an error...
+  }
+    else
+  {
+    //set that to be the returned msg
+    $msg = 'Ooops!  DAT GING FOUT:  '.$_FILES['files']['error'][$i];
+  }
 
-foreach($_FILES['afbeelding']['name'] as $key => $name ){
-    $file_name = $key.$_FILES['afbeelding']['name'][$key];
-    $file_size =$_FILES['afbeelding']['size'][$key];
-    $file_tmp =$_FILES['afbeelding']['tmp_name'][$key];
-    $file_type=$_FILES['afbeelding']['type'][$key];
-
-    ftp_put($conn_id, $remote_file_path, $file_name, FTP_ASCII);
 }
 }
 
+}
+
+
+function getGeneratedFilename($name){
+$uniq = base_convert(uniqid(), 16, 10);
+$newName = $uniq."_".$name;
+return $newName;
+}
+
+function printrubriek($param) {
+  $veilingen = getRubriek($param);
+  echo "<option value=\"\">- selecteer een rubriek -</option>";
+  foreach ($veilingen as $veiling) {
+    echo "<option value=\"$veiling[heading_nr]\">$veiling[heading_name]</option>";
+  }
+}
+
+function printZoekSysteem(){
+  
+  echo "<div class=\"six wide field\"> <select name=\"hoofd\" class=\"ui search dropdown\" id=\"hoofd\" onchange=\"this.form.submit()\">";
+  echo "<option value=\"$_GET[hoofd]\"></option>";
+  printrubriek('-1');
+  echo "</select></div>";
+  
+  if (!empty($_GET['hoofd']) && !empty(getRubriek($_GET['hoofd']))) {
+  echo "<div class=\"six wide field\"> <select name=\"sub\" class=\"ui search dropdown\" id=\"sub\" onchange=\"this.form.submit()\">";
+  echo "<option value=\"$_GET[sub]\"></option>";
+  printrubriek($_GET['hoofd']);
+  echo "</select></div>";
+  } 
+
+  if (!empty($_GET['sub']) && !empty(getRubriek($_GET['sub']))) {
+  echo "<div class=\"six wide field\"> <select name=\"rest\" class=\"ui search dropdown\" id=\"rest\" onchange=\"this.form.submit()\">";
+  echo "<option value=\"$_GET[rest]\"></option>";
+  printrubriek($_GET['sub']);
+  echo "</select></div>";
+  } 
+}
+
+function getRubriekNummer() {
+  if (!empty($_GET['rest'])) {
+    return $_GET['rest'];
+}
+  elseif(!empty($_GET['sub'])) {
+    return $_GET['sub'];
+  }
+}
 
 function isValidForm()
 {
@@ -75,10 +162,10 @@ function isValidForm()
 function getheader(){
 	
 
-	if(empty($_POST['rest']) && empty(getRubriek($_POST['rest']))){
-		$headingnr = $_POST['hoofd'];
-}	else if(!empty($_POST['hoofd']) && !empty(getRubriek($_POST['hoofd'])) && !empty($_POST['rest']) && !empty(getRubriek($_POST['rest']))){
-	$headingnr = $_POST['rest'];
+	if(empty($_GET['rest']) && empty(getRubriek($_GET['rest']))){
+		$headingnr = $_GET['hoofd'];
+}	else if(!empty($_GET['hoofd']) && !empty(getRubriek($_GET['hoofd'])) && !empty($_GET['rest']) && !empty(getRubriek($_GET['rest']))){
+	$headingnr = $_GET['rest'];
 }
 return $headingnr;
 }
@@ -120,41 +207,46 @@ function chk_Fields($fields){
 }
 
 
+titel', 'beschrijving', 'startprijs', 'betaalwijze', 'betaalinstructies', 'stad', 'land', 'dagen', 'bezorgkosten', 'bezorginstructies
+
 function chk_InErrorArray($value){
   global $Errors;
   global $requiredFields;
   if (in_array($value, $Errors))
   {
     switch ($value) {
-      case $requiredFields[0]:
+      case $requiredFields['titel']:
       echo "<p style=\"color:red\">verkeerde titel</p>";
       break;
-      case $requiredFields[1]:
+      case $requiredFields['beschrijving']:
       echo "<p style=\"color:red\">verkeerde beschrijving</p>";
       break;
-      case $requiredFields[2]:
+      case $requiredFields['startprijs']:
       echo "<p style=\"color:red\">verkeerde startprijs</p>";
       break;
-      case $requiredFields[3]:
+      case $requiredFields['betaalwijze']:
       echo "<p style=\"color:red\">verkeerde betaalwijze</p>";
       break;
-      case $requiredFields[4]:
+      case $requiredFields['betaalinstructies']:
       echo "<p style=\"color:red\">betaalinstructies klopt niet</p>";
       break;
-      case $requiredFields[5]:
+      case $requiredFields['stad']:
       echo "<p style=\"color:red\">verkeerde stad</p>";
       break;
-      case $requiredFields[6]:
+      case $requiredFields['land']:
       echo "<p style=\"color:red\">verkeerde land</p>";
       break;
-      case $requiredFields[7]:
+      case $requiredFields['dagen']:
       echo "<p style=\"color:red\">verkeerde dagen</p>";
       break;
-      case $requiredFields[8]:
+      case $requiredFields['bezorgkosten']:
       echo "<p style=\"color:red\">geen bezorgkosten</p>";
       break;
-      case $requiredFields[9]:
+      case $requiredFields['bezorginstructies']:
       echo "<p style=\"color:red\">bezorginstructies invullen</p>";
+      break;
+      case $requiredFields['files']:
+      echo "<p style=\"color:red\"> afbeelding is leeg invullen</p>";
       break;
     }
   }

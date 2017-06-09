@@ -55,7 +55,7 @@ function logout(){
  		$username = $_POST['username'];
  		$password = $_POST['password'];
 
- 		$query = $pdo -> prepare("SELECT username, password FROM users where username=? AND password=?");
+ 		$query = $pdo -> prepare("SELECT gebruikersnaam, wachtwoord FROM gebruiker where gebruikersnaam=? AND wachtwoord=?");
  		$query ->bindParam('1', $username, PDO::PARAM_STR);
  		$query ->bindParam('2', $password, PDO::PARAM_STR);
 

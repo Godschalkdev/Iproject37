@@ -29,6 +29,7 @@ function printUserOptionLoggedOut(){
 $html = <<<MYCONTENT
         <div class="header">User</div>
 				    <a href="http://www.eenmaalandermaal.dev/pages/login.php"" class="item">Log In</a>
+				    <div class="ui divider"></div>
 				    <a href="http://www.eenmaalandermaal.dev/pages/register.php" class="item">Register</a>
 MYCONTENT;
 

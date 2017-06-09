@@ -33,9 +33,9 @@ function nieuwProduct_validatie($param)
   if(addNewObject($title, $description, $starting_price, $payment_method, $payment_instructions,$city, $country, $duration, $duration_start_date, $duration_start_time, $shipping_costs, $shipping_instructions, $seller, $duration_end_date, $duration_end_time, $auction_closed)){
     
     $object_nr = getObjectnummer($title, $duration_start_date, $duration_start_time, $seller);
-    $filename = uploadFile($object_nr['object_nr']);
-    insertNieuwObject_in_Heading($object_nr['object_nr'], $lowest_heading_nr);
-        if(!empty(getObject($object_nr['object_nr'],$_FILES['files']))){
+    $filename = uploadFile($object_nr['voorwerpnummer']);
+    insertNieuwObject_in_Heading($object_nr['voorwerpnummer'], $lowest_heading_nr);
+        if(!empty(getObject($object_nr['voorwerpnummer']))){
 
 
       return "<h1 style=\"color:green;\">Nieuw product toegevoegd".getRubriekNummer()."</h1>";
@@ -116,7 +116,7 @@ function printrubriek($param) {
   $veilingen = getRubriek($param);
   echo "<option value=\"\">- selecteer een rubriek -</option>";
   foreach ($veilingen as $veiling) {
-    echo "<option value=\"$veiling[heading_nr]\">$veiling[heading_name]</option>";
+    echo "<option value=\"$veiling[rubrieknummer]\">$veiling[rubrieknaam]</option>";
   }
 }
 

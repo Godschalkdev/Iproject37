@@ -1,4 +1,5 @@
 <?php
+session_start();
 require ('../Controllers/nieuwproductController.php');
 include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 $success_message = "";

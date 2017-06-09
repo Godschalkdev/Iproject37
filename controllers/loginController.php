@@ -15,13 +15,12 @@ function processForm()
       $_SESSION['loggedin'] = 'true';
       $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
       $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
-
       if($Chk_LoginDetailsReturn[0] == "admin"){
       $_SESSION['administrator'] = 'true';
           header("Location: /pages/admin.php");
             }
             elseif($Chk_LoginDetailsReturn[0] != "admin"){
-      header("Location: /index.php");
+      header("Location: /pages/mijnveilingen.php");
     }
     } else {
        return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
@@ -33,11 +32,4 @@ function processForm()
 }
 
 
-function logout(){
-
-  if(!empty($_POST["logout"])) {
-  unset($_SESSION);
-  session_destroy();
-  }
-}
 ?>

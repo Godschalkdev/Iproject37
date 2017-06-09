@@ -171,6 +171,7 @@ function getObject($param) {
   $data = $pdo ->query("SELECT * FROM Voorwerp WHERE voorwerpnummer = $param");
   return $data ->fetch();
 }
+
 function getBiedingen($param) {
   global $pdo;
   $data = $pdo ->query("SELECT TOP 5 * FROM Bod WHERE voorwerpnummer = $param ORDER BY bodbedrag DESC");
@@ -205,7 +206,7 @@ function insertNieuwObject($titel, $beschrijving, $startprijs, $betalingswijze, 
 try {
 global $pdo;
     
-$data = $pdo->prepare("INSERT INTO Voorwerp (titel, beschrijving, startprijs, betalingswijze, betlingsinstructie,plaatsnaam, land, looptijd, looptijd_start_dag, looptijd_start_tijdstip, verzendkosten, shipping_instructions, verkoper, looptijd_einde_dag, looptijd_einde_tijdstip, veilingstatus, verkoopprijs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, null)") ;
+$data = $pdo->prepare("INSERT INTO Voorwerp (titel, beschrijving, startprijs, betalingswijze, betalingsinstructie,plaatsnaam, land, looptijd, looptijd_begin_dag, looptijd_begin_tijdstip, verzendkosten, verzendinstructies, verkoper, looptijd_einde_dag, looptijd_einde_tijdstip, veilingstatus, verkoopprijs) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, null)") ;
 $data->execute(array($titel, $beschrijving, $startprijs, $betalingswijze, $betlingsinstructie,$plaatsnaam, $land, $looptijd, $looptijd_start_dag, $looptijd_start_tijdstip, $verzendkosten, $shipping_instructions, $verkoper, $looptijd_einde_dag, $looptijd_einde_tijdstip, $veilingstatus));
 }
       catch(PDOexeption $e){
@@ -220,12 +221,12 @@ $data->execute(array($titel, $beschrijving, $startprijs, $betalingswijze, $betli
 function insertNieuwFile($voorwerpnummer, $filenaam){
   
 
-  $newFilename = "http://iproject37.icasites.nl/uploads/".$filename;
+  $newFilename = "http://iproject37.icasites.nl/uploads/".$filenaam;
   try {
 global $pdo;
 
 $data = $pdo->prepare("INSERT INTO Bestand (filenaam, voorwerpnummer) VALUES (?,?)") ;
-$data->execute(array($newFilename, $object_nr));
+$data->execute(array($newFilename, $voorwerpnummer));
 }
       catch(PDOexeption $e){
           echo $e->getMessage();
@@ -253,7 +254,7 @@ $data->execute(array($voorwerpnummer, $rubriek_op_laagste_niveau));
 function getObjectnummer($titel, $looptijd_start_dag, $looptijd_start_tijdstip, $verkoper){
 global $pdo;
   
-  $data = $pdo->prepare("SELECT voorwerpnummer FROM Voorwerp WHERE titel = ? AND looptijd_start_dag = ? AND looptijd_start_tijdstip = ? AND verkoper = ?");
+  $data = $pdo->prepare("SELECT voorwerpnummer FROM Voorwerp WHERE titel = ? AND looptijd_begin_dag = ? AND looptijd_begin_tijdstip = ? AND verkoper = ?");
   
   $data->execute(array($titel, $looptijd_start_dag, $looptijd_start_tijdstip, $verkoper));
   return $data ->fetch();

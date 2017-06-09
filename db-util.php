@@ -325,20 +325,30 @@ function getGebruikersAdmin($laagRijNummer, $hoogRijNummer){
 // delete
 function deleteVeilingAdmin($verwijder_id){
     global $pdo;
-  $stmt = $pdo -> prepare("DELETE FROM Voorwerp WHERE voorwerpnummer='$verwijder_id'");
-  return $stmt ->execute();
+  // $data = $pdo -> query("DELETE FROM Voorwerp_in_Rubriek WHERE voorwerpnummer='$verwijder_id'");
+  // $data = $pdo -> query("DELETE FROM Bestand WHERE voorwerpnummer='$verwijder_id'");
+  // $data = $pdo -> query("DELETE FROM Feedback WHERE voorwerpnummer='$verwijder_id'");
+  // $data = $pdo -> query("DELETE FROM Bod WHERE voorwerpnummer='$verwijder_id'");
+  $data = $pdo -> query("DELETE FROM Voorwerp WHERE voorwerpnummer='$verwijder_id'");
+
+  return $data;
 }
 function deleteGebruikerAdmin($verwijder_id){
     global $pdo;
-  $stmt = $pdo -> prepare("DELETE FROM Gebruiker WHERE gebruiker_id='$verwijder_id'");
-  return $stmt ->execute();
+  $data = $pdo -> query("DELETE FROM Gebruiker WHERE gebruiker_id='$verwijder_id'");
+  return $data;
 }
 function deleteCategorieAdmin($verwijder_id){
     global $pdo;
-  $stmt = $pdo -> prepare("DELETE FROM Rubriek WHERE rubrieknummer='$verwijder_id'");
-  return $stmt ->execute();
+  $data = $pdo -> query("DELETE FROM Rubriek WHERE rubrieknummer='$verwijder_id'");
+  return $data;
 }
-// update
+// insert
+function insertCategorieAdmin($rubrieknummer, $rubrieknaam, $rubriek){
+    global $pdo;
+  $data = $pdo -> query("INSERT INTO Rubriek VALUES ('$rubrieknummer', '$rubrieknaam', '$rubriek', '$rubrieknummer')");
+  return $data;
+}
 function koperInObject($object_nr, $username){
     global $pdo;
       

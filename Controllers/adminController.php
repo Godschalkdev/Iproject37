@@ -2,9 +2,6 @@
 
 include '../db-util.php';
 include '../Controllers/mailController.php';
-//include '../scripts/adminScript.html';
-
-
 
 connectToDatabase();
 
@@ -58,22 +55,6 @@ function meerderePaginasAdminHoog(){
 	}
 
 	return $hoogRijNummer;
-}
-
-function deleteAdmin($param){
-
-		 if(isset($_GET['param']) && $_GET['param']=="verwijder"){
-		          $verwijder_id = (int) $_GET['id'];
-		    $sql= $param;
-		    //print($sql);
-		    if ($sql){
-		        echo "Verwijderen gelukt";
-		    } else {
-		        echo "Verwijderen error";
-
-	    }
-
-    }
 }
 
 function updateAdmin($param){
@@ -165,15 +146,14 @@ function tabelGebruikers($database, $aantalRijen){
 
 	// verwijderen krijg ik niet aan de gang in een aparte functie
 	 if(isset($_GET['param']) && $_GET['param']=="verwijderGebruiker"){
-	          $verwijder_id = (int) $_GET['id'];
-	         $sql="DELETE FROM dbo.Gebruiker WHERE gebruiker_id='$verwijder_id'";
-	         $resultaat=$pdo->query($sql);
+	          $verwijder_id =  $_GET['id'];
+	          $resultaat = deleteGebruikerAdmin($verwijder_id);
 
 	    if ($resultaat){
-	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
+	        echo "<p class='ui big green message'>Verwijderen gelukt</p>";
 
 	    } else {
-	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
+	        echo "<p class='ui big red message'>Verwijderen mislukt</p>";
 
 	    }
 
@@ -184,7 +164,6 @@ function tabelGebruikers($database, $aantalRijen){
   		tabelKoppenGebruikers();
 	  	foreach($rows as $row)
 	      { 
-	     //$id = $row['gebruiker_id'];
 	      	
 	        print("
 				<tbody id='userTable'>
@@ -200,14 +179,12 @@ function tabelGebruikers($database, $aantalRijen){
 	               </tr>
 	                </tbody>"); 
 	      } 
-	    //  deleteAdmin(deleteGebruikerAdmin($id));
 	      print("</table>");
 	  	} else {
   			echo "</br></br>Er zijn geen gebruikers.";
   	}
 }
 
-// tabblad 3 van Admin Page - Categorieen beheren
 
 function tabelKoppenCategorieen(){
 	print("<table class='ui celled fixed basic table' border='1px'> 
@@ -224,17 +201,16 @@ function tabelCategorieen($database, $aantalRijen){
 	global $pdo;
 
 	meerderePaginasAantalRijen($aantalRijen);
-// verwijderen krijg ik niet aan de gang in een aparte functie
+
 	 if(isset($_GET['param']) && $_GET['param']=="verwijderCategorie"){
 	          $verwijder_id = (int) $_GET['id'];
-	         $sql="DELETE FROM dbo.Rubriek WHERE rubrieknummer='$verwijder_id'";
-	         $resultaat=$pdo->query($sql);
+	          $resultaat = deleteCategorieAdmin($verwijder_id);
 
 	    if ($resultaat){
-	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
+	        echo "<p class='ui big green message'>Verwijderen gelukt</p>";
 
 	    } else {
-	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
+	        echo "<p class='ui big red message'>Verwijderen mislukt</p>";
 
 	    }
 
@@ -245,8 +221,6 @@ function tabelCategorieen($database, $aantalRijen){
   		tabelKoppenCategorieen();
 	  	foreach($rows as $row)
 	      { 
-	    //  	$id = $row['rubrieknummer'];
-	      	//deleteAdmin(deleteCategorieAdmin($row['rubrieknummer']));
 	        print("
 				<tbody id='userTable' >
 	        	<tr>
@@ -262,7 +236,6 @@ function tabelCategorieen($database, $aantalRijen){
 	               </tr>
 	                </tbody>");
 	      } 
-	   //   deleteAdmin(deleteCategorieAdmin($id));
 	      print("</table>");
 	  	} else {
   			echo "</br></br>Er zijn geen categorieën.";
@@ -288,17 +261,15 @@ function tabelVeilingen($database, $aantalRijen){
 
   meerderePaginasAantalRijen($aantalRijen);
 
-// verwijderen krijg ik niet aan de gang in een aparte functie
 	 if(isset($_GET['param']) && $_GET['param']=="verwijderVeiling"){
-	          $verwijder_id = (int) $_GET['id'];
-	         $sql="DELETE FROM dbo.Voorwerp WHERE voorwerpnummer='$verwijder_id'";
-	         $resultaat=$pdo->query($sql);
+	          $verwijder_id =  $_GET['id'];
+	          $resultaat = deleteVeilingAdmin($verwijder_id);
 
 	    if ($resultaat){
-	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
+	        echo "<p class='ui big green message'>Verwijderen gelukt</p>";
 
 	    } else {
-	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
+	        echo "<p class='ui big red message'>Verwijderen mislukt</p>";
 
 	    }
 
@@ -309,11 +280,9 @@ function tabelVeilingen($database, $aantalRijen){
   		tabelKoppenVeilingen();
 	  	foreach($rows as $row)
 	      { 
-	      //	$id = $row['voorwerpnummer'];
-	      	//deleteAdmin(deleteVeilingAdmin($row['voorwerpnummer']));
 	          print("
 				<tbody id='userTable' >
-	        	<tr>
+	        	<tr >
 	        		<td contentEditable='true'>$row[voorwerpnummer]</td> 
 	                <td contentEditable='true'>$row[titel]</td> 
 	                <td contentEditable='true'>$row[verkoper]</td>
@@ -326,7 +295,6 @@ function tabelVeilingen($database, $aantalRijen){
 	               </tr>
 	                   </tbody>"); 
 	      } 
-	      //deleteAdmin(deleteVeilingAdmin($id));
 	      print("</table>");
 
 	  	} else {
@@ -383,7 +351,7 @@ function tabelAfgelopenVeilingen(){
 	        $hoogsteBod = getHoogsteBod($row['voorwerpnummer']) ;
 	          print("
 	        <tbody id='userTable'>
-	            <tr>
+	            <tr >
 	                <td contentEditable='true'>$row[voorwerpnummer]</td> 
 	                <td contentEditable='true'>$row[titel]</td> 
 	                <td contentEditable='true'>$hoogsteBod[gebruikersnaam]</td>
@@ -396,5 +364,7 @@ function tabelAfgelopenVeilingen(){
   			echo "</br></br>Er zijn geen aflopende veilingen.";
   	}
 }
+
+
 
 ?>

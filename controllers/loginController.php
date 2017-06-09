@@ -20,7 +20,7 @@ function processForm()
       $_SESSION['administrator'] = 'true';
           header("Location: /pages/admin.php");
             }
-            else{
+            elseif($Chk_LoginDetailsReturn[0] != "admin"){
       header("Location: /index.php");
     }
     } else {
@@ -30,12 +30,13 @@ function processForm()
     return "<p style=\"color:red;\">Vul uw gegevens in</p>";
 
   }
+}
 
 
 function logout(){
 
   if(!empty($_POST["logout"])) {
-  $_SESSION["naamuser"] = "";
+  unset($_SESSION);
   session_destroy();
   }
 }

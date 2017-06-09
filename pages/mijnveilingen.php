@@ -50,12 +50,12 @@ if (empty($user)) {
 						<div class="ui bottom attached tab segment" data-tab="second">
 							<?php 
 								  printFeedback($user); 
-								  printFeedbackForm($user, $_SESSION['usernaam']);
+								  printFeedbackForm($user, $_SESSION['naamuser']);
 								  ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="third">
 							<?php 
-								if ($user == $_SESSION['usernaam']) {
+								if ($user == $_SESSION['naamuser']) {
 									printGebodenproducten($user);
 								} else {
 									echo "U heeft geen toegang tot de biedingen van $user";

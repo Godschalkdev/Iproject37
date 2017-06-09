@@ -188,11 +188,13 @@ function startBedragQuery($param) {
                        WHERE voorwerpnummer = $param");
   return $data ->fetchAll();
 }
+
 function getUserVeilingen($param) {
   global $pdo;
   $data = $pdo ->query("SELECT * FROM Voorwerp WHERE verkoper = '$param'");
   return $data ->fetchAll();
 }
+
 function getUserVeilingenBieden($param) {
   global $pdo;
   $data = $pdo ->query("SELECT MAX(bodbedrag) AS bod, Bod.voorwerpnummer, titel FROM Bod JOIN Voorwerp ON Voorwerp.voorwerpnummer = Bod.voorwerpnummer WHERE username = '$param' GROUP BY Bod.voorwerpnummer, titel");
@@ -211,14 +213,19 @@ $data->execute(array($titel, $beschrijving, $startprijs, $betalingswijze, $betli
 }
                 return true;
  }
-function insertNieuwFiles($voorwerpnummer, $filenaam){
+
+
+
+
+function insertNieuwFile($voorwerpnummer, $filenaam){
+  
+
+  $newFilename = "http://iproject37.icasites.nl/uploads/".$filename;
   try {
 global $pdo;
-foreach ([$filenaam]['name'] as $file)
-    {    
+
 $data = $pdo->prepare("INSERT INTO Bestand (filenaam, voorwerpnummer) VALUES (?,?)") ;
-$data->execute(array($file, $voorwerpnummer));
-}
+$data->execute(array($newFilename, $object_nr));
 }
       catch(PDOexeption $e){
           echo $e->getMessage();
@@ -226,24 +233,33 @@ $data->execute(array($file, $voorwerpnummer));
                 return true;
  
 }
+
+
 function insertNieuwObject_in_Heading($voorwerpnummer, $rubriek_op_laagste_niveau){
 try {
 global $pdo;
+
 $data = $pdo->prepare("INSERT INTO Voorwerp_in_Rubriek (voorwerpnummer, rubriek_op_laagste_niveau) VALUES (?,?)") ;
 $data->execute(array($voorwerpnummer, $rubriek_op_laagste_niveau));
+
 }
       catch(PDOexeption $e){
           echo $e->getMessage();
 }
                 return true;
  }
+
+
 function getObjectnummer($titel, $looptijd_start_dag, $looptijd_start_tijdstip, $verkoper){
 global $pdo;
   
   $data = $pdo->prepare("SELECT voorwerpnummer FROM Voorwerp WHERE titel = ? AND looptijd_start_dag = ? AND looptijd_start_tijdstip = ? AND verkoper = ?");
+  
   $data->execute(array($titel, $looptijd_start_dag, $looptijd_start_tijdstip, $verkoper));
-  return $data;
+  return $data ->fetch();
 }
+
+
 // Querys voor admin pagina
 // Geeft aantal gebruikers terug
 function getAantalGebruikers()

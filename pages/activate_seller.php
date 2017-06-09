@@ -1,3 +1,7 @@
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -5,8 +9,8 @@
 	<meta charset="utf-8">
 	<title>Aanmaken Verkopersaccount</title>
 	<?php 
-    include 'html/mainhead.html';
-    include '../Controllers/activate_sellerController.php';
+    include $_SERVER['DOCUMENT_ROOT']. "/pages/html/mainhead.html";
+    include $_SERVER['DOCUMENT_ROOT']. "./Controllers/activate_sellerController.php";
   	?>
   	<link rel="stylesheet" type="text/css" href="/stylecss/register.css">
 </head>
@@ -18,8 +22,9 @@
     	include  $_SERVER['DOCUMENT_ROOT']. "/pages/menu.php";
 
     	// v test for $_SESSION, verwijderen voor eind v
-    	$_SESSION['username'] = "Mahoda";
-    	$_SESSION['emailaddress'] = "eenmaalandermaalofficial@gmail.com";
+    	$_SESSION['naamuser'] = "Mahoda";
+    	$_SESSION['emailuser'] = "eenmaalandermaalofficial@gmail.com";
+
     	// ^
   	?>
 <div class="pusher">
@@ -32,7 +37,7 @@
  	 		verwerkInfo();
     			
     		?>
- 	 		<form method="post" action="../pages/activate_seller.php" class="ui big form">
+ 	 		<form method="post" action="../pages/sellerMailActivation.php" class="ui big form">
 
   			<h4 class="ui dividing header">Verkopersinformatie</h4>
 		  

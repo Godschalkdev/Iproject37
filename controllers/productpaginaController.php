@@ -28,6 +28,7 @@ function printZoekSysteem(){
 	echo "</select></div>";
 	} 
 	echo "<a href=\"html/resetfilter.php\" class=\"ui large sand button\"/>Reset</a>";
+	
 }
 function printProducten() {
 	if (!empty($_POST['hoofd']) && empty(getRubriek($_POST['hoofd']))) {

@@ -4,8 +4,7 @@ include '../db-util.php';
 include '../Controllers/mailController.php';
 //include '../scripts/adminScript.html';
 
-$gebruikersnaam = "admin";
-$passw = "Iproject37!";
+
 
 connectToDatabase();
 
@@ -24,7 +23,7 @@ function meerderePaginasAantalRijen($nrijen){
 	    for($i = 1; $i<=$nPagina; $i++) 
 	    { 
 	        $paginaNummer = "?paginaNummer=$i"; 
-	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
+	        print("<a href=$paginaNummer class='ui tiny button'>$i</a>&nbsp;&nbsp;"); 
 	    } 
 	    echo "<br/><br/>"; 
 	}
@@ -147,13 +146,15 @@ if(isset($_POST['database'])){
 // tabblad 2 van Admin Page - Account gegevens beheren
 
 function tabelKoppenGebruikers(){
-	print("<table border='1px'> 
+	print("<table class='ui celled fixed basic table' border='1px'> 
 	        <tr>
 		        <td>Gebruikers ID</td> 
 		        <td>Gebruikersnaam</td>
 		        <td>Voornaam</td>
 		        <td>Achternaam</td>
 		        <td>emailadres</td>
+		        <td></td>
+		        <td></td>
 	        </tr>"); 
 }
 
@@ -169,10 +170,10 @@ function tabelGebruikers($database, $aantalRijen){
 	         $resultaat=$pdo->query($sql);
 
 	    if ($resultaat){
-	        echo "Verwijderen gelukt";
+	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
 
 	    } else {
-	        echo "Verwijderen error";
+	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
 
 	    }
 
@@ -194,8 +195,8 @@ function tabelGebruikers($database, $aantalRijen){
 	                <td contentEditable='true'>$row[achternaam]</td>
 	                <td contentEditable='true'>$row[emailadres]</td>
 
-	                <td><a href='?param=verwijderGebruiker&amp;id={$row['gebruiker_id']}'>Verwijderen</a></td>
-	                <td><a href='?param=update&amp;id={$row['gebruiker_id']}&amp;gebruiker_id={$row['gebruiker_id']}&amp;gebruikersnaam={$row['gebruikersnaam']}&amp;voornaam={$row['voornaam']}&amp;achternaam={$row['achternaam']}&amp;emailadres={$row['emailadres']}'>Update</a></td>
+	                <td><a href='?param=verwijderGebruiker&amp;id={$row['gebruiker_id']}' class='ui button'>Verwijderen</a></td>
+	                <td><a href='?param=update&amp;id={$row['gebruiker_id']}&amp;gebruiker_id={$row['gebruiker_id']}&amp;gebruikersnaam={$row['gebruikersnaam']}&amp;voornaam={$row['voornaam']}&amp;achternaam={$row['achternaam']}&amp;emailadres={$row['emailadres']}' class='ui button'>Update</a></td>
 	               </tr>
 	                </tbody>"); 
 	      } 
@@ -209,11 +210,13 @@ function tabelGebruikers($database, $aantalRijen){
 // tabblad 3 van Admin Page - Categorieen beheren
 
 function tabelKoppenCategorieen(){
-	print("<table border='1px'> 
+	print("<table class='ui celled fixed basic table' border='1px'> 
 	        <tr>
 		      	<td>Rubriek Nr</td> 
 		        <td>Rubriek naam</td>
 		        <td>Rubriek nr parent</td>
+		        <td></td>
+		        <td></td>
 	        </tr>");
 }
 
@@ -228,10 +231,10 @@ function tabelCategorieen($database, $aantalRijen){
 	         $resultaat=$pdo->query($sql);
 
 	    if ($resultaat){
-	        echo "Verwijderen gelukt";
+	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
 
 	    } else {
-	        echo "Verwijderen error";
+	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
 
 	    }
 
@@ -250,9 +253,10 @@ function tabelCategorieen($database, $aantalRijen){
 	        		<td contentEditable='true' name='rubrieknummer'>$row[rubrieknummer]</td> 
 	                <td contentEditable='true' name='rubrieknaam'>$row[rubrieknaam]</td> 
 	                <td contentEditable='true' name='rubriek'>$row[rubriek]</td>
-	                <td><a href='?param=verwijderCategorie&amp;id={$row['rubrieknummer']}'>Verwijderen</a></td>
+	              
+	                <td><a href='?param=verwijderCategorie&amp;id={$row['rubrieknummer']}' class='ui button'>Verwijderen</a></td>
 
-	                <td><a href='?param=update&amp;id={$row['rubrieknummer']}&amp;rubrieknummer={$row['rubrieknummer']}&amp;rubrieknaam={$row['rubrieknaam']}&amp;rubriek={$row['rubriek']}'>
+	                <td><a href='?param=update&amp;id={$row['rubrieknummer']}&amp;rubrieknummer={$row['rubrieknummer']}&amp;rubrieknaam={$row['rubrieknaam']}&amp;rubriek={$row['rubriek']}' class='ui button'>
 	                			  Update</a></td>
 
 	               </tr>
@@ -268,12 +272,14 @@ function tabelCategorieen($database, $aantalRijen){
 // tabblad 4 van Admin Page - Veilingen beheren
 
 function tabelKoppenVeilingen(){
-	print("<table border='1px'> 
+	print("<table class='ui celled fixed basic table' border='1px'> 
 	        <tr>
 		        <td>Object Nr</td> 
 		        <td>Titel</td>
 		        <td>Verkoper</td>
 		        <td>Koper</td>
+		        <td></td>
+		        <td></td>
 	        </tr>"); 
 }
 
@@ -289,10 +295,10 @@ function tabelVeilingen($database, $aantalRijen){
 	         $resultaat=$pdo->query($sql);
 
 	    if ($resultaat){
-	        echo "Verwijderen gelukt";
+	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
 
 	    } else {
-	        echo "Verwijderen error";
+	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
 
 	    }
 
@@ -312,10 +318,10 @@ function tabelVeilingen($database, $aantalRijen){
 	                <td contentEditable='true'>$row[titel]</td> 
 	                <td contentEditable='true'>$row[verkoper]</td>
 	                <td contentEditable='true'>$row[koper]</td>
+	               
+	                <td><a href='?param=verwijderVeiling&amp;id={$row['voorwerpnummer']}' class='ui button'>Verwijderen</a></td>
 
-	                <td><a href='?param=verwijderVeiling&amp;id={$row['voorwerpnummer']}'>Verwijderen</a></td>
-
-	                <td><a href='?param=update&amp;id={$row['voorwerpnummer']}&amp;voorwerpnummer={$row['voorwerpnummer']}&amp;titel={$row['titel']}&amp;verkoper={$row['verkoper']}&amp;koper={$row['koper']}'>
+	                <td><a href='?param=update&amp;id={$row['voorwerpnummer']}&amp;voorwerpnummer={$row['voorwerpnummer']}&amp;titel={$row['titel']}&amp;verkoper={$row['verkoper']}&amp;koper={$row['koper']}' class='ui button'>
 	                			  Update</a></td>
 	               </tr>
 	                   </tbody>"); 
@@ -358,7 +364,7 @@ function buttonAfgelopenVeilingen()
 
 function tabelKoppenAfgelopenVeilingen(){
 	  print("<br/><br/>
-      <table border='1px'> 
+      <table class='ui celled fixed very basic table' border='1px'> 
           <tr>
             <td>Object nummer</td> 
             <td>Titel</td>

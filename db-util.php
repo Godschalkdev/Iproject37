@@ -40,7 +40,7 @@ global $pdo;
 }
 function getfile($voorwerpnummer) {
   global $pdo;
-    $data = $pdo->query("SELECT TOP 4 * FROM Bestand WHERE voorwerpnummer = $voorwerpnummer");
+    $data = $pdo->query("SELECT TOP 1 * FROM Bestand WHERE voorwerpnummer = $voorwerpnummer");
   return $data->fetch();
 }
 function getBijzondereVeilingen(){

@@ -12,7 +12,7 @@
 	if (isset($_POST['snelBod']) && getEndDateTimeDiff($id) > 0) {
 		if(CHK_bod($_POST['snelBod'], $id)){
 			$user = hoogsteBodUser($id);
-			if ($_SESSION['naamuser'] == $user['username']) {
+			if ($_SESSION['naamuser'] == $user['gebruikersnaam']) {
 				alert('U kan niet over uwzelf bieden');
 			} else {
 				doeBod($id, $_SESSION['naamuser'], $_POST['snelBod']);

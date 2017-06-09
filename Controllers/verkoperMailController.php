@@ -1,44 +1,48 @@
 <?php
-include '../db-util.php';
+
+require '../db-util.php';
+
 connectToDatabase();
 
-session_start();
+function checkForm()
+{
 
-
-function checkForm(){
-
-	if (isset($_POST['submit'])) {
+	if (isset($_POST['submit2'])) 
+	{
 		registerSeller();
-	};
+	}
 }
 
-function registerSeller(){
+function registerSeller()
+{
 	global $pdo;
 
-	$username = $_SESSION['username'];
-	$email = $_SESSION['emailaddress'];
-	$bank = $_SESSION['bank'];
-	$rekeningnummer = $_SESSION['rekeningnummer'];
-	$controleoptie = $_SESSION['controleoptie'];
-	$creditcardnummer = $_SESSION['creditcardnummer'];
-	$activatieCode = $_SESSION['code'];
+	$username 			= $_SESSION['naamuser'];
+	$email 				= $_SESSION['emailuser'];
+	$bank 				= $_SESSION['bank'];
+	$rekeningnummer		= $_SESSION['rekeningnummer'];
+	$controleoptie 		= $_SESSION['controleoptie'];
+	$creditcardnummer 	= $_SESSION['creditcardnummer'];
+	$activatieCode 		= $_SESSION['code'];
 
-	if ($_SESSION['code'] == $_POST['activatiecode'] ) {
+	if ($_SESSION['code'] == $_POST['activatiecode'] ) 
+	{
 
 		$query = $pdo -> query("UPDATE dbo.Gebruiker 
-				SET verkoper_ja_of_nee = 'nee' 
-				WHERE gebruiker ='".$_SESSION['username']."' " );
+				SET verkoper_ja_of_nee = 'ja' 
+				WHERE gebruiker ='".$_SESSION['naamuser']."' " );
 
-		$query = $pdo -> prepare("INSERT INTO dbo.Seller (gebruiker, bank, bankrekening, controle_optie, creditcardnummer)
+		$query = $pdo -> prepare("INSERT INTO dbo.Verkoper (gebruiker, bank, bankrekening, controle_optie, creditcardnummer)
 								VALUES (?, ?, ?, ?, ?)");
 		$query->execute(array( $username, $bank, $rekeningnummer, $controleoptie, $creditcardnummer));
 
 		echo '<div class="ui green message">Gefeliciteerd U bent nu verkoper.</div>';
 
 
-	} else {
+	} else 
+	{
 		echo '<div class="ui red message">Uw activatiecode komt niet overeen.</div>';
 	}
-};
+}
 
 ?>

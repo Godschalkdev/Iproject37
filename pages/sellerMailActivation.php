@@ -1,3 +1,7 @@
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -23,7 +27,7 @@
  	 		<div class="ui raised segment">
  	 		<h1 class="ui niagara header">Activeer uw verkopersaccount</h1>
  	 		<?php 
-    			
+    			checkForm();
     		?>
  	 		<form method="post" action="../pages/sellerMailActivation.php" class="ui big form">
 		  
@@ -32,7 +36,7 @@
 			      	<label>Activatiecode</label>
 			      	<input type="text" name="activatiecode" placeholder="Vul hier uw activatiecode in" required>
 			    </div>
-			    <input type="submit" name="submit" value="Activeren" class="ui huge sand button">
+			    <input type="submit" name="submit2" value="Activeren" class="ui huge sand button">
 			</form>
 		</div>
   	</div>

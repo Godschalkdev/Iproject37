@@ -3,7 +3,6 @@ error_reporting(0);
 include '../db-util.php';
 connectToDatabase();
 
-$adminUsername = "admin4";
 
 function processForm()
 {
@@ -16,10 +15,14 @@ function processForm()
       $_SESSION['loggedin'] = 'true';
       $_SESSION['naamuser'] = $Chk_LoginDetailsReturn[0];
       $_SESSION['emailuser'] = $Chk_LoginDetailsReturn[1];
-      if($Chk_LoginDetailsReturn[0] == $adminUsername){
-        $_SESSION['admin'] = 'true';
-      }
+
+      if($Chk_LoginDetailsReturn[0] == "admin"){
+      $_SESSION['administrator'] = 'true';
+          header("Location: /pages/admin.php");
+            }
+            else{
       header("Location: /index.php");
+    }
     } else {
        return "<p style=\"color:red;\">De combinatie van gebruikersnaam en wachtwoord is niet geldig.</p>";
      }
@@ -32,7 +35,7 @@ function processForm()
 function logout(){
 
   if(!empty($_POST["logout"])) {
-  $_SESSION["user_id"] = "";
+  $_SESSION["naamuser"] = "";
   session_destroy();
   }
 }

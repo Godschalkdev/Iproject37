@@ -14,22 +14,12 @@ require ($_SERVER['DOCUMENT_ROOT'] .'/controllers/menuController.php');
 		<a id="toggle" class="item">
 			<i class="large white sidebar icon"></i>
 		</a>
-		<div class="center item">
-			<div class="ui icon input">
-				<input placeholder="Search..." type="text">
-				<i class="circular search link icon"></i>
-			</div>
-		</div>
 		<div class="right item">
 			<div class="ui right icon pointing dropdown button">
 			  	<i class="large niagara user icon"></i>
 			  	<div class="menu">
 
-			  	<?php if (isset($_SESSION['loggedin'])){
-			  		printUserOptionLoggedIn();
-			  		}else{
-			  			printUserOptionLoggedOut();
-			  			} ?>
+			  	<?php printMenuOptions(); ?>
 
 
 				</div>

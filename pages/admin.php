@@ -1,10 +1,10 @@
-<!-- <?php
-session_destroy();
+<?php
+//session_destroy();
 session_start();
-if ($_SESSION['admin'] != true){
-   print("404 Error! Page not found");
+if (!$_SESSION['administrator']){
+   header('location: ../pages/mijnVeilingen.php');
 }
-?> -->
+?>
 
 <!DOCTYPE html>
 <html>
@@ -30,9 +30,10 @@ if ($_SESSION['admin'] != true){
  	 	  <div class="ui container">
  	 		 <div class="ui raised segment">
  	 			  <h1 class="ui niagara header">Admin</h1>
-            <a href="../pages/admin.php" class="ui sand medium button">
+          <a href="../pages/admin.php" class="ui medium button">
              Pagina Verversen
             </a>
+            
           <h3 class="ui dividing header"></h3>
  	 			  <div class="ui top attached tabular menu">
             <a class="active item" data-tab="first">Zoeken</a>
@@ -41,8 +42,6 @@ if ($_SESSION['admin'] != true){
             <a class="item" data-tab="fourth">Veilingen beheren</a>
             <a class="item" data-tab="fifth">Afgelopen veilingen</a>
             <a class="item" data-tab="sixth">KPI's</a>
-           
-
           </div>
 
           <div class="ui bottom attached tab segment active" data-tab="first">

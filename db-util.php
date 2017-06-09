@@ -188,11 +188,13 @@ function startBedragQuery($param) {
                        WHERE voorwerpnummer = $param");
   return $data ->fetchAll();
 }
+
 function getUserVeilingen($param) {
   global $pdo;
-  $data = $pdo ->query("SELECT * FROM Voorwerp WHERE seller = '$param'");
+  $data = $pdo ->query("SELECT * FROM Voorwerp WHERE verkoper = '$param'");
   return $data ->fetchAll();
 }
+
 function getUserVeilingenBieden($param) {
   global $pdo;
   $data = $pdo ->query("SELECT MAX(bodbedrag) AS bod, Bod.voorwerpnummer, titel FROM Bod JOIN Voorwerp ON Voorwerp.voorwerpnummer = Bod.voorwerpnummer WHERE username = '$param' GROUP BY Bod.voorwerpnummer, titel");

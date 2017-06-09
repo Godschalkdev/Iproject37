@@ -1,3 +1,11 @@
+<?php
+//session_destroy();
+session_start();
+if (!$_SESSION['administrator']){
+   header('location: ../pages/mijnVeilingen.php');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -22,6 +30,10 @@
  	 	  <div class="ui container">
  	 		 <div class="ui raised segment">
  	 			  <h1 class="ui niagara header">Admin</h1>
+          <a href="../pages/admin.php" class="ui medium button">
+             Pagina Verversen
+            </a>
+            
           <h3 class="ui dividing header"></h3>
  	 			  <div class="ui top attached tabular menu">
             <a class="active item" data-tab="first">Zoeken</a>
@@ -30,8 +42,6 @@
             <a class="item" data-tab="fourth">Veilingen beheren</a>
             <a class="item" data-tab="fifth">Afgelopen veilingen</a>
             <a class="item" data-tab="sixth">KPI's</a>
-           
-
           </div>
 
           <div class="ui bottom attached tab segment active" data-tab="first">
@@ -78,8 +88,6 @@
                     ?>
             </form>
           </div>
-
-      
 
           <div class="ui bottom attached tab segment" data-tab="sixth">
              <iframe width="1000" height="1000" src="https://app.powerbi.com/view?r=eyJrIjoiNGFhMmExNGYtODI5Yi00OWNkLThkNjgtNWMxYjZhZDM0M2Q4IiwidCI6ImI2N2RjOTdiLTNlZTAtNDAyZi1iNjJkLWFmY2QwMTBlMzA1YiIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>

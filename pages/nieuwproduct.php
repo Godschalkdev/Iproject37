@@ -3,6 +3,7 @@ require ('../Controllers/nieuwproductController.php');
 include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 $success_message = "";
 
+
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   $success_message = nieuwProduct_validatie($_SESSION['rubriek']);
 }
@@ -11,10 +12,6 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
 	$_SESSION['rubriek'] = getRubriekNummer();
 }
 
-
-?>
-
-<?php 
 
 
 ?>
@@ -444,12 +441,10 @@ if(isset($msg)){
 		    $(e.target).parent().find('input:file').click();
 		  })
 		;
-
 		$('input:file', '.ui.file.input')
 		  .on('change', function(e) {
 		    var file = $(e.target);
 		    var name = '';
-
 		    for (var i=0; i<e.target.files.length; i++) {
 		      name += e.target.files[i].name + ', ';
 		    }
@@ -462,6 +457,3 @@ if(isset($msg)){
 		
 	</body>
 </html>
-
-
-

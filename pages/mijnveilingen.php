@@ -1,13 +1,19 @@
 <?php
 session_start();
+include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
 require $_SERVER['DOCUMENT_ROOT']."/controllers/mijnVeilingenController.php";
-$_SESSION['usernaam'] = 'budgetmotorspares';
+if (!empty($_GET['user'])) {
 $user = $_GET['user'];
-if (empty($user)) {
-	$user = $_SESSION['usernaam'];
-}
 
-//include  $_SERVER['DOCUMENT_ROOT']. "/pages/loggedSession.php";
+}
+if (empty($user)) {
+	$user = $_SESSION['naamuser'];
+} else {
+	$user = $_GET['user'];
+}
+	
+	filledFormSubmit();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,12 +44,14 @@ if (empty($user)) {
 						  <a class="item" data-tab="second">Reviews</a>
 						  <a class="item" data-tab="third">Biedingen</a>
 						</div>
-						<div class="ui bottom attached tab segment" data-tab="first">
+						<div class="ui bottom attached tab segment active" data-tab="first">
 							<?php printVeilingenUser($user); ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="second">
-							<?php printFeedback($user); 
-								  printFeedbackForm($user, $_SESSION['usernaam'])?>
+							<?php 
+								  printFeedback($user); 
+								  printFeedbackForm($user, $_SESSION['usernaam']);
+								  ?>
 						</div>
 						<div class="ui bottom attached tab segment" data-tab="third">
 							<?php 
@@ -69,9 +77,8 @@ if (empty($user)) {
 		include '../scripts/menuscript.html';
 		?>
 		<script type="text/javascript">
-			$('.menu .item')
-			  .tab()
-			;
+			$('.menu .item');
+			  .tab();
 		</script>
 	</body>
 </html>

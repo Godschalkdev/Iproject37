@@ -2,9 +2,9 @@
 
 include '../db-util.php';
 include '../Controllers/mailController.php';
+//include '../scripts/adminScript.html';
 
-$username = "admin";
-$passw = "Iproject37!";
+
 
 connectToDatabase();
 
@@ -23,7 +23,7 @@ function meerderePaginasAantalRijen($nrijen){
 	    for($i = 1; $i<=$nPagina; $i++) 
 	    { 
 	        $paginaNummer = "?paginaNummer=$i"; 
-	        print("<a href=$paginaNummer>$i</a>&nbsp;&nbsp;"); 
+	        print("<a href=$paginaNummer class='ui tiny button'>$i</a>&nbsp;&nbsp;"); 
 	    } 
 	    echo "<br/><br/>"; 
 	}
@@ -40,8 +40,7 @@ function meerderePaginasAdminLaag(){
 	    $laagRijNummer = 1; 
 	    $hoogRijNummer = $rijenPerPagina; 
 	}
-	//$params = array(&$laagRijNummer, &$hoogRijNummer);
-	//$database->execute(array($laagRijNummer, $hoogRijNummer));
+
 	return $laagRijNummer;
 }
 
@@ -57,8 +56,7 @@ function meerderePaginasAdminHoog(){
 	    $laagRijNummer = 1; 
 	    $hoogRijNummer = $rijenPerPagina; 
 	}
-	//$params = array(&$laagRijNummer, &$hoogRijNummer);
-	//$database->execute(array($laagRijNummer, $hoogRijNummer));
+
 	return $hoogRijNummer;
 }
 
@@ -81,11 +79,11 @@ function deleteAdmin($param){
 function updateAdmin($param){
      if(isset($_GET['param']) && $_GET['param']=="update"){
          $update_id = $_GET['id'];
-         $update_object_nr = $_GET['object_nr'];
-         $update_title = $_GET['title'];
-         $update_seller = $_GET['seller'];
-         $update_buyer = $_GET['buyer'];
-         $sql="UPDATE dbo.Object SET object_nr = '$update_object_nr', title = '$update_title', seller = '$update_seller', buyer = '$update_buyer' WHERE object_nr='$update_id'";
+         $update_voorwerpnummer = $_GET['voorwerpnummer'];
+         $update_titel = $_GET['titel'];
+         $update_verkoper = $_GET['verkoper'];
+         $update_koper = $_GET['koper'];
+         $sql="UPDATE dbo.Voorwerp SET voorwerpnummer = '$update_voorwerpnummer', titel = '$update_titel', verkoper = '$update_verkoper', koper = '$update_koper' WHERE voorwerpnummer='$update_id'";
          $resultaat=$pdo->query($sql);
 
     if ($resultaat){
@@ -111,31 +109,31 @@ function zoekBalkAdmin(){
             </select>
             <div class='ui input'>
 				<input placeholder='Zoeken' type='text' name='zoeken' value='' method='POST'>
-				<input  type='submit' name='knop' method='REQUEST'>
+				<input  type='submit' name='knopZoeken' method='REQUEST'>
 			</div><br/><br/>"); 
 
 if(isset($_POST['database'])){
-    $select1 = $_POST['database'];
-    switch ($select1) {
+    $select = $_POST['database'];
+    switch ($select) {
         case 'gebruiker':
-        	if(isset($_REQUEST['knop']) ) {
+        	if(isset($_REQUEST['knopZoeken']) ) {
         		$zoekinput = $_POST['zoeken'];
-        		 $zoekresultaten = adminZoekenGebruiker($zoekinput);
-           		 tabelGebruikers($zoekresultaten,getAantalGebruikers());
+        		 $zoekresultaten = adminZoekenGebruiker($zoekinput, getAantalGebruikers());
+           		 tabelGebruikers($zoekresultaten, getAantalGebruikers());
        		 }
             break;
         case 'categorie':
-	        if(isset($_REQUEST['knop']) ) {
+	        if(isset($_REQUEST['knopZoeken']) ) {
 	        	$zoekinput = $_POST['zoeken'];
-	        	 $zoekresultaten = adminZoekenCategorie($zoekinput);
+	        	 $zoekresultaten = adminZoekenCategorie($zoekinput, getAantalCategorieen());
 	            tabelCategorieen($zoekresultaten, getAantalCategorieen());
 	        }
             break;
         case 'veiling':
-	        if(isset($_REQUEST['knop']) ) {
+	        if(isset($_REQUEST['knopZoeken']) ) {
 	        	$zoekinput = $_POST['zoeken'];
 	        	$zoekresultaten = adminZoekenVeiling($zoekinput, getAantalVeilingen());
-	           tabelVeilingen($zoekresultaten);
+	           tabelVeilingen($zoekresultaten, getAantalVeilingen());
 	       }
             break;
         default :
@@ -148,40 +146,61 @@ if(isset($_POST['database'])){
 // tabblad 2 van Admin Page - Account gegevens beheren
 
 function tabelKoppenGebruikers(){
-	print("<table border='1px'> 
+	print("<table class='ui celled fixed basic table' border='1px'> 
 	        <tr>
 		        <td>Gebruikers ID</td> 
 		        <td>Gebruikersnaam</td>
 		        <td>Voornaam</td>
 		        <td>Achternaam</td>
-		        <td>Emailaddress</td>
+		        <td>emailadres</td>
+		        <td></td>
+		        <td></td>
 	        </tr>"); 
 }
 
 function tabelGebruikers($database, $aantalRijen){
+	global $pdo;
+
 	meerderePaginasAantalRijen($aantalRijen);
+
+	// verwijderen krijg ik niet aan de gang in een aparte functie
+	 if(isset($_GET['param']) && $_GET['param']=="verwijderGebruiker"){
+	          $verwijder_id = (int) $_GET['id'];
+	         $sql="DELETE FROM dbo.Gebruiker WHERE gebruiker_id='$verwijder_id'";
+	         $resultaat=$pdo->query($sql);
+
+	    if ($resultaat){
+	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
+
+	    } else {
+	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
+
+	    }
+
+	    }
+
   $rows =  $database;
   	if (!empty($rows)) {
   		tabelKoppenGebruikers();
 	  	foreach($rows as $row)
 	      { 
-	      	$id = $row['user_id'];
+	     //$id = $row['gebruiker_id'];
 	      	
 	        print("
 				<tbody id='userTable'>
 	        	<tr>
-	        		<td contentEditable='true'>$row[user_id]</td> 
-	                <td contentEditable='true'>$row[username]</td> 
-	                <td contentEditable='true'>$row[firstname]</td>
-	                <td contentEditable='true'>$row[lastname]</td>
-	                <td contentEditable='true'>$row[emailaddress]</td>
+	        		<td contentEditable='true'>$row[gebruiker_id]</td> 
+	                <td contentEditable='true'>$row[gebruikersnaam]</td> 
+	                <td contentEditable='true'>$row[voornaam]</td>
+	                <td contentEditable='true'>$row[achternaam]</td>
+	                <td contentEditable='true'>$row[emailadres]</td>
 
-	                <td><a href='?param=verwijder&amp;id={$row['user_id']}'>Verwijderen</a></td>
-	                <td><a href='?param=update&amp;id={$row['user_id']}&amp;user_id={$row['user_id']}&amp;username={$row['username']}&amp;firstname={$row['firstname']}&amp;lastname={$row['lastname']}&amp;emailaddress={$row['emailaddress']}'>Opslaan</a></td>
+	                <td><a href='?param=verwijderGebruiker&amp;id={$row['gebruiker_id']}' class='ui button'>Verwijderen</a></td>
+	                <td><a href='?param=update&amp;id={$row['gebruiker_id']}&amp;gebruiker_id={$row['gebruiker_id']}&amp;gebruikersnaam={$row['gebruikersnaam']}&amp;voornaam={$row['voornaam']}&amp;achternaam={$row['achternaam']}&amp;emailadres={$row['emailadres']}' class='ui button'>Update</a></td>
 	               </tr>
 	                </tbody>"); 
 	      } 
-	     // deleteAdmin(deleteGebruikerAdmin($id));
+	    //  deleteAdmin(deleteGebruikerAdmin($id));
 	      print("</table>");
 	  	} else {
   			echo "</br></br>Er zijn geen gebruikers.";
@@ -191,36 +210,59 @@ function tabelGebruikers($database, $aantalRijen){
 // tabblad 3 van Admin Page - Categorieen beheren
 
 function tabelKoppenCategorieen(){
-	print("<table border='1px'> 
+	print("<table class='ui celled fixed basic table' border='1px'> 
 	        <tr>
 		      	<td>Rubriek Nr</td> 
 		        <td>Rubriek naam</td>
 		        <td>Rubriek nr parent</td>
+		        <td></td>
+		        <td></td>
 	        </tr>");
 }
 
 function tabelCategorieen($database, $aantalRijen){
+	global $pdo;
+
 	meerderePaginasAantalRijen($aantalRijen);
-  $rows =  $database;
+// verwijderen krijg ik niet aan de gang in een aparte functie
+	 if(isset($_GET['param']) && $_GET['param']=="verwijderCategorie"){
+	          $verwijder_id = (int) $_GET['id'];
+	         $sql="DELETE FROM dbo.Rubriek WHERE rubrieknummer='$verwijder_id'";
+	         $resultaat=$pdo->query($sql);
+
+	    if ($resultaat){
+	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
+
+	    } else {
+	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
+
+	    }
+
+	    }
+
+  	$rows =  $database;
   	if (!empty($rows)) {
   		tabelKoppenCategorieen();
 	  	foreach($rows as $row)
 	      { 
-	      	//deleteAdmin(deleteCategorieAdmin($row['heading_nr']));
+	    //  	$id = $row['rubrieknummer'];
+	      	//deleteAdmin(deleteCategorieAdmin($row['rubrieknummer']));
 	        print("
 				<tbody id='userTable' >
 	        	<tr>
-	        		<td contentEditable='true' name='heading_nr'>$row[heading_nr]</td> 
-	                <td contentEditable='true' name='heading_name'>$row[heading_name]</td> 
-	                <td contentEditable='true' name='heading_nr'>$row[heading_nr_parent]</td>
-	                <td><a href='?param=verwijder&amp;id={$row['heading_nr']}'>Verwijderen</a></td>
+	        		<td contentEditable='true' name='rubrieknummer'>$row[rubrieknummer]</td> 
+	                <td contentEditable='true' name='rubrieknaam'>$row[rubrieknaam]</td> 
+	                <td contentEditable='true' name='rubriek'>$row[rubriek]</td>
+	              
+	                <td><a href='?param=verwijderCategorie&amp;id={$row['rubrieknummer']}' class='ui button'>Verwijderen</a></td>
 
-	                <td><a href='?param=update&amp;id={$row['heading_nr']}&amp;heading_nr={$row['heading_nr']}&amp;heading_name={$row['heading_name']}&amp;heading_nr_parent={$row['heading_nr_parent']}'>
+	                <td><a href='?param=update&amp;id={$row['rubrieknummer']}&amp;rubrieknummer={$row['rubrieknummer']}&amp;rubrieknaam={$row['rubrieknaam']}&amp;rubriek={$row['rubriek']}' class='ui button'>
 	                			  Update</a></td>
 
 	               </tr>
 	                </tbody>");
 	      } 
+	   //   deleteAdmin(deleteCategorieAdmin($id));
 	      print("</table>");
 	  	} else {
   			echo "</br></br>Er zijn geen categorieën.";
@@ -230,39 +272,63 @@ function tabelCategorieen($database, $aantalRijen){
 // tabblad 4 van Admin Page - Veilingen beheren
 
 function tabelKoppenVeilingen(){
-	print("<table border='1px'> 
+	print("<table class='ui celled fixed basic table' border='1px'> 
 	        <tr>
 		        <td>Object Nr</td> 
 		        <td>Titel</td>
 		        <td>Verkoper</td>
 		        <td>Koper</td>
+		        <td></td>
+		        <td></td>
 	        </tr>"); 
 }
 
 function tabelVeilingen($database, $aantalRijen){
+	global$pdo;
+
   meerderePaginasAantalRijen($aantalRijen);
+
+// verwijderen krijg ik niet aan de gang in een aparte functie
+	 if(isset($_GET['param']) && $_GET['param']=="verwijderVeiling"){
+	          $verwijder_id = (int) $_GET['id'];
+	         $sql="DELETE FROM dbo.Voorwerp WHERE voorwerpnummer='$verwijder_id'";
+	         $resultaat=$pdo->query($sql);
+
+	    if ($resultaat){
+	        echo "<p class='ui big green label'>Verwijderen gelukt</p>";
+
+	    } else {
+	        echo "<p class='ui big red label'>Verwijderen mislukt</p>";
+
+	    }
+
+	    }
+
   $rows =  $database;
   	if (!empty($rows)) {
   		tabelKoppenVeilingen();
 	  	foreach($rows as $row)
 	      { 
-	      	//deleteAdmin(deleteVeilingAdmin($row['object_nr']));
+	      //	$id = $row['voorwerpnummer'];
+	      	//deleteAdmin(deleteVeilingAdmin($row['voorwerpnummer']));
 	          print("
 				<tbody id='userTable' >
 	        	<tr>
-	        		<td  contentEditable='true'>$row[object_nr]</td> 
-	                <td  contentEditable='true'>$row[title]</td> 
-	                <td  contentEditable='true'>$row[seller]</td>
-	                <td  contentEditable='true'>$row[buyer]</td>
+	        		<td contentEditable='true'>$row[voorwerpnummer]</td> 
+	                <td contentEditable='true'>$row[titel]</td> 
+	                <td contentEditable='true'>$row[verkoper]</td>
+	                <td contentEditable='true'>$row[koper]</td>
+	               
+	                <td><a href='?param=verwijderVeiling&amp;id={$row['voorwerpnummer']}' class='ui button'>Verwijderen</a></td>
 
-	                <td><a href='?param=verwijder&amp;id={$row['object_nr']}'>Verwijderen</a></td>
-
-	                <td><a href='?param=update&amp;id={$row['object_nr']}&amp;object_nr={$row['object_nr']}&amp;title={$row['title']}&amp;seller={$row['seller']}&amp;buyer={$row['buyer']}'>
+	                <td><a href='?param=update&amp;id={$row['voorwerpnummer']}&amp;voorwerpnummer={$row['voorwerpnummer']}&amp;titel={$row['titel']}&amp;verkoper={$row['verkoper']}&amp;koper={$row['koper']}' class='ui button'>
 	                			  Update</a></td>
 	               </tr>
 	                   </tbody>"); 
 	      } 
+	      //deleteAdmin(deleteVeilingAdmin($id));
 	      print("</table>");
+
 	  	} else {
   			echo "</br></br>Er zijn geen veilingen.";
   	}
@@ -272,25 +338,25 @@ function tabelVeilingen($database, $aantalRijen){
 function buttonAfgelopenVeilingen()
 {
   print("<div class='ui input'>
-        <input  type='submit' name='knop' method='POST' value='Mail versturen'>
+        <input  type='submit' name='knop' method='POST' value='Veilingen sluiten en Mail sturen'>
       </div>"); 
 
 	$rows =  getAfgelopenVeilingen();
     foreach($rows as $row)
       { 
-        $hoogsteBod = getHoogsteBod($row['object_nr']);
-        $objectnr = $row['object_nr'];
+        $hoogsteBod = getHoogsteBod($row['voorwerpnummer']);
+        $objectnr = $row['voorwerpnummer'];
         
-        $hoogsteBieder = $hoogsteBod['username'];
+        $hoogsteBieder = $hoogsteBod['gebruikersnaam'];
         $emailKoper = getEmail($hoogsteBieder);
 
-        $verkoper = $row['seller'];
+        $verkoper = $row['verkoper'];
         $emailVerkoper = getEmail($verkoper);
 
 	   if(isset($_POST['knop'])){
-	        koperInObject($objectnr, $hoogsteBod['username']);
-	        aflopendeVeilingKoperMail($emailKoper['emailaddress'], $row['title'], $hoogsteBod['username']);
-	        aflopendeVeilingVerkoperMail($emailVerkoper[0], $row['title'], $hoogsteBod['username']);
+	        koperInObject($objectnr, $hoogsteBod['gebruikersnaam']);
+	        aflopendeVeilingKoperMail($emailKoper['emailadres'], $row['titel'], $hoogsteBod['gebruikersnaam']);
+	        aflopendeVeilingVerkoperMail($emailVerkoper[0], $row['titel'], $hoogsteBod['gebruikersnaam']);
 	        veilingSluiten($objectnr);
 	   }
 	}
@@ -298,7 +364,7 @@ function buttonAfgelopenVeilingen()
 
 function tabelKoppenAfgelopenVeilingen(){
 	  print("<br/><br/>
-      <table border='1px'> 
+      <table class='ui celled fixed very basic table' border='1px'> 
           <tr>
             <td>Object nummer</td> 
             <td>Titel</td>
@@ -314,16 +380,16 @@ function tabelAfgelopenVeilingen(){
   		tabelKoppenAfgelopenVeilingen();
 	  	foreach($rows as $row)
 	      { 
-	        $hoogsteBod = getHoogsteBod($row['object_nr']) ;
+	        $hoogsteBod = getHoogsteBod($row['voorwerpnummer']) ;
 	          print("
 	        <tbody id='userTable'>
 	            <tr>
-	              <td>$row[object_nr]</td> 
-	                  <td>$row[title]</td> 
-	                  <td>$hoogsteBod[username]</td>
-	                  <td>$row[seller]</td>
-	                 </tr>
-	                  </tbody>"); 
+	                <td contentEditable='true'>$row[voorwerpnummer]</td> 
+	                <td contentEditable='true'>$row[titel]</td> 
+	                <td contentEditable='true'>$hoogsteBod[gebruikersnaam]</td>
+	                <td contentEditable='true'>$row[verkoper]</td>
+	            </tr>
+	        </tbody>"); 
 	      } 
 	      print("</table>");
 	  	} else {

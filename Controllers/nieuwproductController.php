@@ -207,8 +207,6 @@ function chk_Fields($fields){
 }
 
 
-titel', 'beschrijving', 'startprijs', 'betaalwijze', 'betaalinstructies', 'stad', 'land', 'dagen', 'bezorgkosten', 'bezorginstructies
-
 function chk_InErrorArray($value){
   global $Errors;
   global $requiredFields;

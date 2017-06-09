@@ -1,20 +1,16 @@
 <?php 
   require ('../db-util.php');
-
   connectToDatabase();
-
 function printAllFiles($param) {
   $files = getAllFiles($param);
   $counter = 1;
-
   echo "<ul class=\"slider\">";
-
   foreach ($files as $file) {
     $item = <<<CONTENT
     <li>
         <input type="radio" id="slide$counter" name="slide" checked>
         <label for="slide$counter"></label>
-        <img src="$file[filename]" alt="Panel $counter">
+        <img src="$file[filenaam]" alt="Panel $counter">
     </li>
 CONTENT;
   echo $item;
@@ -22,21 +18,18 @@ CONTENT;
   }
   echo "</ul>";
 }
-
 function getTimeObject($param) {
   $object = getObject($param);
 }
-
 function printVergelijkbareVeilingen($param){
-	$veilingen = getVergelijkbareVeilingen($param);
-
+  $veilingen = getVergelijkbareVeilingen($param);
   foreach($veilingen as $veiling){
-   $filename = getfile($veiling['object_nr']);
-   $hoogsteBod = getHoogsteBod($veiling['object_nr']);
+   $filename = getfile($veiling['voorwerpnummer']);
+   $hoogsteBod = getHoogsteBod($veiling['voorwerpnummer']);
   if (empty($hoogsteBod['hoogsteBod'])) {
-    $start = getStartBedrag($veiling['object_nr']);
-    if(!empty($start['starting_price'])) {
-      $hoogsteBod['hoogsteBod'] = $start['starting_price'];
+    $start = getStartBedrag($veiling['voorwerpnummer']);
+    if(!empty($start['startprijs'])) {
+      $hoogsteBod['hoogsteBod'] = $start['startprijs'];
     } else {
       $hoogsteBod['hoogsteBod'] = "0.00";
     }
@@ -44,12 +37,12 @@ function printVergelijkbareVeilingen($param){
 $html = <<<MYCONTENT
         <div class="column">
           <div class="ui object segment">
-            <img src="$filename[filename]" class="ui rounded medium image">
+            <img src="$filename[filenaam]" class="ui rounded medium image">
             <div class="ui top left attached label huge">
               € $hoogsteBod[hoogsteBod]
             </div>
-              <a class="ui sand button" href="Eenproduct.php?id=$veiling[object_nr]">Bekijk Veiling</a> 
-            <h3 class="niagara">$veiling[title]</h3>
+              <a class="ui sand button" href="Eenproduct.php?id=$veiling[voorwerpnummer]">Bekijk Veiling</a> 
+            <h3 class="niagara">$veiling[titel]</h3>
           </div>
         </div>
 MYCONTENT;
@@ -59,16 +52,15 @@ echo $html;
   
 function printBiedingen($param) {
 $boden = getBiedingen($param);
-
   echo "<div class=\"ui list\">";
 foreach ($boden as $bod) {
-  $time = substr("$bod[time]", 0, -8);
+  $time = substr("$bod[tijdstip]", 0, -8);
 $html = <<<CONTENT
     <div class="item">
       <i class="ui user icon"></i>
       <div class="content">
-        <div class="header">€ $bod[offer_amount]</div>
-        <div class="description">$bod[username] ($bod[date]  $time)</div>
+        <div class="header">€ $bod[bodbedrag]</div>
+        <div class="description">$bod[gebruikersnaam] ($bod[dag]  $time)</div>
       </div>
     </div>
 CONTENT;
@@ -76,7 +68,6 @@ CONTENT;
   }
   echo "</div>";
 }
-
 function printHoogsteBod($param) {
   $bod = getHoogsteBod($param);
   if (empty($bod['hoogsteBod'])) {
@@ -85,7 +76,6 @@ function printHoogsteBod($param) {
     echo "$bod[hoogsteBod]";
   }
 }
-
 function printBiedKnoppen($param) {
   $hoogsteBod = getHoogsteBod($param);
   for ($i=0; $i < 3; $i++) { 
@@ -94,23 +84,18 @@ function printBiedKnoppen($param) {
     echo "<button value=\"$bedrag\" class=\"ui sand button snel\" name=\"snelBod\" onclick=\"this.form.submit()\">€$bedrag</button>";
   }
 }
-
 function doeBod($object_nr, $username, $offer) {
   bodQuery($object_nr, $offer, $username);
 }
-
 function alert($msg) {
     echo "<script type='text/javascript'>alert('$msg');</script>";
 }
-
 function hoogsteBodUser($param) {
   return getHoogsteBod($param);
 }
-
 function getStartBedrag($param){
   return startBedragQuery($param);
 }
-
 function CHK_bod($bod, $object_nr) {
   $hoogsteBod = getHoogsteBod($object_nr);
   $verhoging = $bod - $hoogsteBod['hoogsteBod'];
@@ -126,7 +111,6 @@ function CHK_bod($bod, $object_nr) {
     return minimaalBod($verhoging, 50.00);
   }
 }
-
 function minimaalBod($gebruikerverhoging, $minimaalVerhoging) {
   if($gebruikerverhoging < $minimaalVerhoging){
     alert("Uw verhoging is te laag");
@@ -135,17 +119,14 @@ function minimaalBod($gebruikerverhoging, $minimaalVerhoging) {
     return true;
   }
 }
-
 function getEndDateTimeDiff($param) {
   $object = getObject($param);
-
-  $date = strtotime($object['duration_end_date']." ".$object['duration_end_time']);
+  $date = strtotime($object['looptijd_einde_dag']." ".$object['looptijd_einde_tijdstip']);
   return $date - time();
 }
-
 function chk_id($param) {
   $object = getObject($param);
-  if (empty($object['object_nr'])) {
+  if (empty($object['voorwerpnummer'])) {
     return true;
   }
   return false;

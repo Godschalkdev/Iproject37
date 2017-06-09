@@ -30,7 +30,7 @@ function processForm()
     return "<p style=\"color:red;\">Vul uw gegevens in</p>";
 
   }
-
+}
 
 function logout(){
 

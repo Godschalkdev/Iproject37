@@ -2,6 +2,8 @@
 
 session_start();
 
+if ($_SESSION['loggedin']) {
+}
 
  $success_message = "";
 require('../controllers/loginController.php');

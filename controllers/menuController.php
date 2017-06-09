@@ -5,6 +5,7 @@ session_start();
 function printUserOptionLoggedIn(){	
 $html = <<<MYCONTENT
         <div class="header">User</div>
+        			<div class="ui divider"></div>
 			  		<a href="http://www.eenmaalandermaal.dev/pages/mijnveilingen.php" class="item">Mijn veilingen</a>
 			  		<div class="ui divider"></div>
 			  		<a href="http://www.eenmaalandermaal.dev/pages/logout.php" class="item">Log out</a>
@@ -15,6 +16,7 @@ echo $html;
 function printUserOptionAdminLoggedIn(){	
 $html = <<<MYCONTENT
         <div class="header">User</div>
+        			<div class="ui divider"></div>
 			  		<a href="http://www.eenmaalandermaal.dev/pages/mijnveilingen.php" class="item">Mijn veilingen</a>
 			  		<div class="ui divider"></div>
 			  		<a href="http://www.eenmaalandermaal.dev/pages/admin.php" class="item">Adminpagina</a>
